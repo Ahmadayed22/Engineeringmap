@@ -1,25 +1,29 @@
 import { z } from 'zod';
 
-const signUpSchema = z
+export const signUpSchema = z
   .object({
-    firstName: z.string().min(1, { message: 'First name is required' }),
-    lastName: z.string().min(1, { message: 'Last name is required' }),
-    email: z.string().min(1, { message: 'Email address is required' }).email(),
+    username: z
+      .string({ required_error: 'Username is required' })
+      .min(3, { message: 'Username must be at least 3 characters' })
+      .max(20, { message: 'Username must be at most 20 characters' }),
+
+    email: z
+      .string({ required_error: 'Email is required' })
+      .email({ message: 'Invalid email format' }),
+
     password: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters longs' })
-      .regex(/.*[!@#$%^&*()_+{}|[\]\\:";'<>?,./].*/, {
-        message: 'Password should contain at least 1 special character',
-      }),
-    confirmPassword: z
-      .string()
-      .min(1, { message: 'Confirm Password is required' }),
+      .string({ required_error: 'Password is required' })
+      .min(6, { message: 'Password must be at least 6 characters' })
+      .max(40, { message: 'Password must be at most 40 characters' }),
+
+    confirmPassword: z.string({
+      required_error: 'Please confirm your password',
+    }),
   })
-  .refine((input) => input.password === input.confirmPassword, {
-    message: 'Password and Confirm Password does not match',
+  .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
+    message: 'Passwords do not match',
   });
 
-type signUpType = z.infer<typeof signUpSchema>;
-
-export { signUpSchema, type signUpType };
+// TypeScript type (optional)
+export type signUpInputsType = z.infer<typeof signUpSchema>;

@@ -7,6 +7,8 @@ import { lazy } from 'react';
 const MainLayOut = lazy(() => import('@layouts/Main/MainLayOut'));
 const Home = lazy(() => import('@pages/Home/Home'));
 const Error = lazy(() => import('@pages/Error/Error'));
+const SignUp = lazy(() => import('@pages/Register/SignUp'));
+const Login = lazy(() => import('@pages/Login/Login'));
 import { LottieHandler } from '@components/feedbaks';
 
 const router = createBrowserRouter([
@@ -18,6 +20,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'signup',
+        element: <SignUp />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
     ],
   },

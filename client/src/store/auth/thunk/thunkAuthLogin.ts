@@ -9,10 +9,9 @@ type TFormData = {
 
 type TResponse = {
   accessToken: string;
-  user: {
+  userInfo: {
     id: number;
-    firstName: string;
-    lastName: string;
+    username: string;
     email: string;
   };
 };
@@ -22,7 +21,8 @@ const thunkAuthLogin = createAsyncThunk(
   async (formData: TFormData, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post<TResponse>('/login', formData);
+      const res = await axios.post<TResponse>('/api/auth/signin', formData);
+
       return res.data;
     } catch (error) {
       return rejectWithValue(AxiosErrorHandler(error));

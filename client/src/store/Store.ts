@@ -19,7 +19,7 @@ import { authReducer } from './auth/authSlice';
 const rootPersistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['cart', 'auth'],
+  whitelist: ['auth'],
 };
 
 const authPersistConfig = {

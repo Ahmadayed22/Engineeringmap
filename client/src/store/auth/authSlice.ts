@@ -45,7 +45,7 @@ const authSlice = createSlice({
     builder.addCase(thunkAuthLogin.fulfilled, (state, action) => {
       state.loading = 'succeeded';
       state.accessToken = action.payload.accessToken;
-      state.userInfo = action.payload.user;
+      state.userInfo = action.payload.userInfo;
     });
     builder.addCase(thunkAuthLogin.rejected, (state, action) => {
       state.loading = 'failed';

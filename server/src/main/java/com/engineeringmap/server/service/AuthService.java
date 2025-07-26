@@ -1,5 +1,7 @@
 package com.engineeringmap.server.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.engineeringmap.server.dto.request.LoginRequest;
 import com.engineeringmap.server.dto.request.SignInRequest;
 import com.engineeringmap.server.dto.response.LoginResponse;
+import com.engineeringmap.server.dto.response.UserInfo;
 import com.engineeringmap.server.dto.response.UserResponse;
 import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.mapper.UserMapper;
@@ -61,7 +64,9 @@ public class AuthService {
         // if (!passwordMatches) {
         //     throw new RuntimeException("Invalid password.");
         String token = jwtUtil.generateToken(user.getUsername());
-        return new LoginResponse(user.getUsername(), token);
+        UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
+
+        return new LoginResponse(userInfo, token);
       
     }
 }

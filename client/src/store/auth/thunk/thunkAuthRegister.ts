@@ -3,8 +3,7 @@ import AxiosErrorHandler from '@util/AxiosErrorHandler';
 import axios from 'axios';
 
 type TFormData = {
-  firstName: string;
-  lastName: string;
+  username: string;
   email: string;
   password: string;
 };
@@ -14,7 +13,8 @@ const thunkAuthRegister = createAsyncThunk(
   async (formData: TFormData, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post('/register', formData);
+      const res = await axios.post('/api/auth/signup', formData);
+      console.log(res);
       return res.data;
     } catch (error) {
       return rejectWithValue(AxiosErrorHandler(error));
