@@ -1,3 +1,9 @@
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
+
+.react-flow__handle-top,
+.react-flow__handle-bottom {
+    visibility: hidden;
+} 
+

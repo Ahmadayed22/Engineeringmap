@@ -1,13 +1,11 @@
-import { authLogout } from '@store/auth/authSlice';
-import { useAppDispatch } from '@store/reduxHooks';
-import { useEffect } from 'react';
+import TreeFlow from '@components/Feature/TreeFlow/TreeFlow';
 
 const Home = () => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(authLogout());
-  });
-  return <div>Home</div>;
+  return (
+    <>
+      <TreeFlow />
+    </>
+  );
 };
 
 export default Home;

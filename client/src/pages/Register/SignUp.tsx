@@ -1,4 +1,4 @@
-import InputForm from '@components/common/InputForm';
+import InputForm from '@components/common/InputForm/InputForm';
 import { useSiginUp } from '@hooks/index';
 import { resetUI } from '@store/auth/authSlice';
 

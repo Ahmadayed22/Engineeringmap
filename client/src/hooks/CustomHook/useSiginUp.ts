@@ -20,6 +20,7 @@ const useSiginUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const submitForm: SubmitHandler<signUpInputsType> = (data) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...rest } = data;
     dispatch(thunkAuthRegister(rest))
       .unwrap()
