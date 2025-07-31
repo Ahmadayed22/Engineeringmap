@@ -17,10 +17,12 @@ import {
   MarkerType,
   Background,
 } from '@xyflow/react';
+import type { MouseEvent } from 'react';
 
 import '@xyflow/react/dist/style.css';
 import { initialNodes } from '@components/layout/node/initialNodes';
 import { initialEdges } from '@components/layout/edge/initialEdges';
+import { DrawerComp } from '@components/common/Drawer/DrawerComp';
 // import { ProgressNode } from '@components/common';
 
 export default function TreeFlow() {
@@ -42,35 +44,42 @@ export default function TreeFlow() {
   //   const nodeTypes = {
   //     progress: ProgressNode,
   //   };
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [node, setTitle] = useState<Node | null>(null);
+  const handleNodeClick = useCallback((event: MouseEvent, node: Node) => {
+    setTitle(node);
+    setDrawerOpen(true);
+  }, []);
+
   return (
-    <div className="w-[100vh] md:w-[200vh] h-[100vh] ">
+    <div className="w-[40vh] sm:w-[100vh] md:w-[150vh] lg-w-[175vh] xl-w-[200vh] h-[100vh] ">
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onNodeClick={handleNodeClick}
         defaultEdgeOptions={{
           markerEnd: { type: MarkerType.ArrowClosed },
         }}
-        defaultViewport={{ x: 500, y: 100, zoom: 0.5 }}
+        // defaultViewport={{ x: 500, y: 100, zoom: 0.5 }}
         minZoom={0.4}
         // maxZoom={4}
-        // fitView={true}
-        // fitViewOptions={{
-        //   padding: 0.2,
-        //   includeHiddenNodes: false,
-        //   minZoom: 0.5,
-        //   maxZoom: 2,
-        // }}
-        // nodeTypes={nodeTypes}
-        // proOptions={{ hideAttribution: true }}
-        // draggable={true}
+        fitView
       >
         {/* <MiniMap nodeStrokeWidth={9} /> */}
         <Background />
         {/* <Controls /> */}
       </ReactFlow>
+
+      {/* Render DrawerComp conditionally */}
+      <DrawerComp
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        node={node}
+      />
     </div>
   );
 }

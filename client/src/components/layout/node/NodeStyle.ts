@@ -11,6 +11,7 @@ const nodeStyle = {
   border: '2px solid #3399ff',
   fontWeight: 'bold',
   fontSize: 14,
+  cursor: 'pointer',
 };
 const ItStyle = {
   backgroundColor: '#ffa500',
@@ -18,6 +19,7 @@ const ItStyle = {
   border: '2px solid #ffffff',
   fontWeight: 'bold',
   fontSize: 14,
+  cursor: 'pointer',
 };
 const SciencesStyle = {
   backgroundColor: '#079cba',
@@ -25,6 +27,7 @@ const SciencesStyle = {
   border: '2px solid #ffffff',
   fontWeight: 'bold',
   fontSize: 14,
+  cursor: 'pointer',
 };
 const ElectricityStyle = {
   backgroundColor: '#008000',
@@ -32,6 +35,7 @@ const ElectricityStyle = {
   border: '2px solid #ffffff',
   fontWeight: 'bold',
   fontSize: 14,
+  cursor: 'pointer',
 };
 const MechatronicsStyle = {
   backgroundColor: '#631d3b',
@@ -39,6 +43,7 @@ const MechatronicsStyle = {
   border: '2px solid #ffffff',
   fontWeight: 'bold',
   fontSize: 14,
+  cursor: 'pointer',
 };
 
 export {

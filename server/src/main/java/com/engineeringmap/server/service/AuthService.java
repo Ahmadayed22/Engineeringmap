@@ -52,21 +52,21 @@ public class AuthService {
     
 // This method handles user login
 // It checks if the user exists by email, verifies the password, and returns a response
-    public LoginResponse login(LoginRequest loginRequest) {
-        Optional<User> optionalUser = userRepo.findByEmail(loginRequest.email());
-        if (optionalUser.isEmpty()) {
-            throw new RuntimeException("User not found.");
-        }
-
-        User user = optionalUser.get();
-        // boolean passwordMatches = PasswordEncoderUtil.matches(loginRequest.password(), user.getPassword());
-
-        // if (!passwordMatches) {
-        //     throw new RuntimeException("Invalid password.");
-        String token = jwtUtil.generateToken(user.getUsername());
-        UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
-
-        return new LoginResponse(userInfo, token);
-      
+public LoginResponse login(LoginRequest loginRequest) {
+    Optional<User> optionalUser = userRepo.findByEmail(loginRequest.email());
+    if (optionalUser.isEmpty()) {
+        throw new RuntimeException("User not found.");
     }
+
+    User user = optionalUser.get();
+    // boolean passwordMatches = PasswordEncoderUtil.matches(loginRequest.password(), user.getPassword());
+
+    // if (!passwordMatches) {
+    //     throw new RuntimeException("Invalid password.");
+    String token = jwtUtil.generateToken(user.getUsername());
+    UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
+
+    return new LoginResponse(userInfo, token);
+
+}
 }
