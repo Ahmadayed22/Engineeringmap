@@ -3,6 +3,7 @@ package com.engineeringmap.server.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,11 @@ import com.engineeringmap.server.dto.request.SignInRequest;
 import com.engineeringmap.server.dto.response.LoginResponse;
 import com.engineeringmap.server.dto.response.UserInfo;
 import com.engineeringmap.server.dto.response.UserResponse;
+import com.engineeringmap.server.entity.Role;
+import com.engineeringmap.server.entity.RoleType;
 import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.mapper.UserMapper;
+import com.engineeringmap.server.repo.RoleRepo;
 import com.engineeringmap.server.repo.UserRepo;
 import com.engineeringmap.server.security.jwt.JwtUtil;
 import com.engineeringmap.server.util.PasswordEncoderUtil;
@@ -28,10 +32,12 @@ public class AuthService {
 
 
     private final JwtUtil jwtUtil;
+    private final RoleRepo roleRepo;
 
-    public AuthService(UserRepo userRepo, JwtUtil jwtUtil) {
+    public AuthService(UserRepo userRepo, JwtUtil jwtUtil, RoleRepo roleRepo) {
         this.userRepo = userRepo;
         this.jwtUtil = jwtUtil;
+        this.roleRepo = roleRepo;
     }
         // This method handles user registration
         // It checks if the email or username already exists, encodes the password, and saves
@@ -43,8 +49,13 @@ public class AuthService {
         if (userRepo.existsByUsername(signInRequest.username())) {
             throw new RuntimeException("Username already exists!");
         }
+
         // Convert SignInRequest to User entity and save it
         User user = UserMapper.toEntity(signInRequest);
+          // ✅ Add default role assignment
+        Role defaultRole = roleRepo.findByName(RoleType.USER)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRoles(Set.of(defaultRole)); // assign role
         User savedUser = userRepo.save(user);
 
         return new UserResponse(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
@@ -63,7 +74,7 @@ public LoginResponse login(LoginRequest loginRequest) {
 
     // if (!passwordMatches) {
     //     throw new RuntimeException("Invalid password.");
-    String token = jwtUtil.generateToken(user.getUsername());
+    String token = jwtUtil.generateToken(user);
     UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
 
     return new LoginResponse(userInfo, token);
