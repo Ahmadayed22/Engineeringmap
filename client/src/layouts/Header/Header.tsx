@@ -21,6 +21,7 @@ const Header = () => {
   const disptach = useDispatch();
   const navagate = useNavigate();
   const { userInfo, accessToken } = useAppSelector((state) => state.auth);
+
   const logOut = () => {
     disptach(authLogout());
     navagate('/login');

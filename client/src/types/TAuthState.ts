@@ -5,6 +5,7 @@ type TAuthState = {
     id: number;
     email: string;
     username: string;
+    roles: string[];
   } | null;
   accessToken: string | null;
   loading: TLoading;
