@@ -15,7 +15,6 @@ import {
   type Node,
   type Edge,
   MarkerType,
-  Background,
   // MiniMap,
 } from '@xyflow/react';
 import type { MouseEvent } from 'react';
@@ -24,6 +23,7 @@ import '@xyflow/react/dist/style.css';
 import { initialNodes } from '@components/layout/node/initialNodes';
 import { initialEdges } from '@components/layout/edge/initialEdges';
 import { DrawerComp } from '@components/common/Drawer/DrawerComp';
+import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 // import { ProgressNode } from '@components/common';
 
 export default function TreeFlow() {
@@ -54,7 +54,8 @@ export default function TreeFlow() {
   }, []);
 
   return (
-    <div className="w-full h-screen px-2 sm:px-6 md:px-10 overflow-auto">
+    <div className="w-full h-screen px-2 sm:px-6 md:px-10 overflow-auto bg-transparent">
+      <ParticlesBackground className="fixed inset-0 -z-10" />
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -70,8 +71,11 @@ export default function TreeFlow() {
         fitViewOptions={{
           padding: 0.2,
         }}
+        style={{
+          background: 'transparent',
+        }}
       >
-        <Background />
+        {/* <Background /> */}
         {/* <MiniMap nodeStrokeWidth={3} zoomable pannable /> */}
       </ReactFlow>
 

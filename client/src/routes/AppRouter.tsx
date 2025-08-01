@@ -38,9 +38,6 @@ const AppRouter = () => {
     <Suspense
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
     >
-      {/* <div className="font-tajawal text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-        <RouterProvider router={router} />
-      </div> */}
       <RouterProvider router={router} />
     </Suspense>
   );

@@ -1,0 +1,40 @@
+import { useCallback } from 'react';
+import Particles from 'react-tsparticles';
+import { loadSlim } from 'tsparticles-slim';
+import type { Container, Engine } from 'tsparticles-engine';
+// import particlesConfig from './praticlesConfigWhite';
+import particlesConfigBlack from './praticlesConfigBlack';
+interface ParticlesBackgroundProps {
+  id?: string;
+  className?: string;
+}
+
+const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
+  id = 'tsparticles',
+  className = '',
+}) => {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    console.log('Particles engine initializing...');
+    await loadSlim(engine);
+    console.log('Particles engine loaded successfully!');
+  }, []);
+
+  const particlesLoaded = useCallback(
+    async (container: Container | undefined) => {
+      console.log('Particles container loaded:', container);
+    },
+    []
+  );
+
+  return (
+    <Particles
+      id={id}
+      className={className}
+      init={particlesInit}
+      loaded={particlesLoaded}
+      options={particlesConfigBlack}
+    />
+  );
+};
+
+export default ParticlesBackground;

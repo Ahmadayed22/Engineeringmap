@@ -4,10 +4,10 @@ import { Outlet } from 'react-router';
 
 const MainLayOut = () => {
   return (
-    <div className="bg-gray-100 dark:bg-[#212121] text-gray-800 dark:text-gray-200">
+    <div className=" text-gray-800 dark:text-gray-200">
       <div className="">
         <Header />
-        <div className="mt-7">
+        <div className="bg-transparent mt-7">
           <Outlet />
         </div>
         <Footer />
