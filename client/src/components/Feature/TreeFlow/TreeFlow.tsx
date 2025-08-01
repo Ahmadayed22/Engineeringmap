@@ -16,6 +16,7 @@ import {
   type Edge,
   MarkerType,
   Background,
+  // MiniMap,
 } from '@xyflow/react';
 import type { MouseEvent } from 'react';
 
@@ -53,7 +54,7 @@ export default function TreeFlow() {
   }, []);
 
   return (
-    <div className="w-[40vh] sm:w-[100vh] md:w-[150vh] lg-w-[175vh] xl-w-[200vh] h-[100vh] ">
+    <div className="w-full h-screen px-2 sm:px-6 md:px-10 overflow-auto">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -64,17 +65,16 @@ export default function TreeFlow() {
         defaultEdgeOptions={{
           markerEnd: { type: MarkerType.ArrowClosed },
         }}
-        // defaultViewport={{ x: 500, y: 100, zoom: 0.5 }}
-        minZoom={0.4}
-        // maxZoom={4}
+        minZoom={0.3}
         fitView
+        fitViewOptions={{
+          padding: 0.2,
+        }}
       >
-        {/* <MiniMap nodeStrokeWidth={9} /> */}
         <Background />
-        {/* <Controls /> */}
+        {/* <MiniMap nodeStrokeWidth={3} zoomable pannable /> */}
       </ReactFlow>
 
-      {/* Render DrawerComp conditionally */}
       <DrawerComp
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}

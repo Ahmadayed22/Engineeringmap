@@ -6,7 +6,12 @@ export default {
     'node_modules/flowbite-react/**/*.{js,ts,jsx,tsx}', // ✅ this is important
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        cairo: ['Tajawal', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin'), // ✅ required for Flowbite

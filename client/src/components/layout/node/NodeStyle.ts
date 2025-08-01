@@ -5,45 +5,40 @@
 //   fontWeight: 'bold',
 //   fontSize: 14,
 // };
+const baseNodeStyle = {
+  fontFamily: 'Tajawal, sans-serif',
+  color: '#ffffff',
+  border: '2px solid #ffffff',
+  fontWeight: 'bold',
+  // fontSize: 'clamp(14px, 1.2vw, 18px)',
+  fontSize: '14px',
+  cursor: 'pointer',
+};
+
 const nodeStyle = {
-  backgroundColor: 'black', // 💙 light blue
-  color: '#ffffff',
+  ...baseNodeStyle,
+  backgroundColor: 'black',
   border: '2px solid #3399ff',
-  fontWeight: 'bold',
-  fontSize: 14,
-  cursor: 'pointer',
 };
+
 const ItStyle = {
+  ...baseNodeStyle,
   backgroundColor: '#ffa500',
-  color: '#ffffff',
-  border: '2px solid #ffffff',
-  fontWeight: 'bold',
-  fontSize: 14,
-  cursor: 'pointer',
 };
+
 const SciencesStyle = {
+  ...baseNodeStyle,
   backgroundColor: '#079cba',
-  color: '#ffffff',
-  border: '2px solid #ffffff',
-  fontWeight: 'bold',
-  fontSize: 14,
-  cursor: 'pointer',
 };
+
 const ElectricityStyle = {
+  ...baseNodeStyle,
   backgroundColor: '#008000',
-  color: '#ffffff',
-  border: '2px solid #ffffff',
-  fontWeight: 'bold',
-  fontSize: 14,
-  cursor: 'pointer',
 };
+
 const MechatronicsStyle = {
+  ...baseNodeStyle,
   backgroundColor: '#631d3b',
-  color: '#ffffff',
-  border: '2px solid #ffffff',
-  fontWeight: 'bold',
-  fontSize: 14,
-  cursor: 'pointer',
 };
 
 export {
