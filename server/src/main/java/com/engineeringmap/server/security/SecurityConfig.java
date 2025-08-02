@@ -54,7 +54,14 @@ public AuthenticationProvider authProvider() {
     }
 
     private final String[] authWhitelist = {
-        "/api/auth/**"
+            "/api/auth/**",                
+            "/api/users/**",                    
+            "/api/comments/course/**",          
+            "/api/comments/user/**",            
+            "/api/comments/*/course/**",       
+            "/api/comments/**/count",           
+            "/api/comments/**",
+            "/api/courses/**",                
     };
 
     @Bean
@@ -64,7 +71,7 @@ public AuthenticationProvider authProvider() {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(authWhitelist).permitAll()
+                        .requestMatchers(HttpMethod.GET,authWhitelist).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

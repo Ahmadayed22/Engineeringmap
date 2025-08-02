@@ -1,6 +1,9 @@
 package com.engineeringmap.server.mapper;
 
+
+
 import com.engineeringmap.server.dto.request.SignInRequest;
+import com.engineeringmap.server.dto.response.UserResponse;
 import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.util.PasswordEncoderUtil;
 
@@ -12,6 +15,15 @@ public class UserMapper {
         user.setEmail(signInRequest.email());
         user.setPassword(PasswordEncoderUtil.encode(signInRequest.password()));
         return user;
+    }
+
+    public static UserResponse toResponseDto(User user) {
+        return new UserResponse(
+            user.getId(),
+            user.getUsername(),
+            user.getEmail()
+          
+        );
     }
     
 } 
