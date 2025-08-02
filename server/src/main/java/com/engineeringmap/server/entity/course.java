@@ -22,6 +22,9 @@ public class Course {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, length = 300)
+    private String label;
     
     @Column(length = 1000)
     private String description;

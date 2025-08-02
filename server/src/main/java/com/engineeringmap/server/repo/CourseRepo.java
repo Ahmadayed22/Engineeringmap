@@ -2,6 +2,8 @@ package com.engineeringmap.server.repo;
 
 import com.engineeringmap.server.entity.Course;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +16,8 @@ import org.springframework.stereotype.Repository;
 public interface CourseRepo  extends JpaRepository<Course,Long>{
 
     
-    // Find courses by name containing (case insensitive)
+ // Find courses by name containing (case insensitive)
     List<Course> findByNameContainingIgnoreCase(String name);
-    
     
     // Custom query to get courses with comment count
     @Query("SELECT c FROM Course c LEFT JOIN FETCH c.comments WHERE c.id = :courseId")
@@ -24,4 +25,6 @@ public interface CourseRepo  extends JpaRepository<Course,Long>{
     
     // Get all courses ordered by creation date
     List<Course> findAllByOrderByCreatedAtDesc();
+
+    Optional<Course> findByNameIgnoreCase(String name);
 }

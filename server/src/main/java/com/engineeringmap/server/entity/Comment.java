@@ -21,7 +21,7 @@ public class Comment {
 
     @Column(nullable = false, length = 4000)
     private String content;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
@@ -36,8 +36,11 @@ public class Comment {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+    public Comment(String content, Course course, User user) {
+        this.content = content;
+        this.course = course;
+        this.user = user;
+    }
 
-    @Column(name = "is_edited")
-    private Boolean isEdited = false;
 
 }

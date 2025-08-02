@@ -30,8 +30,8 @@ public interface CommentRepo extends JpaRepository<Comment,Long>{
     List<Comment> findByCourseIdWithUser(@Param("courseId") Long courseId);
     
     // Find comments by course ID with pagination and user info
-    @Query("SELECT c FROM Comment c JOIN FETCH c.user WHERE c.course.id = :courseId ORDER BY c.createdAt DESC")
-    Page<Comment> findByCourseIdWithUser(@Param("courseId") Long courseId, Pageable pageable);
+    // @Query("SELECT c FROM Comment c JOIN FETCH c.user WHERE c.course.id = :courseId ORDER BY c.createdAt DESC")
+    // Page<Comment> findByCourseIdWithUser(@Param("courseId") Long courseId, Pageable pageable);
     
     // Find recent comments across all courses
     @Query("SELECT c FROM Comment c JOIN FETCH c.user JOIN FETCH c.course ORDER BY c.createdAt DESC")
