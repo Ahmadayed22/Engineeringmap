@@ -57,6 +57,7 @@ public AuthenticationProvider authProvider() {
             "/api/auth/**",                
             "/api/users/**",                    
             "/api/comments/course/**",          
+            "/api/comments/course/name/**",          
             "/api/comments/user/**",            
             "/api/comments/*/course/**",       
             "/api/comments/**/count",           

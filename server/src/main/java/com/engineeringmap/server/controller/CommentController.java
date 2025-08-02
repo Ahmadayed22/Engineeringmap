@@ -25,6 +25,7 @@ import com.engineeringmap.server.entity.Comment;
 import com.engineeringmap.server.service.CommentService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -41,6 +42,16 @@ public class CommentController {
     public ResponseEntity<List<CommentResponseDTO>> getCommentsByCourse(@PathVariable Long courseId) {
         List<CommentResponseDTO> comments = commentService.getCommentsByCourseId(courseId);
         return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/course/name/{courseName}")
+    public ResponseEntity<?> getCommentsByCourseName(@PathVariable String courseName) {
+        try {
+            List<CommentResponseDTO> comments = commentService.getCommentsByCourseName(courseName);
+            return ResponseEntity.ok(comments);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        }
     }
 
     @GetMapping("/{id}")

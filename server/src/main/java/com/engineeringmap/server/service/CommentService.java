@@ -12,6 +12,8 @@ import com.engineeringmap.server.repo.CommentRepo;
 import com.engineeringmap.server.repo.CourseRepo;
 import com.engineeringmap.server.repo.UserRepo;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,15 @@ public class CommentService {
 
     public List<CommentResponseDTO> getCommentsByCourseId(Long courseId) {
         List<Comment> comments = commentRepository.findByCourseIdWithUser(courseId);
+        return comments.stream()
+                .map(CommentMapper::toResponseDto)
+                .toList();
+    }
+    
+    public List<CommentResponseDTO> getCommentsByCourseName(@NotBlank String courseName) {
+        Course course = courseRepository.findByNameIgnoreCase(courseName)
+                .orElseThrow(() -> new RuntimeException("Course not found with name: " + courseName));
+        List<Comment> comments = commentRepository.findByCourseIdWithUser(course.getId());
         return comments.stream()
                       .map(CommentMapper::toResponseDto)
                       .toList();
