@@ -1,6 +1,7 @@
 import { type Node } from '@xyflow/react';
 import { nodeStyle as style } from './NodeStyle';
 import {
+  RootStyle,
   ItStyle,
   SciencesStyle,
   ElectricityStyle,
@@ -19,7 +20,7 @@ const initialNodes: Node[] = [
     position: { x: 300, y: 0 },
     data: { label: staticValuesMap.get('root') || '' },
     type: 'input',
-    style: { width: 800, ...style, fontSize: 20 },
+    style: { width: 800, ...RootStyle, fontSize: 20 },
   },
 
   // First level
@@ -243,7 +244,7 @@ const initialNodes: Node[] = [
     id: 'computerArchitecture2',
     type: 'default',
     position: { x: -400, y: 900 },
-    data: { label: staticValuesMap.get('computerArchitecture2') || '' },
+    data: { label: staticValuesMap.get('design') || '' },
     style: style,
   },
   {
@@ -253,7 +254,7 @@ const initialNodes: Node[] = [
     data: { label: staticValuesMap.get('competitiveProgramming') || '' },
     style: style,
   },
-  // second level of computerArchitecture2
+  // second level of design
   {
     id: 'parallelProcessors',
     type: 'default',
@@ -274,14 +275,14 @@ const initialNodes: Node[] = [
     id: 'signalsSystems2',
     type: 'default',
     position: { x: -100, y: 500 },
-    data: { label: staticValuesMap.get('signalsSystems2') || '' },
+    data: { label: staticValuesMap.get('signalsSystems') || '' },
     style: ElectricityStyle,
   },
   {
     id: 'linearAlgebra2',
     type: 'default',
     position: { x: 100, y: 500 },
-    data: { label: staticValuesMap.get('linearAlgebra2') || '' },
+    data: { label: staticValuesMap.get('linearAlgebra') || '' },
     style: style,
   },
   // second level of signalsSystems2
@@ -335,7 +336,7 @@ const initialNodes: Node[] = [
     id: 'c++2',
     type: 'default',
     position: { x: 450, y: 400 },
-    data: { label: staticValuesMap.get('c++2') || '' },
+    data: { label: staticValuesMap.get('c++') || '' },
     style: style,
   },
   {
@@ -349,14 +350,14 @@ const initialNodes: Node[] = [
     id: 'electronics2',
     type: 'default',
     position: { x: 950, y: 400 },
-    data: { label: staticValuesMap.get('electronics2') || '' },
+    data: { label: staticValuesMap.get('electronics1') || '' },
     style: ElectricityStyle,
   },
   {
     id: 'signalsSystems3',
     type: 'default',
     position: { x: 1200, y: 400 },
-    data: { label: staticValuesMap.get('signalsSystems3') || '' },
+    data: { label: staticValuesMap.get('signalsSystems') || '' },
     style: ElectricityStyle,
   },
   // second level of c++2
@@ -379,7 +380,7 @@ const initialNodes: Node[] = [
     id: 'digitalLogicLab2',
     type: 'default',
     position: { x: 450, y: 700 },
-    data: { label: staticValuesMap.get('digitalLogicLab2') || '' },
+    data: { label: staticValuesMap.get('digitalLogicLab') || '' },
     style: style,
   },
   {
@@ -402,7 +403,7 @@ const initialNodes: Node[] = [
     id: 'java2',
     type: 'default',
     position: { x: 650, y: 800 },
-    data: { label: staticValuesMap.get('java2') || '' },
+    data: { label: staticValuesMap.get('java') || '' },
     style: style,
   },
   // second level of java2
@@ -449,7 +450,7 @@ const initialNodes: Node[] = [
     id: 'signalsAndSystems',
     type: 'default',
     position: { x: 1050, y: 700 },
-    data: { label: staticValuesMap.get('signalsAndSystems') || '' },
+    data: { label: staticValuesMap.get('signalsSystems') || '' },
     style: ElectricityStyle,
   },
   {
@@ -471,7 +472,7 @@ const initialNodes: Node[] = [
     id: 'computerNetworks2',
     type: 'default',
     position: { x: 1200, y: 500 },
-    data: { label: staticValuesMap.get('computerNetworks2') || '' },
+    data: { label: staticValuesMap.get('computerNetworks') || '' },
     style: style,
   },
 
@@ -480,7 +481,7 @@ const initialNodes: Node[] = [
     id: 'computerArchitecture2+',
     type: 'default',
     position: { x: 1200, y: 1200 }, // Position near other network courses
-    data: { label: staticValuesMap.get('computerArchitecture2+') || '' },
+    data: { label: staticValuesMap.get('computerArchitecture') || '' },
     style: style,
   },
   // الشبكات الاسلكية (اختياري)
@@ -506,7 +507,7 @@ const initialNodes: Node[] = [
     id: 'objectOrientedProblemSolving',
     type: 'default',
     position: { x: 1800, y: 1200 }, // Position near computerNetworks
-    data: { label: staticValuesMap.get('objectOrientedProblemSolving') || '' },
+    data: { label: staticValuesMap.get('java') || '' },
     style: style,
   },
   // الحوسبة السحابية(اختياري)

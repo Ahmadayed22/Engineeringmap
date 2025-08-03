@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Suspense } from 'react';
 // layouts
@@ -10,7 +11,7 @@ const Error = lazy(() => import('@pages/Error/Error'));
 const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
 import { LottieHandler } from '@components/feedbaks';
-
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: '/',
@@ -38,7 +39,9 @@ const AppRouter = () => {
     <Suspense
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
     >
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Suspense>
   );
 };

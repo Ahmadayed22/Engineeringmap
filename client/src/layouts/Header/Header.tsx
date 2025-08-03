@@ -28,6 +28,7 @@ const Header = () => {
   };
 
   return (
+    //className="fixed w-full top-0"
     <Navbar fluid rounded>
       <NavbarBrand href="https://flowbite-react.com">
         <img src={AboAyed} className="mr-3 h-6 sm:h-9 rounded-2xl bg-white" />

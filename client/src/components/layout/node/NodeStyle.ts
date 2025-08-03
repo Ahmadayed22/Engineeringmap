@@ -12,13 +12,39 @@ const baseNodeStyle = {
   fontWeight: 'bold',
   // fontSize: 'clamp(14px, 1.2vw, 18px)',
   fontSize: '14px',
+  // width: '150px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   cursor: 'pointer',
+};
+const baseNodeStyle2 = {
+  fontFamily: 'Tajawal, sans-serif',
+  color: '#ffffff',
+  border: '2px solid #ffffff',
+  fontWeight: 'bold',
+  // fontSize: 'clamp(14px, 1.2vw, 18px)',
+  fontSize: '14px',
+  cursor: 'pointer',
+  width: '125px',
+  height: '125px',
+  borderRadius: '50%',
+  // textAlign: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const RootStyle = {
+  ...baseNodeStyle,
+  backgroundColor: 'black',
+  // border: '2px solid #3399ff',
 };
 
 const nodeStyle = {
   ...baseNodeStyle,
   backgroundColor: 'black',
-  border: '2px solid #3399ff',
+  // border: '2px solid #3399ff',
 };
 
 const ItStyle = {
@@ -42,6 +68,7 @@ const MechatronicsStyle = {
 };
 
 export {
+  RootStyle,
   nodeStyle,
   ItStyle,
   SciencesStyle,
