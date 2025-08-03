@@ -40,7 +40,7 @@ public class CommentService {
     public List<CommentResponseDTO> getCommentsByCourseName(@NotBlank String courseName) {
         Course course = courseRepository.findByNameIgnoreCase(courseName)
                 .orElseThrow(() -> new RuntimeException("Course not found with name: " + courseName));
-        List<Comment> comments = commentRepository.findByCourseIdWithUser(course.getId());
+        List<Comment> comments = commentRepository.findByCourseIdWithUserOrderByCreatedAtAsc(course.getId());
         return comments.stream()
                       .map(CommentMapper::toResponseDto)
                       .toList();

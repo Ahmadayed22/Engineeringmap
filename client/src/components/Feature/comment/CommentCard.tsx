@@ -10,7 +10,7 @@ const CommentCard = ({ comment }: CommentCardProps) => {
   const getUserName = async () => {
     try {
       const res = await axios.get(`/api/users/${comment.userId}`);
-      console.log(res.data);
+
       return res.data.username;
     } catch (error) {
       throw new Error(`User Not Found , ${error}`);
@@ -20,6 +20,7 @@ const CommentCard = ({ comment }: CommentCardProps) => {
     queryKey: ['userName'],
     queryFn: getUserName,
   });
+
   return (
     <div className="space-y-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-800 dark:bg-neutral-900 ">
       <CommentCardHeader username={username} comment={comment} />

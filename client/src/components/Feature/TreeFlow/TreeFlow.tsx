@@ -22,7 +22,7 @@ export default function TreeFlow() {
   return (
     <div className="w-full h-screen px-2 sm:px-6 md:px-10 overflow-auto bg-transparent">
       {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
-      <FireParticles />
+      {/* <FireParticles /> */}
       <ReactFlow
         nodes={nodes}
         edges={edges}

@@ -2,6 +2,7 @@ package com.engineeringmap.server.controller;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import com.engineeringmap.server.dto.response.ErrorResponse;
 import com.engineeringmap.server.dto.response.SuccessResponse;
 import com.engineeringmap.server.entity.Comment;
 import com.engineeringmap.server.service.CommentService;
-
+import com.engineeringmap.server.security.UserDetailsImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
@@ -62,11 +63,14 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createComment(@Valid @RequestBody CommentRequestDTO request) {
+    public ResponseEntity<?> createComment(
+            @Valid @RequestBody CommentRequestDTO request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
+            Long userId = userDetails.getId(); 
             CommentResponseDTO comment = commentService.createComment(
                     request.courseId(),
-                    request.userId(),
+                    userId,
                     request.content());
             return ResponseEntity.status(HttpStatus.CREATED).body(comment);
         } catch (RuntimeException e) {

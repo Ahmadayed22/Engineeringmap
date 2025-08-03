@@ -52,7 +52,7 @@ public class AuthService {
 
         // Convert SignInRequest to User entity and save it
         User user = UserMapper.toEntity(signInRequest);
-          // ✅ Add default role assignment
+          // Add default role assignment
         Role defaultRole = roleRepo.findByName(RoleType.USER)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRoles(Set.of(defaultRole)); // assign role
@@ -70,10 +70,11 @@ public LoginResponse login(LoginRequest loginRequest) {
     }
 
     User user = optionalUser.get();
-    // boolean passwordMatches = PasswordEncoderUtil.matches(loginRequest.password(), user.getPassword());
+    boolean passwordMatches = PasswordEncoderUtil.matches(loginRequest.password(), user.getPassword());
 
-    // if (!passwordMatches) {
-    //     throw new RuntimeException("Invalid password.");
+    if (!passwordMatches) {
+        throw new RuntimeException("Invalid password.");
+    }
     String token = jwtUtil.generateToken(user);
     UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
 

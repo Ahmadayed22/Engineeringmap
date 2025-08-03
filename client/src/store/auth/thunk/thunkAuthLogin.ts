@@ -43,6 +43,7 @@ const thunkAuthLogin = createAsyncThunk(
         },
       };
     } catch (error) {
+      console.log(error);
       return rejectWithValue(AxiosErrorHandler(error));
     }
   }

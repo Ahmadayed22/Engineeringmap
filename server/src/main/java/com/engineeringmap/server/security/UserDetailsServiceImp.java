@@ -22,19 +22,31 @@ public class UserDetailsServiceImp implements UserDetailsService {
         this.userRepo = userRepo;
     }
 
+    // @Override
+    // public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    //     User user = userRepo.findByUsername(username)
+    //             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    //     List<GrantedAuthority> authorities = user.getRoles().stream()
+    //         .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().name()))
+    //             .collect(Collectors.toList());
+
+    //     return org.springframework.security.core.userdetails.User
+    //             .withUsername(user.getUsername())
+    //             .password(user.getPassword())
+    //             .authorities(authorities)
+    //             .build();
+    // }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-                
+
         List<GrantedAuthority> authorities = user.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().name()))
                 .collect(Collectors.toList());
-            
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .authorities(authorities)
-                .build();
+
+        return UserDetailsImpl.build(user, authorities);
     }
+
 }
