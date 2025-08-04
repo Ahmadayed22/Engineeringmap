@@ -1,6 +1,7 @@
 import { Spinner } from 'flowbite-react';
 import CommentCard from './CommentCard';
 import { CommentForList } from '@customTypes/CommentForList';
+
 type CommentListProps = {
   comments: CommentForList[];
   isLoading: boolean;

@@ -42,11 +42,14 @@ const useTreeFlow = () => {
   //   };
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [node, setTitle] = useState<Node | null>(null);
+  const [title, setTitle] = useState<string | unknown>('');
   const [nodeName, setNodeName] = useState<string | null>('');
+  const [courseId, setCourseId] = useState<number | unknown | null>(null);
+
   const handleNodeClick = useCallback((event: MouseEvent, node: Node) => {
+    setCourseId(node.data.courseId);
     setNodeName(node.id);
-    setTitle(node);
+    setTitle(node.data.title);
     setDrawerOpen(true);
   }, []);
 
@@ -57,10 +60,11 @@ const useTreeFlow = () => {
     onEdgesChange,
     onConnect,
     drawerOpen,
-    node,
+    title,
     handleNodeClick,
     setDrawerOpen,
     nodeName,
+    courseId,
   };
 };
 

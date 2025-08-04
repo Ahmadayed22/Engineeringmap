@@ -1,7 +1,7 @@
 import '@xyflow/react/dist/style.css';
 import { DrawerComp } from '@components/common/Drawer/DrawerComp';
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
-import FireParticles from '@components/common/Background/FireParticles';
+//import FireParticles from '@components/common/Background/FireParticles';
 import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 import { MarkerType, ReactFlow } from '@xyflow/react';
 
@@ -13,10 +13,11 @@ export default function TreeFlow() {
     onEdgesChange,
     onConnect,
     drawerOpen,
-    node,
+    title,
     handleNodeClick,
     setDrawerOpen,
     nodeName,
+    courseId,
   } = useTreeFlow();
 
   return (
@@ -49,8 +50,9 @@ export default function TreeFlow() {
       <DrawerComp
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        node={node}
+        title={title}
         nodeName={nodeName}
+        courseId={courseId}
       />
     </div>
   );

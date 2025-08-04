@@ -1,95 +1,15 @@
-import useCommentSection from '@hooks/CustomHook/useCommentSection';
-import { useAppSelector } from '@store/reduxHooks';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+// import useCommentSection from '@hooks/CustomHook/useCommentSection';
+
+import useCommentForm from '@hooks/CustomHook/useCommentForm';
 import { Button, Textarea } from 'flowbite-react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-
-interface CommentInput {
-  comment: string;
-}
-
-interface CreateCommentProps {
-  content: string;
-  courseId: number;
-}
 
 interface CommentFormProps {
-  courseId: number; // Add courseId as a prop
+  courseId: number | unknown | null;
 }
 
 const CommentForm = ({ courseId }: CommentFormProps) => {
-  const queryClient = useQueryClient();
-  const { accessToken } = useAppSelector((state) => state.auth);
-  const { comments, commentCount } = useCommentSection();
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<CommentInput>({
-    defaultValues: {
-      comment: '',
-    },
-  });
-
-  // Optional: Log comments for debugging
-  console.log('Comments:', comments);
-
-  const createComment = async ({ content, courseId }: CreateCommentProps) => {
-    console.log('Sending POST request:', {
-      content,
-      courseId,
-      accessToken,
-    });
-
-    const res = await axios.post(
-      '/api/comments',
-      {
-        courseId: 1,
-        content,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    return res.data;
-  };
-
-  const mutation = useMutation({
-    mutationFn: createComment,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['comments', courseId], // Use courseId prop
-      });
-      reset();
-      console.log('Comment created successfully');
-    },
-    onError: (error) => {
-      console.error('Failed to create comment:', error);
-    },
-  });
-
-  const submitComment: SubmitHandler<CommentInput> = (data) => {
-    if (!accessToken) {
-      console.error('No access token available');
-      return;
-    }
-
-    // if (!courseId) {
-    //   console.error('Course ID is not available');
-    //   return;
-    // }
-
-    mutation.mutate({
-      content: data.comment,
-      courseId, // Use courseId prop
-    });
-  };
+  const { register, handleSubmit, errors, submitComment, accessToken } =
+    useCommentForm({ courseId });
 
   return (
     <form
@@ -119,10 +39,11 @@ const CommentForm = ({ courseId }: CommentFormProps) => {
           )}
           <Button
             type="submit"
-            disabled={mutation.isLoading}
-            className="w-full"
+            // disabled={mutation.isLoading}
+            className="w-full cursor-pointer"
           >
-            {mutation.isLoading ? 'Submitting...' : 'Comment'}
+            {/* {mutation.isLoading ? 'Submitting...' : 'Comment'} */}
+            Comment
           </Button>
         </>
       ) : (

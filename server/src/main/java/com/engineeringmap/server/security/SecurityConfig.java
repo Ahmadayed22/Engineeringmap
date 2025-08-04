@@ -61,7 +61,9 @@ public class SecurityConfig {
             "/api/auth/**",
             "/api/comments/course/*/count",
             "/api/comments/course/name/*",
-            "/api/users/*"
+            "/api/users/*",
+            "/api/comments/course/*",
+
     };
 
     @Bean

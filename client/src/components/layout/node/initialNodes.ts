@@ -27,37 +27,61 @@ const initialNodes: Node[] = [
   {
     id: 'physics',
     position: { x: -650, y: 100 },
-    data: { label: staticValuesMap.get('physics') || '' },
+    data: {
+      label: staticValuesMap.get('physics') || '',
+      courseId: 1,
+      title: 'physics',
+    },
     style: SciencesStyle,
   },
   {
     id: 'Discrete Mathematics',
     position: { x: 100, y: 100 },
-    data: { label: staticValuesMap.get('Discrete Mathematics') || '' },
+    data: {
+      label: staticValuesMap.get('Discrete Mathematics') || '',
+      courseId: 2,
+      title: 'Discrete Mathematics',
+    },
     style: ItStyle,
   },
   {
     id: 'csBasics',
     position: { x: 500, y: 100 },
-    data: { label: staticValuesMap.get('csBasics') || '' },
+    data: {
+      label: staticValuesMap.get('csBasics') || '',
+      courseId: 3,
+      title: 'Computer Basics',
+    },
     style: ItStyle,
   },
   {
     id: 'statistics',
     position: { x: 750, y: 100 },
-    data: { label: staticValuesMap.get('statistics') || '' },
+    data: {
+      label: staticValuesMap.get('statistics') || '',
+      courseId: 4,
+      title: 'statistics',
+    },
     style: SciencesStyle,
   },
   {
     id: 'chemistry',
     position: { x: 1000, y: 100 },
-    data: { label: staticValuesMap.get('chemistry') || '' },
+    data: {
+      label: staticValuesMap.get('chemistry') || '',
+      courseId: 5,
+      title: 'chemistry',
+    },
     style: SciencesStyle,
   },
   {
     id: 'calculus1',
     position: { x: 1550, y: 100 },
-    data: { label: staticValuesMap.get('calculus1') || '' },
+    data: {
+      label: staticValuesMap.get('calculus1') || '',
+      courseId: 6,
+      title: 'calculus1',
+    },
     style: SciencesStyle,
   },
 
@@ -65,28 +89,44 @@ const initialNodes: Node[] = [
   {
     id: 'calculus2',
     position: { x: 1450, y: 200 },
-    data: { label: staticValuesMap.get('calculus2') || '' },
+    data: {
+      label: staticValuesMap.get('calculus2') || '',
+      courseId: 7,
+      title: 'calculus2',
+    },
     style: SciencesStyle,
   },
   {
     id: 'linearAlgebra',
     type: 'default',
     position: { x: 1650, y: 200 },
-    data: { label: staticValuesMap.get('linearAlgebra') || '' },
+    data: {
+      label: staticValuesMap.get('linearAlgebra') || '',
+      courseId: 8,
+      title: 'linearAlgebra',
+    },
     style: SciencesStyle,
   },
   // Second level of calculus2
   {
     id: 'calculus3',
     position: { x: 1550, y: 300 },
-    data: { label: staticValuesMap.get('calculus3') || '' },
+    data: {
+      label: staticValuesMap.get('calculus3') || '',
+      courseId: 9,
+      title: 'calculus3',
+    },
     style: SciencesStyle,
   },
   {
     id: 'probability',
     type: 'default',
     position: { x: 1350, y: 300 },
-    data: { label: staticValuesMap.get('probability') || '' },
+    data: {
+      label: staticValuesMap.get('probability') || '',
+      courseId: 10,
+      title: 'probability',
+    },
     style: { ...style },
   },
   // Second level of linearAlgebra
@@ -94,7 +134,11 @@ const initialNodes: Node[] = [
     id: 'numericalAnalysisLab',
     type: 'default',
     position: { x: 1650, y: 400 },
-    data: { label: staticValuesMap.get('numericalAnalysisLab') || '' },
+    data: {
+      label: staticValuesMap.get('numericalAnalysisLab') || '',
+      courseId: 11,
+      title: 'numericalAnalysisLab',
+    },
     style: style,
   },
 
@@ -103,13 +147,21 @@ const initialNodes: Node[] = [
     id: 'physicsLab1',
     type: 'default',
     position: { x: -750, y: 200 },
-    data: { label: staticValuesMap.get('physicsLab1') || '' },
+    data: {
+      label: staticValuesMap.get('physicsLab1') || '',
+      courseId: 12,
+      title: 'physicsLab1',
+    },
     style: SciencesStyle,
   },
   {
     id: 'physics2',
     position: { x: -550, y: 200 },
-    data: { label: staticValuesMap.get('physics2') || '' },
+    data: {
+      label: staticValuesMap.get('physics2') || '',
+      courseId: 13,
+      title: 'physics2',
+    },
     style: SciencesStyle,
   },
   // second level of physics2
@@ -117,14 +169,22 @@ const initialNodes: Node[] = [
     id: 'electricCircuits',
     type: 'default',
     position: { x: -650, y: 300 },
-    data: { label: staticValuesMap.get('electricCircuits') || '' },
+    data: {
+      label: staticValuesMap.get('electricCircuits') || '',
+      courseId: 14,
+      title: 'electricCircuits',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'physicsLab2',
     type: 'default',
     position: { x: -450, y: 300 },
-    data: { label: staticValuesMap.get('physicsLab2') || '' },
+    data: {
+      label: staticValuesMap.get('physicsLab2') || '',
+      courseId: 15,
+      title: 'physicsLab2',
+    },
     style: SciencesStyle,
   },
   // second level of electricCircuits
@@ -132,28 +192,44 @@ const initialNodes: Node[] = [
     id: 'electronics1',
     type: 'default',
     position: { x: -1050, y: 400 },
-    data: { label: staticValuesMap.get('electronics1') || '' },
+    data: {
+      label: staticValuesMap.get('electronics1') || '',
+      courseId: 16,
+      title: 'electronics1',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'electricCircuitsLab',
     type: 'ElectricityStyle',
     position: { x: -850, y: 400 },
-    data: { label: staticValuesMap.get('electricCircuitsLab') || '' },
+    data: {
+      label: staticValuesMap.get('electricCircuitsLab') || '',
+      courseId: 17,
+      title: 'electricCircuitsLab',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'signalsSystems',
     type: 'default',
     position: { x: -650, y: 400 },
-    data: { label: staticValuesMap.get('signalsSystems') || '' },
+    data: {
+      label: staticValuesMap.get('signalsSystems') || '',
+      courseId: 18,
+      title: 'signalsSystems',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'electricalMachines',
     type: 'default',
     position: { x: -450, y: 400 },
-    data: { label: staticValuesMap.get('electricalMachines') || '' },
+    data: {
+      label: staticValuesMap.get('electricalMachines') || '',
+      courseId: 19,
+      title: 'electricalMachines',
+    },
     style: MechatronicsStyle,
   },
   // second level of electronics1
@@ -161,14 +237,22 @@ const initialNodes: Node[] = [
     id: 'digitalElectronicsVLSI',
     type: 'default',
     position: { x: -1050, y: 500 },
-    data: { label: staticValuesMap.get('digitalElectronicsVLSI') || '' },
+    data: {
+      label: staticValuesMap.get('digitalElectronicsVLSI') || '',
+      courseId: 20,
+      title: 'digitalElectronicsVLSI',
+    },
     style: style,
   },
   {
     id: 'digitalElectronicsVLSILab',
     type: 'default',
     position: { x: -1050, y: 600 },
-    data: { label: staticValuesMap.get('digitalElectronicsVLSILab') || '' },
+    data: {
+      label: staticValuesMap.get('digitalElectronicsVLSILab') || '',
+      courseId: 21,
+      title: 'digitalElectronicsVLSILab',
+    },
     style: style,
   },
 
@@ -177,14 +261,22 @@ const initialNodes: Node[] = [
     id: 'c++',
     type: 'default',
     position: { x: -100, y: 200 },
-    data: { label: staticValuesMap.get('c++') || '' },
+    data: {
+      label: staticValuesMap.get('c++') || '',
+      courseId: 22,
+      title: 'c++',
+    },
     style: style,
   },
   {
     id: 'digitalLogic',
     type: 'default',
     position: { x: 950, y: 200 },
-    data: { label: staticValuesMap.get('digitalLogic') || '' },
+    data: {
+      label: staticValuesMap.get('digitalLogic') || '',
+      courseId: 23,
+      title: 'digitalLogic',
+    },
     style: style,
   },
 
@@ -193,14 +285,22 @@ const initialNodes: Node[] = [
     id: 'java',
     type: 'default',
     position: { x: -275, y: 350 },
-    data: { label: staticValuesMap.get('java') || '' },
+    data: {
+      label: staticValuesMap.get('java') || '',
+      courseId: 24,
+      title: 'java',
+    },
     style: style,
   },
   {
     id: 'python',
     type: 'default',
     position: { x: 0, y: 350 },
-    data: { label: staticValuesMap.get('python') || '' },
+    data: {
+      label: staticValuesMap.get('python') || '',
+      courseId: 25,
+      title: 'python',
+    },
     style: style,
   },
   // second level of java
@@ -208,14 +308,22 @@ const initialNodes: Node[] = [
     id: 'softwareEngineering',
     type: 'default',
     position: { x: -400, y: 600 },
-    data: { label: staticValuesMap.get('softwareEngineering') || '' },
+    data: {
+      label: staticValuesMap.get('softwareEngineering') || '',
+      courseId: 26,
+      title: 'softwareEngineering',
+    },
     style: style,
   },
   {
     id: 'dataStructuresAlgorithms',
     type: 'default',
     position: { x: -200, y: 600 },
-    data: { label: staticValuesMap.get('dataStructuresAlgorithms') || '' },
+    data: {
+      label: staticValuesMap.get('dataStructuresAlgorithms') || '',
+      courseId: 27,
+      title: 'dataStructuresAlgorithms',
+    },
     style: style,
   },
   // second level of dataStructuresAlgorithms
@@ -223,35 +331,55 @@ const initialNodes: Node[] = [
     id: 'mobileComputing',
     type: 'default',
     position: { x: -1000, y: 900 },
-    data: { label: staticValuesMap.get('mobileComputing') || '' },
+    data: {
+      label: staticValuesMap.get('mobileComputing') || '',
+      courseId: 28,
+      title: 'mobileComputing',
+    },
     style: style,
   },
   {
     id: 'databaseSystems',
     type: 'default',
     position: { x: -800, y: 900 },
-    data: { label: staticValuesMap.get('databaseSystems') || '' },
+    data: {
+      label: staticValuesMap.get('databaseSystems') || '',
+      courseId: 29,
+      title: 'databaseSystems',
+    },
     style: ItStyle,
   },
   {
     id: 'modernOperatingSystems',
     type: 'default',
     position: { x: -600, y: 900 },
-    data: { label: staticValuesMap.get('modernOperatingSystems') || '' },
+    data: {
+      label: staticValuesMap.get('modernOperatingSystems') || '',
+      courseId: 30,
+      title: 'modernOperatingSystems',
+    },
     style: style,
   },
   {
     id: 'computerArchitecture2',
     type: 'default',
     position: { x: -400, y: 900 },
-    data: { label: staticValuesMap.get('design') || '' },
+    data: {
+      label: staticValuesMap.get('design') || '',
+      courseId: 43,
+      title: 'design',
+    },
     style: style,
   },
   {
     id: 'competitiveProgramming',
     type: 'default',
     position: { x: -200, y: 900 },
-    data: { label: staticValuesMap.get('competitiveProgramming') || '' },
+    data: {
+      label: staticValuesMap.get('competitiveProgramming') || '',
+      courseId: 31,
+      title: 'competitiveProgramming',
+    },
     style: style,
   },
   // second level of design
@@ -259,7 +387,11 @@ const initialNodes: Node[] = [
     id: 'parallelProcessors',
     type: 'default',
     position: { x: -400, y: 1050 },
-    data: { label: staticValuesMap.get('parallelProcessors') || '' },
+    data: {
+      label: staticValuesMap.get('parallelProcessors') || '',
+      courseId: 32,
+      title: 'parallelProcessors',
+    },
     style: style,
   },
   // second level of parallelProcessors
@@ -267,7 +399,11 @@ const initialNodes: Node[] = [
     id: 'parallelProcessorsLab',
     type: 'default',
     position: { x: -400, y: 1150 },
-    data: { label: staticValuesMap.get('parallelProcessorsLab') || '' },
+    data: {
+      label: staticValuesMap.get('parallelProcessorsLab') || '',
+      courseId: 33,
+      title: 'parallelProcessorsLab',
+    },
     style: style,
   },
   // second level of python
@@ -275,14 +411,22 @@ const initialNodes: Node[] = [
     id: 'signalsSystems2',
     type: 'default',
     position: { x: -100, y: 500 },
-    data: { label: staticValuesMap.get('signalsSystems') || '' },
+    data: {
+      label: staticValuesMap.get('signalsSystems') || '',
+      courseId: 18,
+      title: 'signalsSystems',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'linearAlgebra2',
     type: 'default',
     position: { x: 100, y: 500 },
-    data: { label: staticValuesMap.get('linearAlgebra') || '' },
+    data: {
+      label: staticValuesMap.get('linearAlgebra') || '',
+      courseId: 8,
+      title: 'linearAlgebra',
+    },
     style: style,
   },
   // second level of signalsSystems2
@@ -290,7 +434,11 @@ const initialNodes: Node[] = [
     id: 'digitalImageProcessing',
     type: 'default',
     position: { x: -100, y: 750 },
-    data: { label: staticValuesMap.get('digitalImageProcessing') || '' },
+    data: {
+      label: staticValuesMap.get('digitalImageProcessing') || '',
+      courseId: 34,
+      title: 'digitalImageProcessing',
+    },
     style: style,
   },
   // second level of linearAlgebra2
@@ -298,7 +446,11 @@ const initialNodes: Node[] = [
     id: 'aiAndMachineLearning',
     type: 'default',
     position: { x: 100, y: 650 },
-    data: { label: staticValuesMap.get('aiAndMachineLearning') || '' },
+    data: {
+      label: staticValuesMap.get('aiAndMachineLearning') || '',
+      courseId: 35,
+      title: 'aiAndMachineLearning',
+    },
     style: style,
   },
   // second level of aiAndMachineLearning
@@ -306,28 +458,44 @@ const initialNodes: Node[] = [
     id: 'computerVision',
     type: 'default',
     position: { x: -100, y: 1050 },
-    data: { label: staticValuesMap.get('computerVision') || '' },
+    data: {
+      label: staticValuesMap.get('computerVision') || '',
+      courseId: 36,
+      title: 'computerVision',
+    },
     style: style,
   },
   {
     id: 'computationalIntelligence',
     type: 'default',
     position: { x: 100, y: 1050 },
-    data: { label: staticValuesMap.get('computationalIntelligence') || '' },
+    data: {
+      label: staticValuesMap.get('computationalIntelligence') || '',
+      courseId: 37,
+      title: 'computationalIntelligence',
+    },
     style: style,
   },
   {
     id: 'advancedMLTopics',
     type: 'default',
     position: { x: 300, y: 1050 },
-    data: { label: staticValuesMap.get('advancedMLTopics') || '' },
+    data: {
+      label: staticValuesMap.get('advancedMLTopics') || '',
+      courseId: 38,
+      title: 'advancedMLTopics',
+    },
     style: style,
   },
   {
     id: 'dataScience',
     type: 'default',
     position: { x: 500, y: 1050 },
-    data: { label: staticValuesMap.get('dataScience') || '' },
+    data: {
+      label: staticValuesMap.get('dataScience') || '',
+      courseId: 39,
+      title: 'dataScience',
+    },
     style: style,
   },
 
@@ -336,28 +504,44 @@ const initialNodes: Node[] = [
     id: 'c++2',
     type: 'default',
     position: { x: 450, y: 400 },
-    data: { label: staticValuesMap.get('c++') || '' },
+    data: {
+      label: staticValuesMap.get('c++') || '',
+      courseId: 22,
+      title: 'c++',
+    },
     style: style,
   },
   {
     id: 'digitalLogicLab',
     type: 'default',
     position: { x: 700, y: 400 },
-    data: { label: staticValuesMap.get('digitalLogicLab') || '' },
+    data: {
+      label: staticValuesMap.get('digitalLogicLab') || '',
+      courseId: 40,
+      title: 'digitalLogicLab',
+    },
     style: style,
   },
   {
     id: 'electronics2',
     type: 'default',
     position: { x: 950, y: 400 },
-    data: { label: staticValuesMap.get('electronics1') || '' },
+    data: {
+      label: staticValuesMap.get('electronics1') || '',
+      courseId: 16,
+      title: 'electronics1',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'signalsSystems3',
     type: 'default',
     position: { x: 1200, y: 400 },
-    data: { label: staticValuesMap.get('signalsSystems') || '' },
+    data: {
+      label: staticValuesMap.get('signalsSystems') || '',
+      courseId: 18,
+      title: 'signalsSystems',
+    },
     style: ElectricityStyle,
   },
   // second level of c++2
@@ -365,7 +549,11 @@ const initialNodes: Node[] = [
     id: 'computerArchitecture',
     type: 'default',
     position: { x: 450, y: 500 },
-    data: { label: staticValuesMap.get('computerArchitecture') || '' },
+    data: {
+      label: staticValuesMap.get('computerArchitecture') || '',
+      courseId: 41,
+      title: 'computerArchitecture',
+    },
     style: style,
   },
   // second level of computerArchitecture
@@ -373,21 +561,33 @@ const initialNodes: Node[] = [
     id: 'advancedDigitalDesign',
     type: 'default',
     position: { x: 275, y: 700 },
-    data: { label: staticValuesMap.get('advancedDigitalDesign') || '' },
+    data: {
+      label: staticValuesMap.get('advancedDigitalDesign') || '',
+      courseId: 42,
+      title: 'advancedDigitalDesign',
+    },
     style: style,
   },
   {
     id: 'digitalLogicLab2',
     type: 'default',
     position: { x: 450, y: 700 },
-    data: { label: staticValuesMap.get('digitalLogicLab') || '' },
+    data: {
+      label: staticValuesMap.get('digitalLogicLab') || '',
+      courseId: 40,
+      title: 'digitalLogicLab',
+    },
     style: style,
   },
   {
     id: 'design',
     type: 'default',
     position: { x: 650, y: 700 },
-    data: { label: staticValuesMap.get('design') || '' },
+    data: {
+      label: staticValuesMap.get('design') || '',
+      courseId: 43,
+      title: 'design',
+    },
     style: style,
   },
   //second level of digitalLogicLab2
@@ -395,7 +595,11 @@ const initialNodes: Node[] = [
     id: 'computerOrganizationLab',
     type: 'default',
     position: { x: 450, y: 800 },
-    data: { label: staticValuesMap.get('computerOrganizationLab') || '' },
+    data: {
+      label: staticValuesMap.get('computerOrganizationLab') || '',
+      courseId: 44,
+      title: 'computerOrganizationLab',
+    },
     style: style,
   },
   // second level of computerArchitecture
@@ -403,7 +607,11 @@ const initialNodes: Node[] = [
     id: 'java2',
     type: 'default',
     position: { x: 650, y: 800 },
-    data: { label: staticValuesMap.get('java') || '' },
+    data: {
+      label: staticValuesMap.get('java') || '',
+      courseId: 24,
+      title: 'java',
+    },
     style: style,
   },
   // second level of java2
@@ -411,7 +619,11 @@ const initialNodes: Node[] = [
     id: 'optimizedCompilers',
     type: 'default',
     position: { x: 650, y: 950 },
-    data: { label: staticValuesMap.get('optimizedCompilers') || '' },
+    data: {
+      label: staticValuesMap.get('optimizedCompilers') || '',
+      courseId: 45,
+      title: 'optimizedCompilers',
+    },
     style: style,
   },
   // second level of electronics2
@@ -419,7 +631,11 @@ const initialNodes: Node[] = [
     id: 'embeddedSystems',
     type: 'default',
     position: { x: 950, y: 500 },
-    data: { label: staticValuesMap.get('embeddedSystems') || '' },
+    data: {
+      label: staticValuesMap.get('embeddedSystems') || '',
+      courseId: 46,
+      title: 'embeddedSystems',
+    },
     style: style,
   },
   // second level of embeddedSystems
@@ -427,14 +643,22 @@ const initialNodes: Node[] = [
     id: 'computerNetworks',
     type: 'default',
     position: { x: 850, y: 600 },
-    data: { label: staticValuesMap.get('computerNetworks') || '' },
+    data: {
+      label: staticValuesMap.get('computerNetworks') || '',
+      courseId: 47,
+      title: 'computerNetworks',
+    },
     style: style,
   },
   {
     id: 'embeddedSystemsLab',
     type: 'default',
     position: { x: 1050, y: 600 },
-    data: { label: staticValuesMap.get('embeddedSystemsLab') || '' },
+    data: {
+      label: staticValuesMap.get('embeddedSystemsLab') || '',
+      courseId: 48,
+      title: 'embeddedSystemsLab',
+    },
     style: style,
   },
   // second level of computerNetworks
@@ -442,7 +666,11 @@ const initialNodes: Node[] = [
     id: 'internetOfThings',
     type: 'default',
     position: { x: 850, y: 700 },
-    data: { label: staticValuesMap.get('internetOfThings') || '' },
+    data: {
+      label: staticValuesMap.get('internetOfThings') || '',
+      courseId: 49,
+      title: 'internetOfThings',
+    },
     style: style,
   },
   // second level of embeddedSystemsLab
@@ -450,21 +678,33 @@ const initialNodes: Node[] = [
     id: 'signalsAndSystems',
     type: 'default',
     position: { x: 1050, y: 700 },
-    data: { label: staticValuesMap.get('signalsSystems') || '' },
+    data: {
+      label: staticValuesMap.get('signalsSystems') || '',
+      courseId: 18,
+      title: 'signalsSystems',
+    },
     style: ElectricityStyle,
   },
   {
     id: 'controlSystems',
     type: 'default',
     position: { x: 1050, y: 800 },
-    data: { label: staticValuesMap.get('controlSystems') || '' },
+    data: {
+      label: staticValuesMap.get('controlSystems') || '',
+      courseId: 50,
+      title: 'controlSystems',
+    },
     style: style,
   },
   {
     id: 'mobileRobots',
     type: 'default',
     position: { x: 1050, y: 900 },
-    data: { label: staticValuesMap.get('mobileRobots') || '' },
+    data: {
+      label: staticValuesMap.get('mobileRobots') || '',
+      courseId: 51,
+      title: 'mobileRobots',
+    },
     style: MechatronicsStyle,
   },
   // second level of signalsSystems3
@@ -472,7 +712,11 @@ const initialNodes: Node[] = [
     id: 'computerNetworks2',
     type: 'default',
     position: { x: 1200, y: 500 },
-    data: { label: staticValuesMap.get('computerNetworks') || '' },
+    data: {
+      label: staticValuesMap.get('computerNetworks') || '',
+      courseId: 47,
+      title: 'computerNetworks',
+    },
     style: style,
   },
 
@@ -481,7 +725,11 @@ const initialNodes: Node[] = [
     id: 'computerArchitecture2+',
     type: 'default',
     position: { x: 1200, y: 1200 }, // Position near other network courses
-    data: { label: staticValuesMap.get('computerArchitecture') || '' },
+    data: {
+      label: staticValuesMap.get('computerArchitecture') || '',
+      courseId: 41,
+      title: 'computerArchitecture',
+    },
     style: style,
   },
   // الشبكات الاسلكية (اختياري)
@@ -489,7 +737,11 @@ const initialNodes: Node[] = [
     id: 'wirelessNetworks',
     type: 'default',
     position: { x: 1400, y: 1200 }, // Position near other network courses
-    data: { label: staticValuesMap.get('wirelessNetworks') || '' },
+    data: {
+      label: staticValuesMap.get('wirelessNetworks') || '',
+      courseId: 52,
+      title: 'wirelessNetworks',
+    },
     style: style,
   },
 
@@ -498,7 +750,11 @@ const initialNodes: Node[] = [
     id: 'computerNetworksLab',
     type: 'default',
     position: { x: 1600, y: 1200 }, // Position near computerNetworks
-    data: { label: staticValuesMap.get('computerNetworksLab') || '' },
+    data: {
+      label: staticValuesMap.get('computerNetworksLab') || '',
+      courseId: 53,
+      title: 'computerNetworksLab',
+    },
     style: style,
   },
 
@@ -507,7 +763,11 @@ const initialNodes: Node[] = [
     id: 'objectOrientedProblemSolving',
     type: 'default',
     position: { x: 1800, y: 1200 }, // Position near computerNetworks
-    data: { label: staticValuesMap.get('java') || '' },
+    data: {
+      label: staticValuesMap.get('java') || '',
+      courseId: 24,
+      title: 'java',
+    },
     style: style,
   },
   // الحوسبة السحابية(اختياري)
@@ -515,7 +775,11 @@ const initialNodes: Node[] = [
     id: 'cloudComputing',
     type: 'default',
     position: { x: 2000, y: 1200 }, // Position in advanced topics area
-    data: { label: staticValuesMap.get('cloudComputing') || '' },
+    data: {
+      label: staticValuesMap.get('cloudComputing') || '',
+      courseId: 54,
+      title: 'cloudComputing',
+    },
     style: style,
   },
 
@@ -524,7 +788,11 @@ const initialNodes: Node[] = [
     id: 'informationSecurity',
     type: 'default',
     position: { x: 2200, y: 1200 }, // Position near network courses
-    data: { label: staticValuesMap.get('informationSecurity') || '' },
+    data: {
+      label: staticValuesMap.get('informationSecurity') || '',
+      courseId: 55,
+      title: 'informationSecurity',
+    },
     style: style,
   },
 
@@ -533,7 +801,11 @@ const initialNodes: Node[] = [
     id: 'dataCommunicationSystems',
     type: 'default',
     position: { x: 2400, y: 1200 }, // Position near signals/systems
-    data: { label: staticValuesMap.get('dataCommunicationSystems') || '' },
+    data: {
+      label: staticValuesMap.get('dataCommunicationSystems') || '',
+      courseId: 56,
+      title: 'dataCommunicationSystems',
+    },
     style: style,
   },
 
@@ -542,7 +814,11 @@ const initialNodes: Node[] = [
     id: 'selectedTopicsInCE',
     type: 'default',
     position: { x: 1200, y: 1350 }, // Position in advanced topics area
-    data: { label: staticValuesMap.get('selectedTopicsInCE') || '' },
+    data: {
+      label: staticValuesMap.get('selectedTopicsInCE') || '',
+      courseId: 57,
+      title: 'selectedTopicsInCE',
+    },
     style: style,
   },
   // last level
@@ -551,7 +827,11 @@ const initialNodes: Node[] = [
     id: 'advancedNetworksLab',
     type: 'default',
     position: { x: 1600, y: 1350 }, // Position near networks labs
-    data: { label: staticValuesMap.get('advancedNetworksLab') || '' },
+    data: {
+      label: staticValuesMap.get('advancedNetworksLab') || '',
+      courseId: 58,
+      title: 'advancedNetworksLab',
+    },
     style: style,
   },
 
@@ -560,7 +840,11 @@ const initialNodes: Node[] = [
     id: 'networkProtocolsProgramming',
     type: 'default',
     position: { x: 1800, y: 1350 }, // Position near networks courses
-    data: { label: staticValuesMap.get('networkProtocolsProgramming') || '' },
+    data: {
+      label: staticValuesMap.get('networkProtocolsProgramming') || '',
+      courseId: 59,
+      title: 'networkProtocolsProgramming',
+    },
     style: style,
   },
 
@@ -569,7 +853,11 @@ const initialNodes: Node[] = [
     id: 'digitalForensics',
     type: 'default',
     position: { x: 2200, y: 1350 }, // Position in security/advanced area
-    data: { label: staticValuesMap.get('digitalForensics') || '' },
+    data: {
+      label: staticValuesMap.get('digitalForensics') || '',
+      courseId: 60,
+      title: 'digitalForensics',
+    },
     style: style,
   },
 ];
