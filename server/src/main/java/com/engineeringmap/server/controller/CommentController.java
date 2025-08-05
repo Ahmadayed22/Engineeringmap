@@ -32,7 +32,7 @@ import jakarta.validation.constraints.NotBlank;
 @RequestMapping("/api/comments")
 @CrossOrigin(origins = "*")
 public class CommentController {
-    
+
     private final CommentService commentService;
 
     public CommentController(CommentService commentService) {
@@ -59,7 +59,7 @@ public class CommentController {
     public ResponseEntity<CommentResponseDTO> getCommentById(@PathVariable Long id) {
         Optional<CommentResponseDTO> comment = commentService.getCommentById(id);
         return comment.map(ResponseEntity::ok)
-                     .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -67,7 +67,7 @@ public class CommentController {
             @Valid @RequestBody CommentRequestDTO request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            Long userId = userDetails.getId(); 
+            Long userId = userDetails.getId();
             CommentResponseDTO comment = commentService.createComment(
                     request.courseId(),
                     userId,
@@ -77,31 +77,34 @@ public class CommentController {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
     }
-    //Still have isue
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateComment(
             @Valid
             @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody UpdateCommentRequest request) {
         try {
-            CommentResponseDTO updatedComment = commentService.updateComment(id, request.userId(), request.content());
+            Long userId = userDetails.getId();
+            CommentResponseDTO updatedComment = commentService.updateComment(id, userId, request.content());
             return ResponseEntity.ok(updatedComment);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(
             @PathVariable Long id,
-            @RequestParam Long userId) {
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
+            Long userId = userDetails.getId(); // Get user ID from JWT
             commentService.deleteComment(id, userId);
             return ResponseEntity.ok(new SuccessResponse("Comment deleted successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
     }
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<CommentResponseDTO>> getCommentsByUser(@PathVariable Long userId) {
@@ -117,7 +120,7 @@ public class CommentController {
 
     @GetMapping("/user/{userId}/course/{courseId}")
     public ResponseEntity<List<CommentResponseDTO>> getUserCommentsForCourse(
-            @PathVariable Long userId, 
+            @PathVariable Long userId,
             @PathVariable Long courseId) {
         List<CommentResponseDTO> comments = commentService.getUserCommentsForCourse(userId, courseId);
         return ResponseEntity.ok(comments);

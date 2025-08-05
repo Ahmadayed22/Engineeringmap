@@ -10,6 +10,14 @@ export type CommentCardProps = {
 export type CommentCardContentProps = Pick<CommentCardProps, 'comment'>;
 
 export type CommentCardHeaderProps = {
-  username: string;
+  username: string | undefined;
 } & Pick<CommentCardProps, 'comment'>;
+
+export type EditCommentProps = {
+  setOpenEdit: (value: boolean) => void;
+} & CommentCardContentProps;
+
+export type FormEdit = {
+  comment: string;
+};
 export default CommentSectionProps;

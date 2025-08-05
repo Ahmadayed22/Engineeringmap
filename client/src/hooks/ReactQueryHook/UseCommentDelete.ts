@@ -14,18 +14,15 @@ const UseCommentDelete = ({ comment }: CommentCardContentProps) => {
 
   const DeleteComment = async () => {
     try {
-      const res = await axios.delete(
-        `/api/comments/${comment.id}?userId=${comment.userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await axios.delete(`/api/comments/${comment.id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       return res;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      throw new Error('Delete Comment Succes');
+      throw new Error(`Failed to delete comment ${error}`);
     }
   };
 

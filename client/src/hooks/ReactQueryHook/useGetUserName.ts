@@ -13,7 +13,7 @@ const useGetUserName = ({ comment }: CommentCardProps) => {
     }
   };
   const { data: username } = useQuery({
-    queryKey: ['userName'],
+    queryKey: ['userName', comment.userId],
     queryFn: getUserName,
   });
   return { username };
