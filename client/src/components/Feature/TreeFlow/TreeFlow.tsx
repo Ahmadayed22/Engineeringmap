@@ -5,6 +5,7 @@ import { DrawerComp } from '@components/common/Drawer/DrawerComp';
 import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 import { MarkerType, ReactFlow } from '@xyflow/react';
 import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
+import { ModalRoot } from '@components/common';
 
 function TreeFlowInner() {
   const { courseId, drawerOpen, title, nodeName } = useTreeFlowContext();
@@ -20,6 +21,8 @@ function TreeFlowInner() {
     setDrawerOpen,
     // nodeName,
     // courseId,
+    rootModalOpen,
+    setRootModalOpen,
   } = useTreeFlow();
 
   return (
@@ -49,13 +52,21 @@ function TreeFlowInner() {
         {/* <MiniMap nodeStrokeWidth={3} zoomable pannable /> */}
       </ReactFlow>
 
-      <DrawerComp
-        isOpen={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        title={title}
-        nodeName={nodeName}
-        courseId={courseId}
-      />
+      {rootModalOpen && (
+        <ModalRoot
+          isOpen={rootModalOpen}
+          onClose={() => setRootModalOpen(false)}
+        />
+      )}
+      {!rootModalOpen && title !== 'root' && (
+        <DrawerComp
+          isOpen={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          title={title}
+          nodeName={nodeName}
+          courseId={courseId}
+        />
+      )}
     </div>
   );
 }

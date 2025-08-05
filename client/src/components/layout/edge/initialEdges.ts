@@ -267,6 +267,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -301,6 +302,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -313,6 +315,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -382,6 +385,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -416,6 +420,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -434,6 +439,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -445,6 +451,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -471,6 +478,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -489,6 +497,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -508,6 +517,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -570,6 +580,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },
@@ -587,6 +598,7 @@ const initialEdges: Edge[] = [
     type: 'smoothstep',
     style: {
       ...style,
+      stroke: 'white',
       strokeDasharray: '5,5', // Creates dashed line
     },
   },

@@ -47,13 +47,19 @@ const useTreeFlow = () => {
   // const [title, setTitle] = useState<string | unknown>('');
   // const [nodeName, setNodeName] = useState<string | null>('');
   // const [courseId, setCourseId] = useState<number | unknown | null>(null);
-
+  const [rootModalOpen, setRootModalOpen] = useState(false);
   const handleNodeClick = useCallback(
     (event: MouseEvent, node: Node) => {
       setCourseId(node.data.courseId);
       setNodeName(node.id);
-      setTitle(node.data.title);
-      setDrawerOpen(true);
+
+      if (node.data.title === 'root') {
+        console.log(node.data.title);
+        setRootModalOpen(true);
+      } else {
+        setTitle(node.data.title);
+        setDrawerOpen(true);
+      }
     },
     [setCourseId, setNodeName, setTitle, setDrawerOpen]
   );
@@ -70,6 +76,8 @@ const useTreeFlow = () => {
     setDrawerOpen,
     // nodeName,
     // courseId,
+    rootModalOpen,
+    setRootModalOpen,
   };
 };
 

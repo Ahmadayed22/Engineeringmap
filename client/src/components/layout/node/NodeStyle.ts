@@ -31,7 +31,7 @@ const nodeStyle = {
 
 const ItStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#e28743',
+  backgroundColor: '#a87716',
 };
 
 const SciencesStyle = {
@@ -41,7 +41,7 @@ const SciencesStyle = {
 
 const ElectricityStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#008000',
+  backgroundColor: '#166e25',
 };
 
 const MechatronicsStyle = {

@@ -18,7 +18,10 @@ const initialNodes: Node[] = [
   {
     id: 'root',
     position: { x: -100, y: -100 },
-    data: { label: staticValuesMap.get('root') },
+    data: {
+      label: staticValuesMap.get('root'),
+      title: 'root',
+    },
     type: 'input',
     style: {
       width: 1500,
@@ -253,7 +256,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSILab',
     type: 'default',
-    position: { x: -1050, y: 600 },
+    position: { x: -1050, y: 650 },
     data: {
       label: staticValuesMap.get('digitalElectronicsVLSILab'),
       courseId: 21,
@@ -451,7 +454,7 @@ const initialNodes: Node[] = [
   {
     id: 'aiAndMachineLearning',
     type: 'default',
-    position: { x: 100, y: 650 },
+    position: { x: 100, y: 760 },
     data: {
       label: staticValuesMap.get('aiAndMachineLearning'),
       courseId: 35,
@@ -463,7 +466,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerVision',
     type: 'default',
-    position: { x: -100, y: 1050 },
+    position: { x: -100, y: 1150 },
     data: {
       label: staticValuesMap.get('computerVision'),
       courseId: 36,
@@ -474,7 +477,7 @@ const initialNodes: Node[] = [
   {
     id: 'computationalIntelligence',
     type: 'default',
-    position: { x: 100, y: 1050 },
+    position: { x: 100, y: 1150 },
     data: {
       label: staticValuesMap.get('computationalIntelligence'),
       courseId: 37,
@@ -485,7 +488,7 @@ const initialNodes: Node[] = [
   {
     id: 'advancedMLTopics',
     type: 'default',
-    position: { x: 300, y: 1050 },
+    position: { x: 300, y: 1150 },
     data: {
       label: staticValuesMap.get('advancedMLTopics'),
       courseId: 38,
@@ -496,7 +499,7 @@ const initialNodes: Node[] = [
   {
     id: 'dataScience',
     type: 'default',
-    position: { x: 500, y: 1050 },
+    position: { x: 500, y: 1150 },
     data: {
       label: staticValuesMap.get('dataScience'),
       courseId: 39,
@@ -542,7 +545,7 @@ const initialNodes: Node[] = [
   {
     id: 'signalsSystems3',
     type: 'default',
-    position: { x: 1200, y: 400 },
+    position: { x: 1225, y: 400 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
       courseId: 18,
@@ -554,7 +557,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerArchitecture',
     type: 'default',
-    position: { x: 450, y: 500 },
+    position: { x: 450, y: 600 },
     data: {
       label: staticValuesMap.get('computerArchitecture'),
       courseId: 41,
@@ -566,7 +569,7 @@ const initialNodes: Node[] = [
   {
     id: 'advancedDigitalDesign',
     type: 'default',
-    position: { x: 275, y: 700 },
+    position: { x: 275, y: 750 },
     data: {
       label: staticValuesMap.get('advancedDigitalDesign'),
       courseId: 42,
@@ -577,7 +580,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalLogicLab2',
     type: 'default',
-    position: { x: 450, y: 700 },
+    position: { x: 450, y: 750 },
     data: {
       label: staticValuesMap.get('digitalLogicLab'),
       courseId: 40,
@@ -588,7 +591,7 @@ const initialNodes: Node[] = [
   {
     id: 'design',
     type: 'default',
-    position: { x: 650, y: 700 },
+    position: { x: 650, y: 750 },
     data: {
       label: staticValuesMap.get('design'),
       courseId: 43,
@@ -600,7 +603,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerOrganizationLab',
     type: 'default',
-    position: { x: 450, y: 800 },
+    position: { x: 450, y: 900 },
     data: {
       label: staticValuesMap.get('computerOrganizationLab'),
       courseId: 44,
@@ -612,7 +615,7 @@ const initialNodes: Node[] = [
   {
     id: 'java2',
     type: 'default',
-    position: { x: 650, y: 800 },
+    position: { x: 650, y: 900 },
     data: {
       label: staticValuesMap.get('java'),
       courseId: 24,
@@ -624,7 +627,7 @@ const initialNodes: Node[] = [
   {
     id: 'optimizedCompilers',
     type: 'default',
-    position: { x: 650, y: 950 },
+    position: { x: 650, y: 1050 },
     data: {
       label: staticValuesMap.get('optimizedCompilers'),
       courseId: 45,
@@ -636,7 +639,7 @@ const initialNodes: Node[] = [
   {
     id: 'embeddedSystems',
     type: 'default',
-    position: { x: 950, y: 500 },
+    position: { x: 950, y: 550 },
     data: {
       label: staticValuesMap.get('embeddedSystems'),
       courseId: 46,
@@ -648,7 +651,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworks',
     type: 'default',
-    position: { x: 850, y: 600 },
+    position: { x: 850, y: 650 },
     data: {
       label: staticValuesMap.get('computerNetworks'),
       courseId: 47,
@@ -659,7 +662,7 @@ const initialNodes: Node[] = [
   {
     id: 'embeddedSystemsLab',
     type: 'default',
-    position: { x: 1050, y: 600 },
+    position: { x: 1050, y: 650 },
     data: {
       label: staticValuesMap.get('embeddedSystemsLab'),
       courseId: 48,
@@ -671,7 +674,7 @@ const initialNodes: Node[] = [
   {
     id: 'internetOfThings',
     type: 'default',
-    position: { x: 850, y: 700 },
+    position: { x: 850, y: 850 },
     data: {
       label: staticValuesMap.get('internetOfThings'),
       courseId: 49,
@@ -683,7 +686,7 @@ const initialNodes: Node[] = [
   {
     id: 'signalsAndSystems',
     type: 'default',
-    position: { x: 1050, y: 700 },
+    position: { x: 1050, y: 850 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
       courseId: 18,
@@ -694,7 +697,7 @@ const initialNodes: Node[] = [
   {
     id: 'controlSystems',
     type: 'default',
-    position: { x: 1050, y: 800 },
+    position: { x: 1050, y: 1025 },
     data: {
       label: staticValuesMap.get('controlSystems'),
       courseId: 50,
@@ -705,7 +708,7 @@ const initialNodes: Node[] = [
   {
     id: 'mobileRobots',
     type: 'default',
-    position: { x: 1050, y: 900 },
+    position: { x: 1050, y: 1125 },
     data: {
       label: staticValuesMap.get('mobileRobots'),
       courseId: 51,
@@ -717,7 +720,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworks2',
     type: 'default',
-    position: { x: 1200, y: 500 },
+    position: { x: 1225, y: 800 },
     data: {
       label: staticValuesMap.get('computerNetworks'),
       courseId: 47,

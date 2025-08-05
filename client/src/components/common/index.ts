@@ -5,6 +5,7 @@ import FireParticles from './Background/FireParticles';
 import { Drawer } from 'flowbite-react';
 import ToasterComp from './Toaster/ToasterComp';
 import { SuccessToast, ErrorToast } from './Toaster/ToastStyle';
+import ModalRoot from './Modal/ModalRoot';
 export {
   ProgressNode,
   InputForm,
@@ -14,4 +15,5 @@ export {
   ToasterComp,
   SuccessToast,
   ErrorToast,
+  ModalRoot,
 };
