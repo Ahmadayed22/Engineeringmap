@@ -1,37 +1,22 @@
-import { CommentForList } from '@customTypes/CommentForList';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-
-type CommentCardProps = {
-  comment: CommentForList;
-};
+import ModalDelete from '@components/common/Modal/ModalDelete';
+import {
+  CommentCardContentProps,
+  CommentCardHeaderProps,
+  CommentCardProps,
+} from '@customTypes/CommentSection';
+import UseCommentDelete from '@hooks/ReactQueryHook/UseCommentDelete';
+import useGetUserName from '@hooks/ReactQueryHook/useGetUserName';
 
 const CommentCard = ({ comment }: CommentCardProps) => {
-  const getUserName = async () => {
-    try {
-      const res = await axios.get(`/api/users/${comment.userId}`);
-
-      return res.data.username;
-    } catch (error) {
-      throw new Error(`User Not Found , ${error}`);
-    }
-  };
-  const { data: username } = useQuery({
-    queryKey: ['userName'],
-    queryFn: getUserName,
-  });
-
+  const { username } = useGetUserName({ comment });
   return (
     <div className="space-y-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-800 dark:bg-neutral-900 ">
       <CommentCardHeader username={username} comment={comment} />
       <CommentCardContent comment={comment} />
+      <CommentCardButtons comment={comment} />
     </div>
   );
 };
-
-type CommentCardHeaderProps = {
-  username: string;
-} & Pick<CommentCardProps, 'comment'>;
 
 function CommentCardHeader({ username, comment }: CommentCardHeaderProps) {
   return (
@@ -44,9 +29,29 @@ function CommentCardHeader({ username, comment }: CommentCardHeaderProps) {
   );
 }
 
-type CommentCardContentProps = Pick<CommentCardProps, 'comment'>;
 function CommentCardContent({ comment }: CommentCardContentProps) {
   return <p>{comment.content}</p>;
+}
+
+function CommentCardButtons({ comment }: CommentCardContentProps) {
+  const { openModal, setOpenModal, mutation } = UseCommentDelete({ comment });
+  return (
+    <div className="">
+      <button className="cursor-pointer">Edit</button>
+      <button
+        className="text-red-800 cursor-pointer 
+        p-4"
+        onClick={() => setOpenModal(true)}
+      >
+        Delete
+      </button>
+      <ModalDelete
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        onDelete={mutation.mutate}
+      />
+    </div>
+  );
 }
 
 export default CommentCard;

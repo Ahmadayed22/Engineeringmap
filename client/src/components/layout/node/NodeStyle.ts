@@ -1,60 +1,42 @@
-// const nodeStyle = {
-//   backgroundColor: '#d1e8ff', // 💙 light blue
-//   color: '#003366',
-//   border: '2px solid #3399ff',
-//   fontWeight: 'bold',
-//   fontSize: 14,
-// };
+import './style.css';
+
 const baseNodeStyle = {
   fontFamily: 'Tajawal, sans-serif',
-  color: '#ffffff',
-  border: '2px solid #ffffff',
+  // border: '1px solid #ffffff',
   fontWeight: 'bold',
-  // fontSize: 'clamp(14px, 1.2vw, 18px)',
   fontSize: '14px',
-  // width: '150px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-};
-const baseNodeStyle2 = {
-  fontFamily: 'Tajawal, sans-serif',
-  color: '#ffffff',
-  border: '2px solid #ffffff',
-  fontWeight: 'bold',
-  // fontSize: 'clamp(14px, 1.2vw, 18px)',
-  fontSize: '14px',
-  cursor: 'pointer',
-  width: '125px',
-  height: '125px',
-  borderRadius: '50%',
-  // textAlign: 'center',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  borderRadius: 10,
+  // Choose one of these animations:
+  // animation: 'dashBorder 2s linear infinite', // Moving border segments
+  // animation: 'movingDash 2s linear infinite', // Moving dashed border
+  // animation: 'rotateBorder 3s linear infinite', // Rotating border
+  // animation: 'pulseBorder 2s ease-in-out infinite', // Pulsing glow effect
+  // animation: 'glowBorder 1.5s ease-in-out infinite', // Glowing border
+  // animation: 'dashBorder2 2s ease-in-out infinite ',
 };
 
 const RootStyle = {
   ...baseNodeStyle,
   backgroundColor: 'black',
-  // border: '2px solid #3399ff',
 };
 
 const nodeStyle = {
   ...baseNodeStyle,
   backgroundColor: 'black',
-  // border: '2px solid #3399ff',
 };
 
 const ItStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#ffa500',
+  backgroundColor: '#e28743',
 };
 
 const SciencesStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#079cba',
+  backgroundColor: '#0f3460',
 };
 
 const ElectricityStyle = {

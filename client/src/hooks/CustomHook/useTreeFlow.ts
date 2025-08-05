@@ -20,11 +20,13 @@ import {
   // MiniMap,
 } from '@xyflow/react';
 import type { MouseEvent } from 'react';
+import { useTreeFlowContext } from '@context/TreeFlowContext';
 
 const useTreeFlow = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
-
+  const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
+    useTreeFlowContext();
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
@@ -41,17 +43,20 @@ const useTreeFlow = () => {
   //     progress: ProgressNode,
   //   };
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [title, setTitle] = useState<string | unknown>('');
-  const [nodeName, setNodeName] = useState<string | null>('');
-  const [courseId, setCourseId] = useState<number | unknown | null>(null);
+  // const [drawerOpen, setDrawerOpen] = useState(false);
+  // const [title, setTitle] = useState<string | unknown>('');
+  // const [nodeName, setNodeName] = useState<string | null>('');
+  // const [courseId, setCourseId] = useState<number | unknown | null>(null);
 
-  const handleNodeClick = useCallback((event: MouseEvent, node: Node) => {
-    setCourseId(node.data.courseId);
-    setNodeName(node.id);
-    setTitle(node.data.title);
-    setDrawerOpen(true);
-  }, []);
+  const handleNodeClick = useCallback(
+    (event: MouseEvent, node: Node) => {
+      setCourseId(node.data.courseId);
+      setNodeName(node.id);
+      setTitle(node.data.title);
+      setDrawerOpen(true);
+    },
+    [setCourseId, setNodeName, setTitle, setDrawerOpen]
+  );
 
   return {
     nodes,
@@ -59,12 +64,12 @@ const useTreeFlow = () => {
     onNodesChange,
     onEdgesChange,
     onConnect,
-    drawerOpen,
-    title,
+    // drawerOpen,
+    // title,
     handleNodeClick,
     setDrawerOpen,
-    nodeName,
-    courseId,
+    // nodeName,
+    // courseId,
   };
 };
 

@@ -1,6 +1,6 @@
 // import useCommentSection from '@hooks/CustomHook/useCommentSection';
 
-import useCommentForm from '@hooks/CustomHook/useCommentForm';
+import useCommentForm from '@hooks/ReactQueryHook/useCommentForm';
 import { Button, Textarea } from 'flowbite-react';
 
 interface CommentFormProps {

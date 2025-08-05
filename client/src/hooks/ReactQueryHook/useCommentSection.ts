@@ -14,7 +14,7 @@ const useCommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
     }
   };
 
-  const getCourseByCourseId = async () => {
+  const getCommentCourseByCourseId = async () => {
     try {
       const res = await axios.get(`/api/comments/course/${courseId}`);
 
@@ -40,7 +40,7 @@ const useCommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
     error: commentsError,
   } = useQuery({
     queryKey: ['CourseByCourseId', courseId],
-    queryFn: getCourseByCourseId,
+    queryFn: getCommentCourseByCourseId,
     enabled: !!courseId,
   });
 

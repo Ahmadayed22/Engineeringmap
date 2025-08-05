@@ -1,9 +1,12 @@
+const { heroui } = require('@heroui/theme');
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    'node_modules/flowbite-react/**/*.{js,ts,jsx,tsx}', // ✅ this is important
+    'node_modules/flowbite-react/**/*.{js,ts,jsx,tsx}',
+    '// ✅ this is important',
+    './node_modules/@heroui/theme/dist/components/modal.js',
   ],
   theme: {
     extend: {
@@ -13,7 +16,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require('flowbite/plugin'), // ✅ required for Flowbite
-  ],
+  plugins: [require('flowbite/plugin')], // ✅ required for Flowbite,heroui()],
 };

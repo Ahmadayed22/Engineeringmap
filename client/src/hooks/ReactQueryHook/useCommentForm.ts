@@ -36,12 +36,6 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
   // console.log('Comments:', comments);
   //   console.log('courseId:', courseId);
   const createComment = async ({ content, courseId }: CreateCommentProps) => {
-    console.log('Sending POST request:', {
-      content,
-      courseId,
-      accessToken,
-    });
-
     const res = await axios.post(
       '/api/comments',
       {

@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     //className="fixed w-full top-0"
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="!bg-[#0a0d11]">
       <NavbarBrand href="https://flowbite-react.com">
         <img src={AboAyed} className="mr-3 h-6 sm:h-9 rounded-2xl bg-white" />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
@@ -78,7 +78,7 @@ const Header = () => {
       <NavbarCollapse>
         <Link to="/">RoadMap</Link>
         <Link to="/GPA">GPA</Link>
-        <Link to="/Courses">Courses</Link>
+
         <a
           href="https://engzenon.com/library?filter=2"
           target="_blank"

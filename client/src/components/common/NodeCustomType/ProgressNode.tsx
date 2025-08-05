@@ -1,5 +1,5 @@
 // components/ProgressNode.tsx
-import './../../layout/node/NodeStyle.css';
+// import './../../layout/node/NodeStyle.css';
 type ProgressNodeProps = {
   data: {
     label: string;

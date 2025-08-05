@@ -30,7 +30,7 @@ export function DrawerComp({
   courseId,
 }: DrawerCompProps) {
   return (
-    <div className="relative">
+    <div className="relative ">
       <Drawer
         open={isOpen}
         onClose={onClose}
@@ -45,7 +45,7 @@ export function DrawerComp({
             // className="text-center"
           />
 
-          <div className="text-center">
+          <div className="text-center mb-4">
             <ButtonGroup>
               <Button color="alternative">CommentSection</Button>
               <Button color="alternative">Material</Button>

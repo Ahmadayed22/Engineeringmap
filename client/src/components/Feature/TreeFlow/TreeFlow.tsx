@@ -4,20 +4,22 @@ import { DrawerComp } from '@components/common/Drawer/DrawerComp';
 //import FireParticles from '@components/common/Background/FireParticles';
 import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 import { MarkerType, ReactFlow } from '@xyflow/react';
+import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
 
-export default function TreeFlow() {
+function TreeFlowInner() {
+  const { courseId, drawerOpen, title, nodeName } = useTreeFlowContext();
   const {
     nodes,
     edges,
     onNodesChange,
     onEdgesChange,
     onConnect,
-    drawerOpen,
-    title,
+    // drawerOpen,
+    // title,
     handleNodeClick,
     setDrawerOpen,
-    nodeName,
-    courseId,
+    // nodeName,
+    // courseId,
   } = useTreeFlow();
 
   return (
@@ -36,9 +38,9 @@ export default function TreeFlow() {
         }}
         minZoom={0.3}
         fitView
-        fitViewOptions={{
-          padding: 0.2,
-        }}
+        // fitViewOptions={{
+        //   padding: 0.2,
+        // }}
         style={{
           background: 'transparent',
         }}
@@ -55,5 +57,12 @@ export default function TreeFlow() {
         courseId={courseId}
       />
     </div>
+  );
+}
+export default function TreeFlow() {
+  return (
+    <TreeFlowProvider>
+      <TreeFlowInner />
+    </TreeFlowProvider>
   );
 }

@@ -12,6 +12,7 @@ const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
 import { LottieHandler } from '@components/feedbaks';
 import FireParticles from '@components/common/Background/FireParticles';
+// import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -41,6 +42,7 @@ const AppRouter = () => {
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
     >
       <QueryClientProvider client={queryClient}>
+        {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
         <FireParticles />
         <RouterProvider router={router} />
       </QueryClientProvider>
