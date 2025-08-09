@@ -10,9 +10,9 @@ const materials = [
 ];
 const MaterialList = () => {
   return (
-    <div className="flex flex-col gap-3 items-end">
+    <div className="flex flex-col gap-3 items-end ">
       {materials.map((item) => (
-        <div key={item.key} className="w-full">
+        <div key={item.key} className="w-full ">
           <MaterialCard item={item} />
           <hr className="border-t border-gray-300 my-2" />
         </div>

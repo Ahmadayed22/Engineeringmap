@@ -9,10 +9,12 @@ import com.engineeringmap.server.dto.request.ResourceRequestDto;
 import com.engineeringmap.server.dto.response.ResouceResponseDto;
 import com.engineeringmap.server.entity.Course;
 import com.engineeringmap.server.entity.Resource;
+import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.exception.ResourceNotFoundException;
 import com.engineeringmap.server.mapper.ResourceMapper;
 import com.engineeringmap.server.repo.CourseRepo;
 import com.engineeringmap.server.repo.ResourceRepo;
+import com.engineeringmap.server.repo.UserRepo;
 
 @Service
 @Transactional
@@ -20,11 +22,13 @@ public class ResourceService {
 
     private final ResourceRepo resourceRepo;
     private final CourseRepo courseRepo;
+    private final UserRepo userRepo;
 
-    public ResourceService(ResourceRepo resourceRepo, CourseRepo courseRepo) {
-        this.resourceRepo = resourceRepo;
-        this.courseRepo = courseRepo;
-    }
+    public ResourceService(ResourceRepo resourceRepo, CourseRepo courseRepo, UserRepo userRepo) {
+            this.resourceRepo = resourceRepo;
+            this.courseRepo = courseRepo;
+            this.userRepo = userRepo;
+        }
 
     public ResouceResponseDto getResourceById(Long id) {
         Resource resource = resourceRepo.findById(id)
@@ -39,28 +43,36 @@ public class ResourceService {
             .toList();
     }
 
-    public ResouceResponseDto createResourceByCourseId(ResourceRequestDto dto, Long courseId) {
+public ResouceResponseDto createResourceByCourseId(ResourceRequestDto dto, Long courseId, Long userId) {
         Course course = courseRepo.findById(courseId)
             .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + courseId));
-
-        Resource resource = ResourceMapper.toEntity(dto, course);
+        User user = userRepo.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        Resource resource = ResourceMapper.toEntity(dto, course, user); 
         Resource saved = resourceRepo.save(resource);
         return ResourceMapper.toDto(saved);
     }
 
-    public ResouceResponseDto updateResourceByCourseId(ResourceRequestDto dto, Long id) {
+    public ResouceResponseDto updateResourceByCourseId(ResourceRequestDto dto, Long id,Long userId) {
         Resource resource = resourceRepo.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+            
+        if (!resource.getUser().getId().equals(userId)) {
+            throw new RuntimeException("You can only edit your own comments");
+        }
 
-        ResourceMapper.updateEntity(resource, dto);
+        ResourceMapper.updateEntity(resource, dto );
         Resource updated = resourceRepo.save(resource);
         return ResourceMapper.toDto(updated);
     }
 
-    public void deleteResourceById(Long id) {
+    public void deleteResourceById(Long id, Long userId) {
+         // Ensure the user is authorized to delete the resource
         Resource resource = resourceRepo.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
-
+          if (!resource.getUser().getId().equals(userId)) {
+            throw new RuntimeException("You can only delete your own comments");
+        }
         resourceRepo.delete(resource);
     }
 }

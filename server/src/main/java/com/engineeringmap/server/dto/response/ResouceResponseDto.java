@@ -8,8 +8,8 @@ public record ResouceResponseDto(
     String labs,
     String exams,
     String videos,
-    Long courseId
-
+    Long courseId,
+    Long userId
     ) {
     
 }

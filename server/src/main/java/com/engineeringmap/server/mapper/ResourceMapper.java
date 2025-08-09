@@ -4,9 +4,10 @@ import com.engineeringmap.server.dto.request.ResourceRequestDto;
 import com.engineeringmap.server.dto.response.ResouceResponseDto;
 import com.engineeringmap.server.entity.Course;
 import com.engineeringmap.server.entity.Resource;
+import com.engineeringmap.server.entity.User;
 
 public class ResourceMapper {
-    public static Resource toEntity(ResourceRequestDto dto, Course course) {
+    public static Resource toEntity(ResourceRequestDto dto, Course course,User userId) {
         Resource resource = new Resource();
         resource.setBooks(dto.books());
         resource.setSummaries(dto.summaries());
@@ -15,6 +16,7 @@ public class ResourceMapper {
         resource.setExams(dto.exams());
         resource.setVideos(dto.videos());
         resource.setCourse(course);
+        resource.setUser(userId);
         return resource;
 
     }
@@ -28,8 +30,8 @@ public class ResourceMapper {
             resource.getLabs(),
             resource.getExams(),
             resource.getVideos(),
-            resource.getCourse().getId()
-          
+            resource.getCourse().getId(),
+            resource.getUser().getId()
         );
     }
 

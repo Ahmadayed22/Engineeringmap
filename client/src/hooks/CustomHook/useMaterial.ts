@@ -6,8 +6,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { MaterialModalProps } from '@components/common/Modal/MaterialModal';
 import toast from 'react-hot-toast';
+import { useAppSelector } from '@store/reduxHooks';
 
 const useMaterial = ({ setOpenModal }: MaterialModalProps) => {
+  const { accessToken } = useAppSelector((state) => state.auth);
   const { courseId } = useTreeFlowContext();
   const queryClient = useQueryClient();
   const {
@@ -26,10 +28,19 @@ const useMaterial = ({ setOpenModal }: MaterialModalProps) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Object.entries(data).filter(([_, value]) => value !== '')
       );
-      await axios.post(`/api/resource/course/${courseId}`, {
-        ...payload,
-        courseId,
-      });
+      await axios.post(
+        `/api/resource/course/${courseId}`,
+        {
+          ...payload,
+          courseId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       await queryClient.invalidateQueries({
         queryKey: ['resource', courseId],

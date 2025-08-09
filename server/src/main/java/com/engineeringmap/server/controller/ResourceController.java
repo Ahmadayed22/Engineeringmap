@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.engineeringmap.server.dto.request.ResourceRequestDto;
 import com.engineeringmap.server.dto.response.ResouceResponseDto;
+import com.engineeringmap.server.security.UserDetailsImpl;
 import com.engineeringmap.server.service.ResourceService;
 
 import jakarta.validation.Valid;
@@ -44,20 +46,27 @@ public class ResourceController {
     }
 
     @PostMapping("/course/{courseId}")
-    public ResponseEntity<ResouceResponseDto> createResourceByCourseId(@PathVariable Long courseId,@Valid @RequestBody ResourceRequestDto resource) {
-        ResouceResponseDto res = resourceService.createResourceByCourseId(resource,courseId);
+    public ResponseEntity<ResouceResponseDto> createResourceByCourseId(@PathVariable Long courseId,
+             @Valid @RequestBody ResourceRequestDto resource
+            , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            Long userId = userDetails.getId();
+        ResouceResponseDto res = resourceService.createResourceByCourseId(resource,courseId,userId);
         return ResponseEntity.ok(res);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResouceResponseDto> UpdateResourceByCourseId(@PathVariable Long id ,@Valid @RequestBody ResourceRequestDto resource) {
-        ResouceResponseDto res = resourceService.updateResourceByCourseId(resource, id);
+    public ResponseEntity<ResouceResponseDto> UpdateResourceByCourseId(@PathVariable Long id ,@Valid @RequestBody ResourceRequestDto resource,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                Long userId = userDetails.getId();
+        ResouceResponseDto res = resourceService.updateResourceByCourseId(resource, id,userId);
         return ResponseEntity.ok(res);
     }
 
     @DeleteMapping("/{id}")
-        public ResponseEntity<Void> DeleteResourceByCourseId(@PathVariable Long id) {
-        resourceService.deleteResourceById(id);
+    public ResponseEntity<Void> DeleteResourceByCourseId(@PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            Long userId = userDetails.getId();
+            resourceService.deleteResourceById(id,userId);
          return ResponseEntity.noContent().build();
     }
 

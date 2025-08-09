@@ -11,6 +11,7 @@ export type MaterialModalProps = {
 function MaterialModal({ openModal, setOpenModal, item }: MaterialModalProps) {
   const { register, handleSubmit, errors, submitMaterial, onCloseModal } =
     useMaterial({ setOpenModal });
+
   return (
     <Modal show={openModal} size="md" onClose={onCloseModal} popup>
       <ModalHeader className="p-6">Add Material</ModalHeader>
