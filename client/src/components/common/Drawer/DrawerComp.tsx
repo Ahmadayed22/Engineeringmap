@@ -1,6 +1,7 @@
 'use client';
 import CommentForm from '@components/Feature/comment/CommentForm';
 import CommentSection from '@components/Feature/comment/CommentSection';
+import MaterialSection from '@components/Feature/Material/MaterialSection';
 
 // import type { Node } from '@xyflow/react';
 import {
@@ -11,8 +12,7 @@ import {
   DrawerItems,
   // Label,
 } from 'flowbite-react';
-
-// import { HiEnvelope } from 'react-icons/hi2';
+import { useState } from 'react';
 
 type DrawerCompProps = {
   isOpen: boolean;
@@ -29,6 +29,7 @@ export function DrawerComp({
   nodeName,
   courseId,
 }: DrawerCompProps) {
+  const [openMaterial, setOpenMaterial] = useState<boolean>(true);
   return (
     <div className="relative ">
       <Drawer
@@ -47,18 +48,39 @@ export function DrawerComp({
 
           <div className="text-center mb-4">
             <ButtonGroup>
-              <Button color="alternative">CommentSection</Button>
-              <Button color="alternative">Material</Button>
+              <Button
+                className="cursor-pointer"
+                color="alternative"
+                onClick={() => setOpenMaterial(true)}
+              >
+                CommentSection
+              </Button>
+              <Button
+                className="cursor-pointer"
+                color="alternative"
+                onClick={() => setOpenMaterial(false)}
+              >
+                Material
+              </Button>
             </ButtonGroup>
           </div>
+          {openMaterial ? (
+            <>
+              <DrawerItems className="flex-1 overflow-y-auto p-4">
+                <CommentSection nodeName={nodeName} courseId={courseId} />
+              </DrawerItems>
 
-          {/* Content Area (scrollable) */}
-          <DrawerItems className="flex-1 overflow-y-auto p-4">
-            <CommentSection nodeName={nodeName} courseId={courseId} />
-          </DrawerItems>
-
-          {/* Sticky Bottom Form */}
-          <CommentForm courseId={courseId} />
+              {/* Sticky Bottom Form */}
+              <CommentForm courseId={courseId} />
+            </>
+          ) : (
+            <>
+              <DrawerItems className="flex-1 overflow-y-auto p-4">
+                {' '}
+                <MaterialSection />
+              </DrawerItems>
+            </>
+          )}
         </div>
       </Drawer>
     </div>

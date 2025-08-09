@@ -63,6 +63,8 @@ public class SecurityConfig {
             "/api/comments/course/name/*",
             "/api/users/*",
             "/api/comments/course/*",
+            "/api/resource/course/*",
+            "/api/resource/*",
 
     };
 

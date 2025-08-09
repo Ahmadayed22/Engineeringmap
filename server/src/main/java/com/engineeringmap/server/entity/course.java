@@ -35,6 +35,9 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Resource> resources;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

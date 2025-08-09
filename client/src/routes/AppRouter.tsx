@@ -12,6 +12,7 @@ const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
 import { LottieHandler } from '@components/feedbaks';
 import FireParticles from '@components/common/Background/FireParticles';
+import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([

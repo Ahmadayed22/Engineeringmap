@@ -3,7 +3,8 @@ import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
 import type { Container, Engine } from 'tsparticles-engine';
 // import particlesConfig from './praticlesConfigWhite';
-import particlesConfigBlack from './praticlesConfigBlack';
+// import particlesConfigBlack from './praticlesConfigBlack';
+import particlesConfig from './praticlesConfigWhite';
 // import particlesConfig from './praticlesConfigWhite';
 interface ParticlesBackgroundProps {
   id?: string;
@@ -33,8 +34,8 @@ const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
       className={className}
       init={particlesInit}
       loaded={particlesLoaded}
-      options={particlesConfigBlack}
-      // options={particlesConfig}
+      // options={particlesConfigBlack}
+      options={particlesConfig}
     />
   );
 };
