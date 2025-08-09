@@ -16,9 +16,7 @@ const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
   className = '',
 }) => {
   const particlesInit = useCallback(async (engine: Engine) => {
-    console.log('Particles engine initializing...');
     await loadSlim(engine);
-    console.log('Particles engine loaded successfully!');
   }, []);
 
   const particlesLoaded = useCallback(

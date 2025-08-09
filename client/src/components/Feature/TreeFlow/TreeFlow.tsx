@@ -41,12 +41,13 @@ function TreeFlowInner() {
         }}
         minZoom={0.3}
         fitView
-        // fitViewOptions={{
-        //   padding: 0.2,
-        // }}
+        fitViewOptions={{
+          padding: 0.2,
+        }}
         style={{
           background: 'transparent',
         }}
+        proOptions={{ hideAttribution: true }}
       >
         {/* <Background /> */}
         {/* <MiniMap nodeStrokeWidth={3} zoomable pannable /> */}

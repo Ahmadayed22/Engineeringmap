@@ -1,49 +1,32 @@
-import { useGetMaterial } from '@hooks/index';
 import { SlBookOpen } from 'react-icons/sl';
 import { MdDeleteOutline } from 'react-icons/md';
-import axios from 'axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useTreeFlowContext } from '@context/TreeFlowContext';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import MaterialModal from '@components/common/Modal/MaterialModal';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { useAppSelector } from '@store/reduxHooks';
+import React, { useState } from 'react';
+import { useDeleteMaterial } from '@hooks/index';
+import { Material } from '@customTypes/Material';
 
 type MaterialCardProps = {
   item: { label: string; key: string };
+  data: Material[] | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  deleteMaterial: ReturnType<typeof useDeleteMaterial>['deleteMaterial'];
+  userId: number | undefined;
 };
 
-const MaterialCard = ({ item }: MaterialCardProps) => {
+const MaterialCard = ({
+  item,
+  data,
+  isLoading,
+  isError,
+  deleteMaterial,
+  userId,
+}: MaterialCardProps) => {
   const [openModal, setOpenModal] = useState(false);
-  const { accessToken } = useAppSelector((state) => state.auth);
-  const { userInfo } = useAppSelector((state) => state.auth); // Get current user's ID
-  // Assuming only admins can
-  const { courseId } = useTreeFlowContext();
-  const queryClient = useQueryClient();
-  const { data, isLoading, isError } = useGetMaterial();
-  console.log(data);
-  const isOwnMaterial = userInfo?.id === data[0]?.userId; // Check if the current user is the owner of the material
-  const deleteMaterial = useMutation({
-    mutationFn: (materialId: number) =>
-      axios.delete(`/api/resource/${materialId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['resource', courseId] });
-      toast.success('Material deleted successfully');
-    },
-    onError: (error) => {
-      console.error('Error deleting material:', error);
-      toast.error('Failed to delete material  ');
-    },
-  });
 
   return (
-    <div className="flex flex-col  gap-1 mb-2">
+    <div className="flex flex-col gap-1 mb-2">
       <div className="flex flex-row items-center gap-2 transition justify-end relative mb-3">
         <IoMdAddCircleOutline
           className="text-2xl absolute left-0 cursor-pointer"
@@ -58,35 +41,36 @@ const MaterialCard = ({ item }: MaterialCardProps) => {
         item={item}
       />
       {isLoading ? (
-        <span className="text-sm text-end text-gray-500">Loading .. </span>
+        <span className="text-sm text-end text-gray-500">Loading...</span>
       ) : isError ? (
         <span className="text-sm text-end text-red-500">خطأ في جلب المواد</span>
-      ) : data?.length === 0 ? (
+      ) : !data || data.length === 0 ? (
         <span className="text-sm text-end text-gray-400">
           لا توجد مواد متاحة
         </span>
       ) : (
-        data?.map((material: any, index: number) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data.map((material: any, index: number) =>
           material[item.key] && material[item.key] !== null ? (
             <div
               key={`${item.key}-${index}`}
               className="flex flex-row items-center gap-2 justify-end"
             >
               <a
-                href={material[item.key]}
+                href={material[item.key] as string}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-500 hover:text-blue-600"
               >
                 {material[item.key]}
               </a>
-              {isOwnMaterial && (
+              {userId && material.userId === userId && (
                 <button
                   onClick={() => deleteMaterial.mutate(material.id)}
                   disabled={deleteMaterial.isPending}
-                  className=" hover:text-red-800 disabled:opacity-50"
+                  className="hover:text-red-800 disabled:opacity-50"
                 >
-                  <MdDeleteOutline className=" cursor-pointer text-2xl" />
+                  <MdDeleteOutline className="cursor-pointer text-2xl" />
                 </button>
               )}
             </div>
@@ -97,4 +81,4 @@ const MaterialCard = ({ item }: MaterialCardProps) => {
   );
 };
 
-export default MaterialCard;
+export default React.memo(MaterialCard);

@@ -54,7 +54,6 @@ const useTreeFlow = () => {
       setNodeName(node.id);
 
       if (node.data.title === 'root') {
-        console.log(node.data.title);
         setRootModalOpen(true);
       } else {
         setTitle(node.data.title);

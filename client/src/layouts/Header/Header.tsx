@@ -44,8 +44,9 @@ const Header = () => {
             label={
               <Avatar
                 alt="User settings"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                img={AboAyed}
                 rounded
+                className="cursor-pointer bg-white rounded-2xl"
               />
             }
           >
@@ -77,8 +78,6 @@ const Header = () => {
       </div>
       <NavbarCollapse>
         <Link to="/">RoadMap</Link>
-        <Link to="/GPA">GPA</Link>
-
         <a
           href="https://engzenon.com/library?filter=2"
           target="_blank"

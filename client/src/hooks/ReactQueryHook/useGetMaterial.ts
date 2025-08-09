@@ -1,27 +1,27 @@
-import { useTreeFlowContext } from '@context/TreeFlowContext';
-import axios from 'axios';
-
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useTreeFlowContext } from '@context/TreeFlowContext';
+import { useAppSelector } from '@store/reduxHooks';
+import { Material } from '@customTypes/Material';
+
 const useGetMaterial = () => {
   const { courseId } = useTreeFlowContext();
+  const { accessToken } = useAppSelector((state) => state.auth);
 
-  const getMaterial = async () => {
-    try {
-      const response = await axios.get(`/api/resource/course/${courseId}`);
-      console.log('Material fetched:', response.data, courseId);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching material:', error);
-      throw error;
-    }
-  };
-
-  const { data, isLoading, isError } = useQuery({
+  return useQuery<Material[], Error>({
     queryKey: ['resource', courseId],
-    queryFn: getMaterial,
-    enabled: !!courseId, // Only run the query if courseId is available
-  });
-  return { data, isLoading, isError, courseId };
-};
+    queryFn: async () => {
+      const response = await axios.get(`/api/resource/course/${courseId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
+      return response.data;
+    },
+    enabled: !!courseId && !!accessToken,
+    retry: 1,
+  });
+};
 export default useGetMaterial;

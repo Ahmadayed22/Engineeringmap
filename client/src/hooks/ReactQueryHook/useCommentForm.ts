@@ -59,7 +59,6 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
         queryKey: ['CourseByCourseId', courseId],
       });
       reset();
-      console.log('Comment created successfully');
     },
     onError: (error) => {
       console.error('Failed to create comment:', error);
@@ -68,7 +67,7 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
 
   const submitComment: SubmitHandler<CommentInput> = (data) => {
     if (!accessToken) {
-      console.error('No access token available');
+      // console.error('No access token available');
       return;
     }
 

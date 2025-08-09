@@ -12,7 +12,7 @@ import { useAppSelector } from '@store/reduxHooks';
 
 const CommentCard = ({ comment }: CommentCardProps) => {
   const { username } = useGetUserName({ comment });
-  console.log(comment);
+
   return (
     <div className="space-y-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-800 dark:bg-neutral-900 ">
       <CommentCardHeader username={username} comment={comment} />

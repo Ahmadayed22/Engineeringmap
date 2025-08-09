@@ -210,7 +210,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'electricCircuitsLab',
-    type: 'ElectricityStyle',
+    type: 'default',
     position: { x: -850, y: 400 },
     data: {
       label: staticValuesMap.get('electricCircuitsLab'),
@@ -674,7 +674,7 @@ const initialNodes: Node[] = [
   {
     id: 'internetOfThings',
     type: 'default',
-    position: { x: 850, y: 850 },
+    position: { x: 850, y: 800 },
     data: {
       label: staticValuesMap.get('internetOfThings'),
       courseId: 49,
@@ -686,7 +686,7 @@ const initialNodes: Node[] = [
   {
     id: 'signalsAndSystems',
     type: 'default',
-    position: { x: 1050, y: 850 },
+    position: { x: 1050, y: 800 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
       courseId: 18,
@@ -697,7 +697,7 @@ const initialNodes: Node[] = [
   {
     id: 'controlSystems',
     type: 'default',
-    position: { x: 1050, y: 1025 },
+    position: { x: 1050, y: 950 },
     data: {
       label: staticValuesMap.get('controlSystems'),
       courseId: 50,
@@ -708,7 +708,7 @@ const initialNodes: Node[] = [
   {
     id: 'mobileRobots',
     type: 'default',
-    position: { x: 1050, y: 1125 },
+    position: { x: 1050, y: 1050 },
     data: {
       label: staticValuesMap.get('mobileRobots'),
       courseId: 51,
@@ -720,7 +720,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworks2',
     type: 'default',
-    position: { x: 1225, y: 800 },
+    position: { x: 1225, y: 1050 },
     data: {
       label: staticValuesMap.get('computerNetworks'),
       courseId: 47,
@@ -729,11 +729,11 @@ const initialNodes: Node[] = [
     style: style,
   },
 
-  // معمارية وتنظيم الحاسوب 2 (already exists in your initialNodes)
+  // معمارية وتنظيم الحاسوب 1 (already exists in your initialNodes)
   {
     id: 'computerArchitecture2+',
     type: 'default',
-    position: { x: 1200, y: 1200 }, // Position near other network courses
+    position: { x: 800, y: 1250 }, // Position near other network courses
     data: {
       label: staticValuesMap.get('computerArchitecture'),
       courseId: 41,
@@ -745,7 +745,7 @@ const initialNodes: Node[] = [
   {
     id: 'wirelessNetworks',
     type: 'default',
-    position: { x: 1400, y: 1200 }, // Position near other network courses
+    position: { x: 1000, y: 1250 }, // Position near other network courses
     data: {
       label: staticValuesMap.get('wirelessNetworks'),
       courseId: 52,
@@ -758,7 +758,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworksLab',
     type: 'default',
-    position: { x: 1600, y: 1200 }, // Position near computerNetworks
+    position: { x: 1225, y: 1250 }, // Position near computerNetworks
     data: {
       label: staticValuesMap.get('computerNetworksLab'),
       courseId: 53,
@@ -771,7 +771,7 @@ const initialNodes: Node[] = [
   {
     id: 'objectOrientedProblemSolving',
     type: 'default',
-    position: { x: 1800, y: 1200 }, // Position near computerNetworks
+    position: { x: 1400, y: 1250 }, // Position near computerNetworks
     data: {
       label: staticValuesMap.get('java'),
       courseId: 24,
@@ -783,7 +783,7 @@ const initialNodes: Node[] = [
   {
     id: 'cloudComputing',
     type: 'default',
-    position: { x: 2000, y: 1200 }, // Position in advanced topics area
+    position: { x: 1600, y: 1250 }, // Position in advanced topics area
     data: {
       label: staticValuesMap.get('cloudComputing'),
       courseId: 54,
@@ -796,7 +796,7 @@ const initialNodes: Node[] = [
   {
     id: 'informationSecurity',
     type: 'default',
-    position: { x: 2200, y: 1200 }, // Position near network courses
+    position: { x: 1800, y: 1250 }, // Position near network courses
     data: {
       label: staticValuesMap.get('informationSecurity'),
       courseId: 55,
@@ -809,7 +809,7 @@ const initialNodes: Node[] = [
   {
     id: 'dataCommunicationSystems',
     type: 'default',
-    position: { x: 2400, y: 1200 }, // Position near signals/systems
+    position: { x: 2000, y: 1250 }, // Position near signals/systems
     data: {
       label: staticValuesMap.get('dataCommunicationSystems'),
       courseId: 56,
@@ -822,7 +822,7 @@ const initialNodes: Node[] = [
   {
     id: 'selectedTopicsInCE',
     type: 'default',
-    position: { x: 1200, y: 1350 }, // Position in advanced topics area
+    position: { x: 800, y: 1400 }, // Position in advanced topics area
     data: {
       label: staticValuesMap.get('selectedTopicsInCE'),
       courseId: 57,
@@ -835,7 +835,7 @@ const initialNodes: Node[] = [
   {
     id: 'advancedNetworksLab',
     type: 'default',
-    position: { x: 1600, y: 1350 }, // Position near networks labs
+    position: { x: 1225, y: 1400 }, // Position near networks labs
     data: {
       label: staticValuesMap.get('advancedNetworksLab'),
       courseId: 58,
@@ -848,7 +848,7 @@ const initialNodes: Node[] = [
   {
     id: 'networkProtocolsProgramming',
     type: 'default',
-    position: { x: 1800, y: 1350 }, // Position near networks courses
+    position: { x: 1400, y: 1400 }, // Position near networks courses
     data: {
       label: staticValuesMap.get('networkProtocolsProgramming'),
       courseId: 59,
@@ -861,7 +861,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalForensics',
     type: 'default',
-    position: { x: 2200, y: 1350 }, // Position in security/advanced area
+    position: { x: 1800, y: 1400 }, // Position in security/advanced area
     data: {
       label: staticValuesMap.get('digitalForensics'),
       courseId: 60,
