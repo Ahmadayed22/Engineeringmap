@@ -1,0 +1,111 @@
+/* CustomNode.css */
+.custom-node {
+  position: relative;
+  padding: 10px 30px 10px 10px;
+  border-radius: 10px;
+  background: #0f3460;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: opacity 0.3s ease;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  color: #ff6666;
+  transform: scale(1.1);
+}
+
+/* Animation for the closing effect */
+.custom-node.closing {
+  opacity: 0.7;
+}
+
+.custom-node.closing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 47%, red 49%, red 51%, transparent 53%);
+  border-radius: 10px;
+  animation: drawDiagonalLine 0.4s ease-out forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes drawDiagonalLine {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Alternative animation - X mark effect */
+.custom-node.closing::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 80%;
+  background: red;
+  transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
+  transform-origin: center;
+  animation: drawX1 0.2s ease-out 0.1s forwards;
+  z-index: 5;
+}
+
+.custom-node.closing::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 80%;
+  background: red;
+  transform: translate(-50%, -50%) rotate(-45deg) scaleY(0);
+  transform-origin: center;
+  animation: drawX2 0.2s ease-out 0.2s forwards;
+  z-index: 5;
+}
+
+@keyframes drawX1 {
+  0% {
+    transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg) scaleY(1);
+  }
+}
+
+@keyframes drawX2 {
+  0% {
+    transform: translate(-50%, -50%) rotate(-45deg) scaleY(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-45deg) scaleY(1);
+  }
+}

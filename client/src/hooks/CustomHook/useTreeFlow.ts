@@ -1,35 +1,56 @@
 import { useCallback, useState } from 'react';
-
 import { initialNodes } from '@components/layout/node/initialNodes';
 import { initialEdges } from '@components/layout/edge/initialEdges';
 import {
-  //   ReactFlow,
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
-  //   Background,
-  //   Controls,
-  //   MiniMap,
   type OnConnect,
   type OnNodesChange,
   type OnEdgesChange,
-  //   type OnNodeDrag,
   type Node,
   type Edge,
-  //   MarkerType,
-  // MiniMap,
 } from '@xyflow/react';
 import type { MouseEvent } from 'react';
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 
 const useTreeFlow = () => {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
+  const [nodes, setNodes] = useState<Node[]>(() =>
+    initialNodes.map((node) => {
+      // Only add onClose to custom nodes (e.g., skip 'root')
+      if (node.type === 'custom') {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            onClose: (id: string) => {
+              console.log('Toggling close state for node with id:', id);
+              // Toggle isClosing state
+              setNodes((nds) =>
+                nds.map((n) =>
+                  n.id === id
+                    ? {
+                        ...n,
+                        data: { ...n.data, isClosing: !n.data.isClosing },
+                      }
+                    : n
+                )
+              );
+            },
+          },
+        };
+      }
+      return node;
+    })
+  );
+
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
     useTreeFlowContext();
+
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+    []
   );
   const onEdgesChange: OnEdgesChange = useCallback(
     (changes) => setEdges((es) => applyEdgeChanges(changes, es)),
@@ -39,15 +60,9 @@ const useTreeFlow = () => {
     (params) => setEdges((es) => addEdge(params, es)),
     []
   );
-  //   const nodeTypes = {
-  //     progress: ProgressNode,
-  //   };
 
-  // const [drawerOpen, setDrawerOpen] = useState(false);
-  // const [title, setTitle] = useState<string | unknown>('');
-  // const [nodeName, setNodeName] = useState<string | null>('');
-  // const [courseId, setCourseId] = useState<number | unknown | null>(null);
   const [rootModalOpen, setRootModalOpen] = useState(false);
+
   const handleNodeClick = useCallback(
     (event: MouseEvent, node: Node) => {
       setCourseId(node.data.courseId);
@@ -66,15 +81,12 @@ const useTreeFlow = () => {
   return {
     nodes,
     edges,
+    setNodes,
     onNodesChange,
     onEdgesChange,
     onConnect,
-    // drawerOpen,
-    // title,
     handleNodeClick,
     setDrawerOpen,
-    // nodeName,
-    // courseId,
     rootModalOpen,
     setRootModalOpen,
   };

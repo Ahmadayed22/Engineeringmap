@@ -36,6 +36,7 @@ const initialNodes: Node[] = [
   {
     id: 'physics',
     position: { x: -650, y: 100 },
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('physics')} `,
       courseId: 1,

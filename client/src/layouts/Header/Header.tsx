@@ -78,6 +78,8 @@ const Header = () => {
       </div>
       <NavbarCollapse>
         <Link to="/">RoadMap</Link>
+        <Link to="/">Doctors' schedule</Link>
+        <Link to="/">GPA</Link>
         <a
           href="https://engzenon.com/library?filter=2"
           target="_blank"

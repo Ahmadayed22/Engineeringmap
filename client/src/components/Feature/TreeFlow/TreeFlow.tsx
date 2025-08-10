@@ -6,6 +6,7 @@ import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 import { MarkerType, ReactFlow } from '@xyflow/react';
 import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
 import { ModalRoot } from '@components/common';
+import CustomNode from '@components/layout/node/CustomNode';
 
 function TreeFlowInner() {
   const { courseId, drawerOpen, title, nodeName } = useTreeFlowContext();
@@ -48,6 +49,7 @@ function TreeFlowInner() {
           background: 'transparent',
         }}
         proOptions={{ hideAttribution: true }}
+        nodeTypes={{ custom: CustomNode }}
       >
         {/* <Background /> */}
         {/* <MiniMap nodeStrokeWidth={3} zoomable pannable /> */}
