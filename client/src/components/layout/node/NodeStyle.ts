@@ -17,17 +17,16 @@ const baseNodeStyle = {
   // // animation: 'pulseBorder 2s ease-in-out infinite', // Pulsing glow effect
   // // animation: 'glowBorder 1.5s ease-in-out infinite', // Glowing border
   // // animation: 'dashBorder2 2s ease-in-out infinite ',
-
   // Position: 'relative',
-  Padding: '10 30 10 10',
+  // Padding: '10 30 10 10',
   borderRadius: ' 10px',
-  fontSize: '16px',
-  color: 'white',
-  fontWeight: 'bold',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
+  // fontSize: '16px',
+  // color: 'white',
+  // fontWeight: 'bold',
+  // display: 'flex',
+  // alignItems: 'center',
+  // justifyContent: 'center',
+  // cursor: 'pointer',
   // transition: ' opacity 0.3s ease',
 };
 

@@ -1,6 +1,7 @@
 import { Spinner } from 'flowbite-react';
 import CommentCard from './CommentCard';
 import { CommentForList } from '@customTypes/CommentForList';
+import React from 'react';
 
 type CommentListProps = {
   comments: CommentForList[];
@@ -31,4 +32,4 @@ const CommentList = ({
   );
 };
 
-export default CommentList;
+export default React.memo(CommentList);

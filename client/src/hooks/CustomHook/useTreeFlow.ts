@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { initialNodes } from '@components/layout/node/initialNodes';
 import { initialEdges } from '@components/layout/edge/initialEdges';
 import {
@@ -14,112 +14,18 @@ import {
 import type { MouseEvent } from 'react';
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 
-const useTreeFlow = () => {
-  // const [nodes, setNodes] = useState<Node[]>(() =>
-  //   initialNodes.map((node) => {
-  //     // Only add onClose to custom nodes (e.g., skip 'root')
-  //     if (node.type === 'custom') {
-  //       return {
-  //         ...node,
-  //         data: {
-  //           ...node.data,
-  //           onClose: (id: string) => {
-  //             console.log('Toggling close state for node with id:', id);
-  //             // Toggle isClosing state
-  //             setNodes((nds) =>
-  //               nds.map((n) =>
-  //                 n.id === id
-  //                   ? {
-  //                       ...n,
-  //                       data: { ...n.data, isClosing: !n.data.isClosing },
-  //                     }
-  //                   : n
-  //               )
-  //             );
-  //           },
-  //         },
-  //       };
-  //     }
-  //     return node;
-  //   })
-  // );
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
-  const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
-    useTreeFlowContext();
-
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
-  );
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((es) => applyEdgeChanges(changes, es)),
-    []
-  );
-  const onConnect: OnConnect = useCallback(
-    (params) => setEdges((es) => addEdge(params, es)),
-    []
-  );
-
-  const [rootModalOpen, setRootModalOpen] = useState(false);
-
-  const handleNodeClick = useCallback(
-    (event: MouseEvent, node: Node) => {
-      setCourseId(node.data.courseId);
-      setNodeName(node.id);
-
-      if (node.data.title === 'root') {
-        setRootModalOpen(true);
-      } else {
-        setTitle(node.data.title);
-        setDrawerOpen(true);
-      }
-    },
-    [setCourseId, setNodeName, setTitle, setDrawerOpen]
-  );
-
-  return {
-    nodes,
-    edges,
-    setNodes,
-    onNodesChange,
-    onEdgesChange,
-    onConnect,
-    handleNodeClick,
-    setDrawerOpen,
-    rootModalOpen,
-    setRootModalOpen,
-  };
-};
-
-export default useTreeFlow;
-
-// import { useCallback, useState } from 'react';
-// import { initialNodes } from '@components/layout/node/initialNodes';
-// import { initialEdges } from '@components/layout/edge/initialEdges';
-// import {
-//   applyNodeChanges,
-//   applyEdgeChanges,
-//   addEdge,
-//   type OnConnect,
-//   type OnNodesChange,
-//   type OnEdgesChange,
-//   type Node,
-//   type Edge,
-// } from '@xyflow/react';
-// import type { MouseEvent } from 'react';
-// import { useTreeFlowContext } from '@context/TreeFlowContext';
-
 // const useTreeFlow = () => {
 //   const [nodes, setNodes] = useState<Node[]>(() =>
 //     initialNodes.map((node) => {
+//       // Only add onClose to custom nodes (e.g., skip 'root')
 //       if (node.type === 'custom') {
 //         return {
 //           ...node,
 //           data: {
 //             ...node.data,
-//             isClosing: false, // Ensure initial state
 //             onClose: (id: string) => {
+//               console.log('Toggling close state for node with id:', id);
+//               // Toggle isClosing state
 //               setNodes((nds) =>
 //                 nds.map((n) =>
 //                   n.id === id
@@ -137,23 +43,19 @@ export default useTreeFlow;
 //       return node;
 //     })
 //   );
-
+//   // const [nodes, setNodes] = useState<Node[]>(initialNodes);
 //   const [edges, setEdges] = useState<Edge[]>(initialEdges);
 //   const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
 //     useTreeFlowContext();
 
-//   const onNodesChange: OnNodesChange = useCallback((changes) => {
-//     setNodes((nds) => {
-//       const updatedNodes = applyNodeChanges(changes, nds);
-//       return updatedNodes.map((node) => ({ ...node })); // Ensure immutability
-//     });
-//   }, []);
-
+//   const onNodesChange: OnNodesChange = useCallback(
+//     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+//     []
+//   );
 //   const onEdgesChange: OnEdgesChange = useCallback(
 //     (changes) => setEdges((es) => applyEdgeChanges(changes, es)),
 //     []
 //   );
-
 //   const onConnect: OnConnect = useCallback(
 //     (params) => setEdges((es) => addEdge(params, es)),
 //     []
@@ -165,6 +67,7 @@ export default useTreeFlow;
 //     (event: MouseEvent, node: Node) => {
 //       setCourseId(node.data.courseId);
 //       setNodeName(node.id);
+
 //       if (node.data.title === 'root') {
 //         setRootModalOpen(true);
 //       } else {
@@ -190,3 +93,111 @@ export default useTreeFlow;
 // };
 
 // export default useTreeFlow;
+const useTreeFlow = () => {
+  const [baseNodes, setBaseNodes] = useState<Node[]>(initialNodes);
+  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
+    useTreeFlowContext();
+
+  // Track node states: normal -> strikethrough -> closing -> removed
+  const [strikethroughNodes, setStrikethroughNodes] = useState<Set<string>>(
+    new Set()
+  );
+
+  // Enhanced toggle handler - just toggles strikethrough on/off
+  const handleNodeClose = useCallback(
+    (nodeId: string) => {
+      const isStrikethrough = strikethroughNodes.has(nodeId);
+
+      if (!isStrikethrough) {
+        // First click: Add strikethrough
+        console.log('Adding strikethrough to node:', nodeId);
+        setStrikethroughNodes((prev) => new Set([...prev, nodeId]));
+      } else {
+        // Second click: Remove strikethrough (back to normal)
+        console.log('Removing strikethrough from node:', nodeId);
+        setStrikethroughNodes((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(nodeId);
+          return newSet;
+        });
+      }
+    },
+    [strikethroughNodes]
+  );
+
+  // Enrich nodes with strikethrough and closing states
+  const optimizedNodes = useMemo(() => {
+    return baseNodes.map((node) => {
+      if (node.type === 'custom') {
+        const isStrikethrough = strikethroughNodes.has(node.id);
+
+        return {
+          ...node,
+
+          data: {
+            ...node.data,
+            isStrikethrough,
+            onClose: handleNodeClose,
+          },
+        };
+      }
+      return {
+        ...node,
+      };
+    });
+  }, [baseNodes, strikethroughNodes, handleNodeClose]);
+
+  // Standard React Flow handlers
+  const onNodesChange: OnNodesChange = useCallback(
+    (changes) => setBaseNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+
+  const onEdgesChange: OnEdgesChange = useCallback(
+    (changes) => setEdges((es) => applyEdgeChanges(changes, es)),
+    []
+  );
+
+  const onConnect: OnConnect = useCallback(
+    (params) => setEdges((es) => addEdge(params, es)),
+    []
+  );
+
+  const [rootModalOpen, setRootModalOpen] = useState(false);
+
+  const handleNodeClick = useCallback(
+    (event: MouseEvent, node: Node) => {
+      setCourseId(node.data.courseId);
+      setNodeName(node.id);
+
+      if (node.data.title === 'root') {
+        setRootModalOpen(true);
+      } else {
+        setTitle(node.data.title);
+        setDrawerOpen(true);
+      }
+    },
+    [setCourseId, setNodeName, setTitle, setDrawerOpen]
+  );
+
+  return {
+    nodes: optimizedNodes,
+    edges,
+    setNodes: setBaseNodes,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    handleNodeClick,
+    setDrawerOpen,
+    rootModalOpen,
+    setRootModalOpen,
+
+    // Debug/utility info
+    strikethroughCount: strikethroughNodes.size,
+    totalNodes: baseNodes.length,
+    strikethroughNodeIds: Array.from(strikethroughNodes),
+  };
+};
+
+export default useTreeFlow;

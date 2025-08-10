@@ -1,113 +1,375 @@
+/* Perfect CustomNode.css - Optimized for your existing component */
 
-.custom-node {
-  position: relative;
-  padding: 10px 30px 10px 10px;
-  border-radius: 10px;
-  /* background: #0f3460; */
-  color: white;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: opacity 0.3s ease;
+:root {
+  --node-primary: #3b82f6;
+  --node-danger: #ef4444;
+  --node-danger-hover: #dc2626;
+  --node-white: #ffffff;
+  --node-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --node-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.2);
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s ease;
 }
 
-.close-btn {
-  background: transparent;
-  border: none;
-  color: red;
+/* Base custom node styles */
+.custom-node {
+  position: relative;
+  padding: 12px 40px 12px 16px;
+  color: white;
+  font-weight: 600;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: var(--node-shadow);
+  transition: all var(--transition-smooth);
+  cursor: pointer;
+  min-width: 180px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+
+}
+
+/* Hover effects for better interactivity */
+.custom-node:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--node-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.custom-node:hover .close-btn {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Enhanced close button */
+.close-btn {
+  background: var(--node-danger);
+  border: none;
+  color: var(--node-white);
+  font-size: 16px;
   cursor: pointer;
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: 0;
+  right: 0;
   z-index: 10;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8) rotate(-90deg);
+  transition: all var(--transition-smooth);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 .close-btn:hover {
-  color: #ff6666;
-  transform: scale(1.1);
+  background: var(--node-danger-hover);
+  transform: scale(1.1) rotate(0deg);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
 }
 
-/* Animation for the closing effect */
+.close-btn:active {
+  transform: scale(0.95) rotate(90deg);
+  transition: transform 0.1s ease;
+}
+
+/* Perfect closing animation sequence - Label stays visible */
 .custom-node.closing {
-  opacity: 0.7;
+  animation: nodeClosingSequence 0.6s ease-in-out forwards;
+  pointer-events: none;
+  overflow: visible;
 }
 
-.custom-node.closing::before {
+@keyframes nodeClosingSequence {
+  0% {
+    transform: translateY(-2px) scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  20% {
+    transform: translateY(-2px) scale(1.05);
+    opacity: 1;
+    filter: brightness(1.1);
+  }
+  40% {
+    transform: translateY(-2px) scale(1.02);
+    opacity: 1;
+    filter: brightness(0.9);
+  }
+  70% {
+    transform: translateY(-2px) scale(1);
+    opacity: 1;
+    filter: brightness(0.8);
+  }
+  100% {
+    transform: translateY(10px) scale(0);
+    opacity: 0;
+    filter: brightness(0);
+  }
+}
+
+/* Strikethrough state - first click */
+.custom-node.strikethrough {
+  opacity: 0.7;
+  filter: grayscale(0.3);
+}
+
+.custom-node.strikethrough span {
+  position: relative;
+}
+
+.custom-node.strikethrough span::after {
   content: '';
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, transparent 47%, red 49%, red 51%, transparent 53%);
-  border-radius: 10px;
-  animation: drawDiagonalLine 0.4s ease-out forwards;
-  pointer-events: none;
-  z-index: 5;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  border-radius: 1px;
+  animation: drawStrikethrough 0.4s ease-out forwards;
+  box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
 }
 
-@keyframes drawDiagonalLine {
+@keyframes drawStrikethrough {
   0% {
-    transform: scale(0);
+    width: 0;
     opacity: 0;
   }
   50% {
-    transform: scale(0.5);
-    opacity: 0.8;
+    opacity: 1;
   }
   100% {
-    transform: scale(1);
+    width: 100%;
     opacity: 1;
   }
 }
 
-/* Alternative animation - X mark effect */
-
-
+/* Enhanced X mark animation - second click (actual closing) */
+.custom-node.closing::before,
 .custom-node.closing::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 2px;
-  height: 120%;
-  background: red;
-  transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
-  transform-origin: center;
-  animation: drawX1 0.2s ease-out 0.1s forwards;
-  z-index: 5;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(to bottom, #ef4444, #dc2626);
+  border-radius: 2px;
+  z-index: 15;
+  box-shadow: 
+    0 0 8px rgba(239, 68, 68, 0.6),
+    0 0 16px rgba(239, 68, 68, 0.4);
 }
 
 .custom-node.closing::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2px;
-  height: 120%;
-  background: red;
-  transform: translate(-50%, -50%) rotate(-45deg) scaleY(0);
-  transform-origin: center;
-  animation: drawX2 0.2s ease-out 0.2s forwards;
-  z-index: 5;
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: drawX1 0.3s ease-out 0.1s forwards;
+}
+
+.custom-node.closing::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  animation: drawX2 0.3s ease-out 0.25s forwards;
 }
 
 @keyframes drawX1 {
   0% {
-    transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
+    height: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) rotate(45deg) scaleY(1);
+    height: 140%;
+    opacity: 1;
   }
 }
 
 @keyframes drawX2 {
   0% {
-    transform: translate(-50%, -50%) rotate(-45deg) scaleY(0);
+    height: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) rotate(-45deg) scaleY(1);
+    height: 140%;
+    opacity: 1;
+  }
+}
+
+/* Enhanced React Flow handles */
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--node-white);
+  background: var(--node-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all var(--transition-fast);
+  opacity: 0.8;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.2);
+  border-color: #10b981;
+  background: #10b981;
+  opacity: 1;
+}
+
+.react-flow__handle-top {
+  top: -5px;
+}
+
+.react-flow__handle-bottom {
+  bottom: -5px;
+}
+
+/* Node selection effects */
+.react-flow__node.selected .custom-node {
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.3), 
+    var(--node-shadow-hover);
+  border-color: var(--node-primary);
+}
+
+/* Subtle loading shimmer effect */
+.custom-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  border-radius: inherit;
+  transition: left var(--transition-smooth);
+}
+
+.custom-node:hover::before {
+  left: 100%;
+}
+
+/* Performance optimizations */
+.custom-node,
+.close-btn {
+  will-change: transform, opacity;
+}
+
+/* Accessibility improvements */
+.close-btn:focus {
+  outline: 2px solid var(--node-white);
+  outline-offset: 2px;
+}
+
+.custom-node:focus-within {
+  box-shadow: 
+    0 0 0 2px var(--node-primary),
+    var(--node-shadow);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .custom-node,
+  .close-btn,
+  .react-flow__handle {
+    transition: none;
+  }
+  
+  .custom-node.closing {
+    animation: none;
+    opacity: 0;
+    transform: scale(0);
+  }
+  
+  .custom-node::before {
+    display: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .custom-node {
+    border: 2px solid currentColor;
+    background: #000080;
+  }
+  
+  .close-btn {
+    border: 2px solid var(--node-white);
+    background: #800000;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .custom-node {
+    min-width: 160px;
+    padding: 10px 35px 10px 14px;
+    font-size: 13px;
+  }
+  
+  .close-btn {
+    width: 22px;
+    height: 22px;
+    top: -5px;
+    right: -5px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-node {
+    min-width: 140px;
+    padding: 8px 30px 8px 12px;
+    font-size: 12px;
+  }
+  
+  .close-btn {
+    width: 20px;
+    height: 20px;
+    top: -4px;
+    right: -4px;
+    font-size: 12px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --node-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --node-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .custom-node {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .react-flow__handle {
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Print styles */
+@media print {
+  .custom-node {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+    box-shadow: none !important;
+  }
+  
+  .close-btn {
+    display: none !important;
   }
 }

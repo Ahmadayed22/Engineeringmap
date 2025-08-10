@@ -1,68 +1,98 @@
-// import { Handle, Position } from '@xyflow/react';
-// import './CustomNode.css';
-// import { IoMdCloseCircleOutline } from 'react-icons/io';
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export default function CustomNode({ data, id }: any) {
-//   console.log('CustomNode data:', data, 'id:', id);
-
-//   return (
-//     <div
-//       className={`custom-node ${data.isClosing ? 'closing' : ''}`}
-//       style={data.style}
-//     >
-//       <span>{data.label}</span>
-//       <button
-//         className="close-btn"
-//         onClick={(e) => {
-//           e.stopPropagation();
-//           if (data.onClose) {
-//             data.onClose(id);
-//             console.log('Node closed with if:', id);
-//           } else {
-//             console.log('Node closed without if :', id);
-//           }
-//         }}
-//       >
-//         <IoMdCloseCircleOutline className="text-2xl" />
-//       </button>
-//       <Handle type="source" position={Position.Bottom} />
-//       <Handle type="target" position={Position.Top} />
-//     </div>
-//   );
-// }
-
+// Enhanced CustomNode.tsx - With toggle strikethrough behavior
 import { Handle, Position } from '@xyflow/react';
-import React from 'react';
 import './CustomNode.css';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
+import React, { memo } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function CustomNode({ data, id }: any) {
-  console.log('CustomNode data:', data, 'id:', id);
+interface CustomNodeProps {
+  data: {
+    label: string;
+    courseId?: number;
+    title: string;
+    isClosing?: boolean;
+    isStrikethrough?: boolean; // New prop for strikethrough state
+    onClose?: (id: string) => void;
+    style?: React.CSSProperties;
+  };
+  id: string;
+}
+
+// Enhanced memoized CustomNode component
+const CustomNode = memo(({ data, id }: CustomNodeProps) => {
+  console.log('CustomNode rendered:', id);
+
+  const handleClose = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (data.onClose) {
+        data.onClose(id);
+      }
+    },
+    [data.onClose, id]
+  );
+
+  // Enhanced keyboard support
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        e.stopPropagation();
+        if (data.onClose) {
+          data.onClose(id);
+        }
+      }
+    },
+    [data.onClose, id]
+  );
+
+  // Build class names based on state
+  const getClassName = () => {
+    let className = 'custom-node';
+    if (data.isClosing) className += ' closing';
+    if (data.isStrikethrough && !data.isClosing) className += ' strikethrough';
+    return className;
+  };
 
   return (
     <div
-      className={`custom-node ${data.isClosing ? 'closing' : ''}`}
+      className={getClassName()}
       style={data.style}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      role="button"
+      aria-label={`Node: ${data.label}`}
     >
       <span>{data.label}</span>
       <button
         className="close-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (data.onClose) {
-            data.onClose(id);
-            console.log('Node closed with if:', id);
-          } else {
-            console.log('Node closed without if:', id);
-          }
-        }}
+        onClick={handleClose}
+        aria-label={
+          data.isStrikethrough
+            ? `Really close ${data.label}`
+            : `Close ${data.label}`
+        }
+        title={
+          data.isStrikethrough
+            ? 'Click to remove strikethrough'
+            : 'Click to add strikethrough'
+        }
+        tabIndex={-1}
       >
-        ❌
+        <IoMdCloseCircleOutline className="text-2xl" />
       </button>
-      <Handle type="source" position={Position.Bottom} />
-      <Handle type="target" position={Position.Top} />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        aria-label="Source handle"
+      />
+      <Handle
+        type="target"
+        position={Position.Top}
+        aria-label="Target handle"
+      />
     </div>
   );
-}
+});
 
-export default React.memo(CustomNode);
+CustomNode.displayName = 'CustomNode';
+
+export default CustomNode;

@@ -6,9 +6,11 @@ import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 import { MarkerType, ReactFlow } from '@xyflow/react';
 import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
 import { ModalRoot } from '@components/common';
+import CustomNode from '@components/layout/node/CustomNode';
+import { memo, useMemo } from 'react';
 // import CustomNode from '@components/layout/node/CustomNode';
 
-function TreeFlowInner() {
+const TreeFlowInner = memo(() => {
   const { courseId, drawerOpen, title, nodeName } = useTreeFlowContext();
   const {
     nodes,
@@ -16,20 +18,29 @@ function TreeFlowInner() {
     onNodesChange,
     onEdgesChange,
     onConnect,
-    // drawerOpen,
-    // title,
     handleNodeClick,
     setDrawerOpen,
-    // nodeName,
-    // courseId,
     rootModalOpen,
     setRootModalOpen,
   } = useTreeFlow();
 
+  // Memoize nodeTypes to prevent recreation
+  const nodeTypes = useMemo(
+    () => ({
+      custom: CustomNode,
+    }),
+    []
+  );
+
+  const defaultEdgeOptions = useMemo(
+    () => ({
+      markerEnd: { type: MarkerType.ArrowClosed },
+    }),
+    []
+  );
+
   return (
     <div className="w-full h-screen px-2 sm:px-6 md:px-10 overflow-auto bg-transparent">
-      {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
-      {/* <FireParticles /> */}
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -37,23 +48,15 @@ function TreeFlowInner() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeClick={handleNodeClick}
-        defaultEdgeOptions={{
-          markerEnd: { type: MarkerType.ArrowClosed },
-        }}
+        defaultEdgeOptions={defaultEdgeOptions}
         minZoom={0.3}
         fitView
-        fitViewOptions={{
-          padding: 0.2,
-        }}
-        style={{
-          background: 'transparent',
-        }}
+        fitViewOptions={{ padding: 0.2 }}
+        style={{ background: 'transparent' }}
         proOptions={{ hideAttribution: true }}
-        // nodeTypes={{ custom: CustomNode }}
-      >
-        {/* <Background /> */}
-        {/* <MiniMap nodeStrokeWidth={3} zoomable pannable /> */}
-      </ReactFlow>
+        nodeTypes={nodeTypes} // Use memoized nodeTypes
+        // nodesDraggable={false}
+      ></ReactFlow>
 
       {rootModalOpen && (
         <ModalRoot
@@ -72,7 +75,9 @@ function TreeFlowInner() {
       )}
     </div>
   );
-}
+});
+
+TreeFlowInner.displayName = 'TreeFlowInner';
 export default function TreeFlow() {
   return (
     <TreeFlowProvider>

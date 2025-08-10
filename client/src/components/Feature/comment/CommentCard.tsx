@@ -6,7 +6,7 @@ import {
 } from '@customTypes/CommentSection';
 import UseCommentDelete from '@hooks/ReactQueryHook/UseCommentDelete';
 import useGetUserName from '@hooks/ReactQueryHook/useGetUserName';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import EditComment from './EditComment';
 import { useAppSelector } from '@store/reduxHooks';
 
@@ -71,4 +71,4 @@ function CommentCardButtons({ comment }: CommentCardContentProps) {
   );
 }
 
-export default CommentCard;
+export default React.memo(CommentCard);

@@ -2,6 +2,7 @@ import CommentSectionProps from '@customTypes/CommentSection';
 import CommentList from './CommentList';
 
 import useCommentSection from '@hooks/ReactQueryHook/useCommentSection';
+import React from 'react';
 
 const CommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
   const {
@@ -25,4 +26,4 @@ const CommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
   );
 };
 
-export default CommentSection;
+export default React.memo(CommentSection);

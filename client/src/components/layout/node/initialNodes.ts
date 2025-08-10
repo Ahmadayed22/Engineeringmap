@@ -36,7 +36,7 @@ const initialNodes: Node[] = [
   {
     id: 'physics',
     position: { x: -650, y: 100 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('physics')} `,
       courseId: 1,
@@ -47,7 +47,7 @@ const initialNodes: Node[] = [
   {
     id: 'Discrete Mathematics',
     position: { x: 100, y: 100 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('Discrete Mathematics')} `,
       courseId: 2,
@@ -58,7 +58,7 @@ const initialNodes: Node[] = [
   {
     id: 'csBasics',
     position: { x: 500, y: 100 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('csBasics')} `,
       courseId: 3,
@@ -69,7 +69,7 @@ const initialNodes: Node[] = [
   {
     id: 'statistics',
     position: { x: 750, y: 100 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('statistics')} `,
       courseId: 4,
@@ -80,7 +80,7 @@ const initialNodes: Node[] = [
   {
     id: 'chemistry',
     position: { x: 1000, y: 100 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('chemistry')} `,
       courseId: 5,
@@ -91,7 +91,7 @@ const initialNodes: Node[] = [
   {
     id: 'calculus1',
     position: { x: 1550, y: 100 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: `${staticValuesMap.get('calculus1')} `,
       courseId: 6,
@@ -104,7 +104,7 @@ const initialNodes: Node[] = [
   {
     id: 'calculus2',
     position: { x: 1450, y: 200 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: staticValuesMap.get('calculus2'),
       courseId: 7,
@@ -114,9 +114,9 @@ const initialNodes: Node[] = [
   },
   {
     id: 'linearAlgebra',
-    type: 'default',
+    type: 'custom',
     position: { x: 1650, y: 200 },
-    type: 'default',
+
     data: {
       label: staticValuesMap.get('linearAlgebra'),
       courseId: 8,
@@ -128,7 +128,7 @@ const initialNodes: Node[] = [
   {
     id: 'calculus3',
     position: { x: 1550, y: 300 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: staticValuesMap.get('calculus3'),
       courseId: 9,
@@ -138,7 +138,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'probability',
-    type: 'default',
+    type: 'custom',
     position: { x: 1350, y: 300 },
 
     data: {
@@ -151,7 +151,7 @@ const initialNodes: Node[] = [
   // Second level of linearAlgebra
   {
     id: 'numericalAnalysisLab',
-    type: 'default',
+    type: 'custom',
     position: { x: 1650, y: 400 },
     data: {
       label: staticValuesMap.get('numericalAnalysisLab'),
@@ -164,7 +164,7 @@ const initialNodes: Node[] = [
   // second level of physics
   {
     id: 'physicsLab1',
-    type: 'default',
+    type: 'custom',
     position: { x: -750, y: 200 },
     data: {
       label: staticValuesMap.get('physicsLab1'),
@@ -176,7 +176,7 @@ const initialNodes: Node[] = [
   {
     id: 'physics2',
     position: { x: -550, y: 200 },
-    type: 'default',
+    type: 'custom',
     data: {
       label: staticValuesMap.get('physics2'),
       courseId: 13,
@@ -187,7 +187,7 @@ const initialNodes: Node[] = [
   // second level of physics2
   {
     id: 'electricCircuits',
-    type: 'default',
+    type: 'custom',
     position: { x: -650, y: 300 },
     data: {
       label: staticValuesMap.get('electricCircuits'),
@@ -198,7 +198,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'physicsLab2',
-    type: 'default',
+    type: 'custom',
     position: { x: -450, y: 300 },
     data: {
       label: staticValuesMap.get('physicsLab2'),
@@ -210,7 +210,7 @@ const initialNodes: Node[] = [
   // second level of electricCircuits
   {
     id: 'electronics1',
-    type: 'default',
+    type: 'custom',
     position: { x: -1050, y: 400 },
     data: {
       label: staticValuesMap.get('electronics1'),
@@ -221,7 +221,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'electricCircuitsLab',
-    type: 'default',
+    type: 'custom',
     position: { x: -850, y: 400 },
     data: {
       label: staticValuesMap.get('electricCircuitsLab'),
@@ -232,7 +232,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'signalsSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: -650, y: 400 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
@@ -243,7 +243,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'electricalMachines',
-    type: 'default',
+    type: 'custom',
     position: { x: -450, y: 400 },
     data: {
       label: staticValuesMap.get('electricalMachines'),
@@ -255,7 +255,7 @@ const initialNodes: Node[] = [
   // second level of electronics1
   {
     id: 'digitalElectronicsVLSI',
-    type: 'default',
+    type: 'custom',
     position: { x: -1050, y: 500 },
     data: {
       label: staticValuesMap.get('digitalElectronicsVLSI'),
@@ -266,7 +266,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'digitalElectronicsVLSILab',
-    type: 'default',
+    type: 'custom',
     position: { x: -1050, y: 650 },
     data: {
       label: staticValuesMap.get('digitalElectronicsVLSILab'),
@@ -279,7 +279,7 @@ const initialNodes: Node[] = [
   //second level of csBasics
   {
     id: 'c++',
-    type: 'default',
+    type: 'custom',
     position: { x: -100, y: 200 },
     data: {
       label: staticValuesMap.get('c++'),
@@ -290,7 +290,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'digitalLogic',
-    type: 'default',
+    type: 'custom',
     position: { x: 950, y: 200 },
     data: {
       label: staticValuesMap.get('digitalLogic'),
@@ -303,7 +303,7 @@ const initialNodes: Node[] = [
   // second level of c++
   {
     id: 'java',
-    type: 'default',
+    type: 'custom',
     position: { x: -275, y: 350 },
     data: {
       label: staticValuesMap.get('java'),
@@ -314,7 +314,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'python',
-    type: 'default',
+    type: 'custom',
     position: { x: 0, y: 350 },
     data: {
       label: staticValuesMap.get('python'),
@@ -326,7 +326,7 @@ const initialNodes: Node[] = [
   // second level of java
   {
     id: 'softwareEngineering',
-    type: 'default',
+    type: 'custom',
     position: { x: -400, y: 600 },
     data: {
       label: staticValuesMap.get('softwareEngineering'),
@@ -337,7 +337,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'dataStructuresAlgorithms',
-    type: 'default',
+    type: 'custom',
     position: { x: -200, y: 600 },
     data: {
       label: staticValuesMap.get('dataStructuresAlgorithms'),
@@ -349,7 +349,7 @@ const initialNodes: Node[] = [
   // second level of dataStructuresAlgorithms
   {
     id: 'mobileComputing',
-    type: 'default',
+    type: 'custom',
     position: { x: -1000, y: 900 },
     data: {
       label: staticValuesMap.get('mobileComputing'),
@@ -360,7 +360,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'databaseSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: -800, y: 900 },
     data: {
       label: staticValuesMap.get('databaseSystems'),
@@ -371,7 +371,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'modernOperatingSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: -600, y: 900 },
     data: {
       label: staticValuesMap.get('modernOperatingSystems'),
@@ -382,7 +382,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'computerArchitecture2',
-    type: 'default',
+    type: 'custom',
     position: { x: -400, y: 900 },
     data: {
       label: staticValuesMap.get('design'),
@@ -393,7 +393,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'competitiveProgramming',
-    type: 'default',
+    type: 'custom',
     position: { x: -200, y: 900 },
     data: {
       label: staticValuesMap.get('competitiveProgramming'),
@@ -405,7 +405,7 @@ const initialNodes: Node[] = [
   // second level of design
   {
     id: 'parallelProcessors',
-    type: 'default',
+    type: 'custom',
     position: { x: -400, y: 1050 },
     data: {
       label: staticValuesMap.get('parallelProcessors'),
@@ -417,7 +417,7 @@ const initialNodes: Node[] = [
   // second level of parallelProcessors
   {
     id: 'parallelProcessorsLab',
-    type: 'default',
+    type: 'custom',
     position: { x: -400, y: 1150 },
     data: {
       label: staticValuesMap.get('parallelProcessorsLab'),
@@ -429,7 +429,7 @@ const initialNodes: Node[] = [
   // second level of python
   {
     id: 'signalsSystems2',
-    type: 'default',
+    type: 'custom',
     position: { x: -100, y: 500 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
@@ -440,7 +440,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'linearAlgebra2',
-    type: 'default',
+    type: 'custom',
     position: { x: 100, y: 500 },
     data: {
       label: staticValuesMap.get('linearAlgebra'),
@@ -452,7 +452,7 @@ const initialNodes: Node[] = [
   // second level of signalsSystems2
   {
     id: 'digitalImageProcessing',
-    type: 'default',
+    type: 'custom',
     position: { x: -100, y: 750 },
     data: {
       label: staticValuesMap.get('digitalImageProcessing'),
@@ -464,7 +464,7 @@ const initialNodes: Node[] = [
   // second level of linearAlgebra2
   {
     id: 'aiAndMachineLearning',
-    type: 'default',
+    type: 'custom',
     position: { x: 100, y: 760 },
     data: {
       label: staticValuesMap.get('aiAndMachineLearning'),
@@ -476,7 +476,7 @@ const initialNodes: Node[] = [
   // second level of aiAndMachineLearning
   {
     id: 'computerVision',
-    type: 'default',
+    type: 'custom',
     position: { x: -100, y: 1150 },
     data: {
       label: staticValuesMap.get('computerVision'),
@@ -487,7 +487,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'computationalIntelligence',
-    type: 'default',
+    type: 'custom',
     position: { x: 100, y: 1150 },
     data: {
       label: staticValuesMap.get('computationalIntelligence'),
@@ -498,7 +498,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'advancedMLTopics',
-    type: 'default',
+    type: 'custom',
     position: { x: 300, y: 1150 },
     data: {
       label: staticValuesMap.get('advancedMLTopics'),
@@ -509,7 +509,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'dataScience',
-    type: 'default',
+    type: 'custom',
     position: { x: 500, y: 1150 },
     data: {
       label: staticValuesMap.get('dataScience'),
@@ -522,7 +522,7 @@ const initialNodes: Node[] = [
   // second level of digitalLogic  position: { x: 950, y: 200 },
   {
     id: 'c++2',
-    type: 'default',
+    type: 'custom',
     position: { x: 450, y: 400 },
     data: {
       label: staticValuesMap.get('c++'),
@@ -533,7 +533,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'digitalLogicLab',
-    type: 'default',
+    type: 'custom',
     position: { x: 700, y: 400 },
     data: {
       label: staticValuesMap.get('digitalLogicLab'),
@@ -544,7 +544,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'electronics2',
-    type: 'default',
+    type: 'custom',
     position: { x: 950, y: 400 },
     data: {
       label: staticValuesMap.get('electronics1'),
@@ -555,7 +555,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'signalsSystems3',
-    type: 'default',
+    type: 'custom',
     position: { x: 1225, y: 400 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
@@ -567,7 +567,7 @@ const initialNodes: Node[] = [
   // second level of c++2
   {
     id: 'computerArchitecture',
-    type: 'default',
+    type: 'custom',
     position: { x: 450, y: 600 },
     data: {
       label: staticValuesMap.get('computerArchitecture'),
@@ -579,7 +579,7 @@ const initialNodes: Node[] = [
   // second level of computerArchitecture
   {
     id: 'advancedDigitalDesign',
-    type: 'default',
+    type: 'custom',
     position: { x: 275, y: 750 },
     data: {
       label: staticValuesMap.get('advancedDigitalDesign'),
@@ -590,7 +590,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'digitalLogicLab2',
-    type: 'default',
+    type: 'custom',
     position: { x: 450, y: 750 },
     data: {
       label: staticValuesMap.get('digitalLogicLab'),
@@ -601,7 +601,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'design',
-    type: 'default',
+    type: 'custom',
     position: { x: 650, y: 750 },
     data: {
       label: staticValuesMap.get('design'),
@@ -613,7 +613,7 @@ const initialNodes: Node[] = [
   //second level of digitalLogicLab2
   {
     id: 'computerOrganizationLab',
-    type: 'default',
+    type: 'custom',
     position: { x: 450, y: 900 },
     data: {
       label: staticValuesMap.get('computerOrganizationLab'),
@@ -625,7 +625,7 @@ const initialNodes: Node[] = [
   // second level of computerArchitecture
   {
     id: 'java2',
-    type: 'default',
+    type: 'custom',
     position: { x: 650, y: 900 },
     data: {
       label: staticValuesMap.get('java'),
@@ -637,7 +637,7 @@ const initialNodes: Node[] = [
   // second level of java2
   {
     id: 'optimizedCompilers',
-    type: 'default',
+    type: 'custom',
     position: { x: 650, y: 1050 },
     data: {
       label: staticValuesMap.get('optimizedCompilers'),
@@ -649,7 +649,7 @@ const initialNodes: Node[] = [
   // second level of electronics2
   {
     id: 'embeddedSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: 950, y: 550 },
     data: {
       label: staticValuesMap.get('embeddedSystems'),
@@ -661,7 +661,7 @@ const initialNodes: Node[] = [
   // second level of embeddedSystems
   {
     id: 'computerNetworks',
-    type: 'default',
+    type: 'custom',
     position: { x: 850, y: 650 },
     data: {
       label: staticValuesMap.get('computerNetworks'),
@@ -672,7 +672,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'embeddedSystemsLab',
-    type: 'default',
+    type: 'custom',
     position: { x: 1050, y: 650 },
     data: {
       label: staticValuesMap.get('embeddedSystemsLab'),
@@ -684,7 +684,7 @@ const initialNodes: Node[] = [
   // second level of computerNetworks
   {
     id: 'internetOfThings',
-    type: 'default',
+    type: 'custom',
     position: { x: 850, y: 800 },
     data: {
       label: staticValuesMap.get('internetOfThings'),
@@ -696,7 +696,7 @@ const initialNodes: Node[] = [
   // second level of embeddedSystemsLab
   {
     id: 'signalsAndSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: 1050, y: 800 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
@@ -707,7 +707,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'controlSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: 1050, y: 950 },
     data: {
       label: staticValuesMap.get('controlSystems'),
@@ -718,7 +718,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'mobileRobots',
-    type: 'default',
+    type: 'custom',
     position: { x: 1050, y: 1050 },
     data: {
       label: staticValuesMap.get('mobileRobots'),
@@ -730,7 +730,7 @@ const initialNodes: Node[] = [
   // second level of signalsSystems3
   {
     id: 'computerNetworks2',
-    type: 'default',
+    type: 'custom',
     position: { x: 1225, y: 1050 },
     data: {
       label: staticValuesMap.get('computerNetworks'),
@@ -743,7 +743,7 @@ const initialNodes: Node[] = [
   // معمارية وتنظيم الحاسوب 1 (already exists in your initialNodes)
   {
     id: 'computerArchitecture2+',
-    type: 'default',
+    type: 'custom',
     position: { x: 800, y: 1250 }, // Position near other network courses
     data: {
       label: staticValuesMap.get('computerArchitecture'),
@@ -755,7 +755,7 @@ const initialNodes: Node[] = [
   // الشبكات الاسلكية (اختياري)
   {
     id: 'wirelessNetworks',
-    type: 'default',
+    type: 'custom',
     position: { x: 1000, y: 1250 }, // Position near other network courses
     data: {
       label: staticValuesMap.get('wirelessNetworks'),
@@ -768,7 +768,7 @@ const initialNodes: Node[] = [
   // مختبر شبكات الحاسوب
   {
     id: 'computerNetworksLab',
-    type: 'default',
+    type: 'custom',
     position: { x: 1225, y: 1250 }, // Position near computerNetworks
     data: {
       label: staticValuesMap.get('computerNetworksLab'),
@@ -781,7 +781,7 @@ const initialNodes: Node[] = [
   // حل المشاكل بالبرمجة الشيئية (already exists as java/java2)
   {
     id: 'objectOrientedProblemSolving',
-    type: 'default',
+    type: 'custom',
     position: { x: 1400, y: 1250 }, // Position near computerNetworks
     data: {
       label: staticValuesMap.get('java'),
@@ -793,7 +793,7 @@ const initialNodes: Node[] = [
   // الحوسبة السحابية(اختياري)
   {
     id: 'cloudComputing',
-    type: 'default',
+    type: 'custom',
     position: { x: 1600, y: 1250 }, // Position in advanced topics area
     data: {
       label: staticValuesMap.get('cloudComputing'),
@@ -806,7 +806,7 @@ const initialNodes: Node[] = [
   // امن المعلومات والشبكات
   {
     id: 'informationSecurity',
-    type: 'default',
+    type: 'custom',
     position: { x: 1800, y: 1250 }, // Position near network courses
     data: {
       label: staticValuesMap.get('informationSecurity'),
@@ -819,7 +819,7 @@ const initialNodes: Node[] = [
   // أنظمة اتصالات البيانات
   {
     id: 'dataCommunicationSystems',
-    type: 'default',
+    type: 'custom',
     position: { x: 2000, y: 1250 }, // Position near signals/systems
     data: {
       label: staticValuesMap.get('dataCommunicationSystems'),
@@ -832,7 +832,7 @@ const initialNodes: Node[] = [
   // مواضيع مختارة في هندسة الحاسوب(اختياري)
   {
     id: 'selectedTopicsInCE',
-    type: 'default',
+    type: 'custom',
     position: { x: 800, y: 1400 }, // Position in advanced topics area
     data: {
       label: staticValuesMap.get('selectedTopicsInCE'),
@@ -845,7 +845,7 @@ const initialNodes: Node[] = [
   // مختبر الشبكات المتقدم
   {
     id: 'advancedNetworksLab',
-    type: 'default',
+    type: 'custom',
     position: { x: 1225, y: 1400 }, // Position near networks labs
     data: {
       label: staticValuesMap.get('advancedNetworksLab'),
@@ -858,7 +858,7 @@ const initialNodes: Node[] = [
   // برمجة بروتوكولات الشبكات
   {
     id: 'networkProtocolsProgramming',
-    type: 'default',
+    type: 'custom',
     position: { x: 1400, y: 1400 }, // Position near networks courses
     data: {
       label: staticValuesMap.get('networkProtocolsProgramming'),
@@ -871,7 +871,7 @@ const initialNodes: Node[] = [
   // الادلة الرقمية (اختياري)
   {
     id: 'digitalForensics',
-    type: 'default',
+    type: 'custom',
     position: { x: 1800, y: 1400 }, // Position in security/advanced area
     data: {
       label: staticValuesMap.get('digitalForensics'),
