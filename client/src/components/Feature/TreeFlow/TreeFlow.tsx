@@ -55,7 +55,7 @@ const TreeFlowInner = memo(() => {
         style={{ background: 'transparent' }}
         proOptions={{ hideAttribution: true }}
         nodeTypes={nodeTypes} // Use memoized nodeTypes
-        // nodesDraggable={false}
+        nodesDraggable={false}
       ></ReactFlow>
 
       {rootModalOpen && (

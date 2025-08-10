@@ -114,7 +114,7 @@
 }
 
 /* Strikethrough state - first click */
-.custom-node.strikethrough {
+/* .custom-node.strikethrough {
   opacity: 0.7;
   filter: grayscale(0.3);
 }
@@ -134,7 +134,104 @@
   border-radius: 1px;
   animation: drawStrikethrough 0.4s ease-out forwards;
   box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
+} */
+/* .custom-node.strikethrough {
+  opacity: 0.7;
+
+  animation: shakeAndSettle 1s ease-out;
+
 }
+
+@keyframes shakeAndSettle {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-3px) rotate(-1deg); }
+  20% { transform: translateX(3px) rotate(1deg); }
+  30% { transform: translateX(-2px) rotate(-0.5deg); }
+  40% { transform: translateX(2px) rotate(0.5deg); }
+  50% { transform: translateX(-1px); }
+  60% { transform: translateX(1px); }
+  70%, 100% { transform: translateX(0) rotate(0deg); }
+}
+
+.custom-node.strikethrough span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(45deg, #ef4444, #dc2626, #ef4444);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  animation: drawStrikeThroughShimmer 0.8s ease-out forwards;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+@keyframes drawStrikeThroughShimmer {
+  0% {
+    width: 0;
+    background-position: 200% 0;
+  }
+  70% {
+    width: 100%;
+    background-position: 200% 0;
+  }
+  100% {
+    width: 100%;
+    background-position: -200% 0;
+  }
+} */
+
+.custom-node.strikethrough {
+  opacity: 0.85;
+  animation: origamiFold 1s ease-in-out;
+  transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+@keyframes origamiFold {
+  0% { 
+    transform: rotateX(0deg) rotateY(0deg);
+    filter: brightness(1);
+  }
+  25% { 
+    transform: rotateX(15deg) rotateY(-10deg);
+    filter: brightness(0.9);
+  }
+  50% { 
+    transform: rotateX(-10deg) rotateY(15deg);
+    filter: brightness(1.1);
+  }
+  75% { 
+    transform: rotateX(5deg) rotateY(-5deg);
+    filter: brightness(0.95);
+  }
+  100% { 
+    transform: rotateX(0deg) rotateY(0deg);
+    filter: brightness(1);
+  }
+}
+
+.custom-node.strikethrough span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #8b4513, #cd853f);
+  border-radius: 1px;
+  animation: paperTear 0.7s ease-out forwards;
+  box-shadow: 0 1px 2px rgba(139, 69, 19, 0.3);
+}
+
+@keyframes paperTear {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+
+/* --------------------------- */
 
 @keyframes drawStrikethrough {
   0% {
