@@ -1,9 +1,9 @@
-/* CustomNode.css */
+
 .custom-node {
   position: relative;
   padding: 10px 30px 10px 10px;
   border-radius: 10px;
-  background: #0f3460;
+  /* background: #0f3460; */
   color: white;
   font-weight: bold;
   display: flex;
@@ -64,13 +64,15 @@
 }
 
 /* Alternative animation - X mark effect */
+
+
 .custom-node.closing::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   width: 2px;
-  height: 80%;
+  height: 120%;
   background: red;
   transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
   transform-origin: center;
@@ -84,7 +86,7 @@
   top: 50%;
   left: 50%;
   width: 2px;
-  height: 80%;
+  height: 120%;
   background: red;
   transform: translate(-50%, -50%) rotate(-45deg) scaleY(0);
   transform-origin: center;

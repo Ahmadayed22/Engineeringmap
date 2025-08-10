@@ -36,7 +36,7 @@ const initialNodes: Node[] = [
   {
     id: 'physics',
     position: { x: -650, y: 100 },
-    type: 'custom',
+    type: 'default',
     data: {
       label: `${staticValuesMap.get('physics')} `,
       courseId: 1,
@@ -47,6 +47,7 @@ const initialNodes: Node[] = [
   {
     id: 'Discrete Mathematics',
     position: { x: 100, y: 100 },
+    type: 'default',
     data: {
       label: `${staticValuesMap.get('Discrete Mathematics')} `,
       courseId: 2,
@@ -57,6 +58,7 @@ const initialNodes: Node[] = [
   {
     id: 'csBasics',
     position: { x: 500, y: 100 },
+    type: 'default',
     data: {
       label: `${staticValuesMap.get('csBasics')} `,
       courseId: 3,
@@ -67,6 +69,7 @@ const initialNodes: Node[] = [
   {
     id: 'statistics',
     position: { x: 750, y: 100 },
+    type: 'default',
     data: {
       label: `${staticValuesMap.get('statistics')} `,
       courseId: 4,
@@ -77,6 +80,7 @@ const initialNodes: Node[] = [
   {
     id: 'chemistry',
     position: { x: 1000, y: 100 },
+    type: 'default',
     data: {
       label: `${staticValuesMap.get('chemistry')} `,
       courseId: 5,
@@ -87,6 +91,7 @@ const initialNodes: Node[] = [
   {
     id: 'calculus1',
     position: { x: 1550, y: 100 },
+    type: 'default',
     data: {
       label: `${staticValuesMap.get('calculus1')} `,
       courseId: 6,
@@ -99,6 +104,7 @@ const initialNodes: Node[] = [
   {
     id: 'calculus2',
     position: { x: 1450, y: 200 },
+    type: 'default',
     data: {
       label: staticValuesMap.get('calculus2'),
       courseId: 7,
@@ -110,6 +116,7 @@ const initialNodes: Node[] = [
     id: 'linearAlgebra',
     type: 'default',
     position: { x: 1650, y: 200 },
+    type: 'default',
     data: {
       label: staticValuesMap.get('linearAlgebra'),
       courseId: 8,
@@ -121,6 +128,7 @@ const initialNodes: Node[] = [
   {
     id: 'calculus3',
     position: { x: 1550, y: 300 },
+    type: 'default',
     data: {
       label: staticValuesMap.get('calculus3'),
       courseId: 9,
@@ -132,6 +140,7 @@ const initialNodes: Node[] = [
     id: 'probability',
     type: 'default',
     position: { x: 1350, y: 300 },
+
     data: {
       label: staticValuesMap.get('probability'),
       courseId: 10,
@@ -167,6 +176,7 @@ const initialNodes: Node[] = [
   {
     id: 'physics2',
     position: { x: -550, y: 200 },
+    type: 'default',
     data: {
       label: staticValuesMap.get('physics2'),
       courseId: 13,

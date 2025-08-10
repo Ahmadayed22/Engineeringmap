@@ -34,7 +34,7 @@ function CommentCardHeader({ username, comment }: CommentCardHeaderProps) {
 }
 
 function CommentCardContent({ comment }: CommentCardContentProps) {
-  return <p>{comment.content}</p>;
+  return <p className="flex justify-end">{comment.content}</p>;
 }
 
 function CommentCardButtons({ comment }: CommentCardContentProps) {
@@ -44,9 +44,9 @@ function CommentCardButtons({ comment }: CommentCardContentProps) {
 
   const isOwnComment = comment.userId === userInfo?.id;
   return (
-    <div className="">
+    <div className="flex justify-start">
       {!openEdit && isOwnComment && (
-        <>
+        <div className="flex justify-end">
           <button className="cursor-pointer" onClick={() => setOpenEdit(true)}>
             Edit
           </button>
@@ -57,7 +57,7 @@ function CommentCardButtons({ comment }: CommentCardContentProps) {
           >
             Delete
           </button>
-        </>
+        </div>
       )}
 
       {openEdit && <EditComment comment={comment} setOpenEdit={setOpenEdit} />}

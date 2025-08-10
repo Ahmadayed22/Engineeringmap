@@ -5,6 +5,7 @@ import MaterialModal from '@components/common/Modal/MaterialModal';
 import React, { useState } from 'react';
 import { useDeleteMaterial } from '@hooks/index';
 import { Material } from '@customTypes/Material';
+import { useAppSelector } from '@store/reduxHooks';
 
 type MaterialCardProps = {
   item: { label: string; key: string };
@@ -24,14 +25,17 @@ const MaterialCard = ({
   userId,
 }: MaterialCardProps) => {
   const [openModal, setOpenModal] = useState(false);
-
+  const { userInfo } = useAppSelector((state) => state.auth);
   return (
     <div className="flex flex-col gap-1 mb-2">
       <div className="flex flex-row items-center gap-2 transition justify-end relative mb-3">
-        <IoMdAddCircleOutline
-          className="text-2xl absolute left-0 cursor-pointer"
-          onClick={() => setOpenModal(true)}
-        />
+        {userInfo && (
+          <IoMdAddCircleOutline
+            className="text-2xl absolute left-0 cursor-pointer"
+            onClick={() => setOpenModal(true)}
+          />
+        )}
+
         <span className="font-semibold">{item.label}</span>
         <SlBookOpen className="text-lg" />
       </div>
