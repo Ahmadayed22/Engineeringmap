@@ -99,7 +99,10 @@ const initialEdges: Edge[] = [
     source: 'physics',
     target: 'physicsLab1',
     type: 'smoothstep',
-    style: SciencesStyle,
+    style: {
+      ...SciencesStyle,
+      strokeDasharray: '5,5', // Creates dashed line
+    },
   },
 
   {
@@ -115,7 +118,10 @@ const initialEdges: Edge[] = [
     source: 'physics2',
     target: 'physicsLab2',
     type: 'smoothstep',
-    style: SciencesStyle,
+    style: {
+      ...SciencesStyle,
+      strokeDasharray: '5,5', // Creates dashed line
+    },
   },
   {
     id: 'physics2-electricCircuits',

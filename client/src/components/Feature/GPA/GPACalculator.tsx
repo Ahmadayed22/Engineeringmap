@@ -44,6 +44,7 @@ export default function GPACalculator() {
   const updateSemesterCourse = (
     index: number,
     field: keyof Course,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any
   ) => {
     const updated = [...semesterCourses];
@@ -54,6 +55,7 @@ export default function GPACalculator() {
   const updateRepeatedCourse = (
     index: number,
     field: keyof RepeatedCourse,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any
   ) => {
     const updated = [...repeatedCourses];

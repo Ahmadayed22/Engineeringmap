@@ -1,5 +1,3 @@
-import './style.css';
-
 const baseNodeStyle = {
   // fontFamily: 'Tajawal, sans-serif',
   // // border: '1px solid #ffffff',
