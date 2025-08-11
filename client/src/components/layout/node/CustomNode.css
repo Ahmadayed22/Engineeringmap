@@ -49,7 +49,7 @@
   background: var(--node-danger);
   border: none;
   color: var(--node-white);
-  font-size: 16px;
+  font-size: 17px;
   cursor: pointer;
   position: absolute;
   top: 0;
@@ -413,7 +413,7 @@
   .custom-node {
     min-width: 160px;
     padding: 10px 35px 10px 14px;
-    font-size: 13px;
+    font-size: 17px;
   }
   
   .close-btn {
@@ -421,7 +421,7 @@
     height: 22px;
     top: -5px;
     right: -5px;
-    font-size: 14px;
+    font-size: 17px;
   }
 }
 
@@ -429,7 +429,7 @@
   .custom-node {
     min-width: 140px;
     padding: 8px 30px 8px 12px;
-    font-size: 12px;
+    font-size: 17px;
   }
   
   .close-btn {
@@ -437,7 +437,7 @@
     height: 20px;
     top: -4px;
     right: -4px;
-    font-size: 12px;
+    font-size: 17px;
   }
 }
 

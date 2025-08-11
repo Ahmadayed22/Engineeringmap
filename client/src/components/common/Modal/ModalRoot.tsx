@@ -67,20 +67,23 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
           <span className="text-white mb-4">
             : <>دلالة الوان الخطة</>
           </span>
-          <p className="text-sm text-black dark:text-white">
+          <p className="text-sm text-black ">
             <span className="text-gray-300">مواد هندسة الحاسوب</span> ■
           </p>
-          <p className="text-sm text-orange-700 dark:text-orange-400">
+          <p className="text-sm text-[#631d3b]">
             <span className="text-gray-300">مواد هندسة الميكاترونيكس</span> ■
           </p>
-          <p className="text-sm text-green-700 dark:text-green-400">
+          <p className="text-sm text-[#166e25]">
             <span className="text-gray-300">مواد هندسة الكهربائية</span> ■
           </p>
-          <p className="text-sm text-blue-700 dark:text-blue-400">
-            <span className="text-gray-300">مواد هندسة العلوم</span> ■
+          <p className="text-sm text-[#0f3460]">
+            <span className="text-gray-300">مواد كلية العلوم</span> ■
           </p>
-          <p className="text-sm text-cyan-700 dark:text-cyan-400">
-            <span className="text-gray-300">مواد هندسة المعلومات </span> ■
+          <p className="text-sm text-[#a87716]">
+            <span className="text-gray-300">
+              مواد كلية تكنولوجيا المعلومات{' '}
+            </span>{' '}
+            ■
           </p>
         </ModalFooter>
       </Modal>
