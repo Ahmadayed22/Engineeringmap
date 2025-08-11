@@ -2,7 +2,7 @@ const particlesConfig = {
   autoPlay: true,
   background: {
     color: {
-      value: '#0958ad',
+      value: '#696b6b',
     },
     opacity: 1,
   },
@@ -11,7 +11,7 @@ const particlesConfig = {
     cover: {
       opacity: 1,
       color: {
-        value: '#0958ad',
+        value: '#696b6b',
       },
     },
     enable: false,

@@ -4,8 +4,8 @@ import {
   CommentCardHeaderProps,
   CommentCardProps,
 } from '@customTypes/CommentSection';
-import UseCommentDelete from '@hooks/ReactQueryHook/UseCommentDelete';
-import useGetUserName from '@hooks/ReactQueryHook/useGetUserName';
+import UseCommentDelete from '@hooks/ReactQueryHook/comment/UseCommentDelete';
+import useGetUserName from '@hooks/ReactQueryHook/material/useGetUserName';
 import React, { useState } from 'react';
 import EditComment from './EditComment';
 import { useAppSelector } from '@store/reduxHooks';

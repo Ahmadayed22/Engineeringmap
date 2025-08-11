@@ -1,5 +1,5 @@
 import { EditCommentProps } from '@customTypes/CommentSection';
-import useEditComment from '@hooks/ReactQueryHook/useEditComment';
+import useEditComment from '@hooks/ReactQueryHook/comment/useEditComment';
 import { Button, Textarea } from 'flowbite-react';
 
 const EditComment = ({ comment, setOpenEdit }: EditCommentProps) => {

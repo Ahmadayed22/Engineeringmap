@@ -16,14 +16,16 @@ import AboAyed from '../../assets/svg/AboAyed.svg';
 import { useAppSelector } from '@store/reduxHooks';
 import { useDispatch } from 'react-redux';
 import { authLogout } from '@store/auth/authSlice';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Header = () => {
   const disptach = useDispatch();
   const navagate = useNavigate();
   const { userInfo, accessToken } = useAppSelector((state) => state.auth);
-
+  const queryClient = useQueryClient();
   const logOut = () => {
     disptach(authLogout());
+    queryClient.clear();
     navagate('/login');
   };
 

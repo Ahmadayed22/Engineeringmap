@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import useGetCourses from './useGetCourses';
+import { useAppSelector } from '@store/reduxHooks';
 export const courseQueryKeys = {
   all: ['courses'] as const,
   lists: () => [...courseQueryKeys.all, 'list'] as const,
@@ -13,20 +14,22 @@ export const courseQueryKeys = {
 
 const useCourseQueries = () => {
   const { getCompletedCourses, getAllCourses, getCourseById } = useGetCourses();
-
+  const { accessToken } = useAppSelector((state) => state.auth);
   const useCoursesQuery = () => {
     return useQuery({
       queryKey: courseQueryKeys.lists(),
       queryFn: getAllCourses,
       staleTime: 5 * 60 * 1000, // 5 minutes
       gcTime: 10 * 60 * 1000, // 10 minutes
+      enabled: !!accessToken,
+      retry: 1,
     });
   };
   const useCourseQuery = (courseId: number) => {
     return useQuery({
       queryKey: courseQueryKeys.detail(courseId),
       queryFn: () => getCourseById(courseId),
-      enabled: !!courseId,
+      enabled: !!courseId && !!accessToken,
       staleTime: 5 * 60 * 1000,
     });
   };
@@ -36,6 +39,7 @@ const useCourseQueries = () => {
       queryFn: getCompletedCourses,
       staleTime: 2 * 60 * 1000, // 2 minutes - more frequent updates for user progress
       gcTime: 5 * 60 * 1000,
+      enabled: !!accessToken,
     });
   };
   return {

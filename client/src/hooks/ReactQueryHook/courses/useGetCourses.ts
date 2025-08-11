@@ -13,13 +13,6 @@ type CourseResponseDto = {
 const useGetCourses = () => {
   const { accessToken } = useAppSelector((state) => state.auth);
 
-  // Debug token
-  console.log('🔑 Token info:', {
-    hasToken: !!accessToken,
-    tokenLength: accessToken?.length,
-    tokenStart: accessToken?.substring(0, 20),
-  });
-
   const apiClient = createApiClient(accessToken);
 
   const completeCourse = async ({

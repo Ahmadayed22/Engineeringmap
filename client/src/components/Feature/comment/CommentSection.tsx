@@ -1,7 +1,7 @@
 import CommentSectionProps from '@customTypes/CommentSection';
 import CommentList from './CommentList';
 
-import useCommentSection from '@hooks/ReactQueryHook/useCommentSection';
+import useCommentSection from '@hooks/ReactQueryHook/comment/useCommentSection';
 import React from 'react';
 
 const CommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
