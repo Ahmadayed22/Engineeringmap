@@ -24,7 +24,7 @@ public interface CourseRepo  extends JpaRepository<Course,Long>{
     Optional<Course> findByIdWithComments(@Param("courseId") Long courseId);
     
     // Get all courses ordered by creation date
-    List<Course> findAllByOrderByCreatedAtDesc();
+    // List<Course> findAllByOrderByCreatedAtDesc();
 
     Optional<Course> findByNameIgnoreCase(String name);
 }

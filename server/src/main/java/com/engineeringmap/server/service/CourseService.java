@@ -1,30 +1,41 @@
 package com.engineeringmap.server.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.engineeringmap.server.dto.request.CourseRequestDto;
 import com.engineeringmap.server.dto.response.CourseResponseDto;
 import com.engineeringmap.server.entity.Course;
+import com.engineeringmap.server.entity.Tracking;
+import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.mapper.CourseMapper;
 import com.engineeringmap.server.repo.CourseRepo;
+import com.engineeringmap.server.repo.TrackingRepo;
+import com.engineeringmap.server.repo.UserRepo;
 
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class CourseService {
     
     private final CourseRepo courseRepository;
+    private final UserRepo userRepository;
+    private final TrackingRepo TrackingRepo;
     
-    public CourseService(CourseRepo courseRepository) {
+    public CourseService(CourseRepo courseRepository  , UserRepo userRepository, TrackingRepo trackingRepo) {
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
+        this.TrackingRepo = trackingRepo;
     }
 
     public List<CourseResponseDto> getAllCourses() {
-        List<Course> courses = courseRepository.findAllByOrderByCreatedAtDesc();
+        List<Course> courses = courseRepository.findAll();
         return courses.stream()
                      .map(CourseMapper::toResponseDto)
                      .toList();
@@ -73,5 +84,34 @@ public class CourseService {
         return courses.stream()
                      .map(CourseMapper::toResponseDto)
                      .toList();
+    }
+
+public void completeCourse(Long courseId, Long userId, boolean completed) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new RuntimeException("Course not found"));
+
+        Optional<Tracking> existingCompletion = TrackingRepo.findByUserIdAndCourseId(userId, courseId);
+        if (existingCompletion.isPresent()) {
+            Tracking completion = existingCompletion.get();
+            completion.setCompleted(completed);
+ 
+            TrackingRepo.save(completion);
+        } else if (completed) {
+            Tracking completion = new Tracking();
+            completion.setUser(user);
+            completion.setCourse(course);
+            completion.setCompleted(true);
+         
+            TrackingRepo.save(completion);
+        }
+    }
+
+    public List<Long> getCompletedCourses(Long userId) {
+        return TrackingRepo.findByUserIdAndCompleted(userId, true)
+            .stream()
+            .map(completion -> completion.getCourse().getId())
+            .collect(Collectors.toList());
     }
 }

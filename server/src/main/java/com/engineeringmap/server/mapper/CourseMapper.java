@@ -21,9 +21,8 @@ public class CourseMapper {
             course.getName(),
             course.getLabel(),
             course.getDescription(),
-            course.getCreditHours(),
-            course.getCreatedAt(),
-            course.getUpdatedAt()
+            course.getCreditHours()
+
         );
     }
 }

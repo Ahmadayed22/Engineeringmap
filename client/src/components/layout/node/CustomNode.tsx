@@ -19,8 +19,6 @@ interface CustomNodeProps {
 
 // Enhanced memoized CustomNode component
 const CustomNode = memo(({ data, id }: CustomNodeProps) => {
-  console.log('CustomNode rendered:', id);
-
   const handleClose = React.useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();

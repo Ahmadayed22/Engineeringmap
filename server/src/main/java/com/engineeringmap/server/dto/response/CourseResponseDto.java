@@ -7,7 +7,7 @@ public record CourseResponseDto(
     String name,
     String label,
     String description,
-    Integer creditHours,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt
+    Integer creditHours
+    // LocalDateTime createdAt,
+    // LocalDateTime updatedAt
 ) {}

@@ -40,7 +40,7 @@ public class User {
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Resource> resources ;
+    private List<Resource> resources;
 
     public User(Long id, String email, String username) {
         this.id = id;
