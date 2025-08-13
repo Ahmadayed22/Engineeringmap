@@ -80,7 +80,7 @@ const Header = () => {
       </div>
       <NavbarCollapse>
         <Link to="/">RoadMap</Link>
-        <Link to="/">Doctors' schedule</Link>
+        <Link to="/schedule">Doctors' schedule</Link>
         <Link to="/gpa">GPA</Link>
         <a
           href="https://engzenon.com/library?filter=2"

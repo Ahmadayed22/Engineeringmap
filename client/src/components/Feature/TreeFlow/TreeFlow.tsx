@@ -22,6 +22,7 @@ const TreeFlowInner = memo(() => {
     setDrawerOpen,
     rootModalOpen,
     setRootModalOpen,
+    onNodeMouseEnter,
   } = useTreeFlow();
 
   // Memoize nodeTypes to prevent recreation
@@ -48,13 +49,14 @@ const TreeFlowInner = memo(() => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeClick={handleNodeClick}
+        onNodeMouseEnter={onNodeMouseEnter}
         defaultEdgeOptions={defaultEdgeOptions}
         minZoom={0.3}
         fitView
         fitViewOptions={{ padding: 0.2 }}
         style={{ background: 'transparent' }}
         proOptions={{ hideAttribution: true }}
-        nodeTypes={nodeTypes} // Use memoized nodeTypes
+        nodeTypes={nodeTypes}
         nodesDraggable={false}
       ></ReactFlow>
 

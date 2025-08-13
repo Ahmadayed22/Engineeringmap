@@ -7,16 +7,17 @@ import { lazy } from 'react';
 
 const MainLayOut = lazy(() => import('@layouts/Main/MainLayOut'));
 const Home = lazy(() => import('@pages/Home/Home'));
-const Error = lazy(() => import('@pages/Error/Error'));
 const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
 const GPACalculator = lazy(
   () => import('@components/Feature/GPA/GPACalculator')
 );
+const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
+import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import FireParticles from '@components/common/Background/FireParticles';
-import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
+
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
         path: 'gpa',
         element: <GPACalculator />,
       },
+      {
+        path: 'schedule',
+        element: <Sehedule />,
+      },
     ],
   },
 ]);
@@ -51,8 +56,8 @@ const AppRouter = () => {
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
     >
       <QueryClientProvider client={queryClient}>
-        <ParticlesBackground className="fixed inset-0 -z-10" />
-        {/* <FireParticles /> */}
+        {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
+        <FireParticles />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Suspense>

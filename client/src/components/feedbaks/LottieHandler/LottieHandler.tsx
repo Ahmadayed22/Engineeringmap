@@ -2,7 +2,7 @@ import Lottie from 'lottie-react';
 import notFound from '@assets/lottie/notFound.json';
 import error from '@assets/lottie/error.json';
 import empty from '@assets/lottie/empty.json';
-import loading from '@assets/lottie/loading.json';
+import loading from '@assets/lottie/SandyLoading.json';
 import success from '@assets/lottie/success.json';
 
 const lottieFiles = {
@@ -23,7 +23,7 @@ const LottieHandler = ({ type, message }: LottieHandlerProps) => {
   return (
     <div className="flex flex-col items-center mt-[15%]">
       <Lottie className="w-80" animationData={loottie} />
-      {message && <h3 className="text-[20px]">{message}</h3>}
+      {message && <h3 className="text-[20px] text-white">{message}</h3>}
     </div>
   );
 };

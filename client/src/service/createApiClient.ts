@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import toast from 'react-hot-toast';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -17,14 +18,6 @@ export const createApiClient = (token?: string | null): AxiosInstance => {
   client.interceptors.request.use(
     (config) => {
       // Debug logging
-      console.log('🔍 API Request:', {
-        method: config.method?.toUpperCase(),
-        url: config.url,
-        baseURL: config.baseURL,
-        fullURL: `${config.baseURL}${config.url}`,
-        token: token ? `Bearer ${token.substring(0, 20)}...` : 'No token',
-        headers: config.headers,
-      });
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -41,27 +34,15 @@ export const createApiClient = (token?: string | null): AxiosInstance => {
   // Response interceptor for error handling
   client.interceptors.response.use(
     (response) => {
-      console.log('✅ API Response:', {
-        status: response.status,
-        url: response.config.url,
-        data: response.data,
-      });
       return response;
     },
     (error) => {
-      console.error('🚨 API Error:', {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        url: error.config?.url,
-        data: error.response?.data,
-        message: error.message,
-      });
-
       // Handle specific error cases
       if (error.response?.status === 401) {
-        console.error('🚨 Unauthorized - Token might be expired');
+        toast.error('Unauthorized - Please log in again');
         // You might want to dispatch a logout action here
       } else if (error.response?.status === 403) {
+        toast.error('You do not have permission to access this resource');
         console.error('🚨 Forbidden - User might not have permission');
       }
 

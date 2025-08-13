@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import useCourseQueries from './useCourseQueries';
-import useTrackingCompleteCourse from './useTrackingCompleteCourse';
+import useTrackingCompleteCourse from './useMutationCompleteCourse';
 
 const useCompletedCoursesWithQuery = () => {
   const { useCompletedCoursesQuery } = useCourseQueries();

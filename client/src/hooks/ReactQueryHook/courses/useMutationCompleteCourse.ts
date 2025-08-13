@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useGetCourses from './useGetCourses';
 import { courseQueryKeys } from './useCourseQueries';
 
-const useTrackingCompleteCourse = () => {
+const useMutationCompleteCourse = () => {
   const { completeCourse } = useGetCourses();
   const queryClient = useQueryClient();
   return useMutation({
@@ -60,4 +60,4 @@ const useTrackingCompleteCourse = () => {
   });
 };
 
-export default useTrackingCompleteCourse;
+export default useMutationCompleteCourse;
