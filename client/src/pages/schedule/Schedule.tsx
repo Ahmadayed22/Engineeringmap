@@ -1,9 +1,13 @@
-import { Carousel } from 'flowbite-react';
-import schedule from '@assets/svg/schedule.svg';
+// import { Carousel } from 'flowbite-react';
+
+import { LottieHandler } from '@components/feedbaks';
+
+// import schedule from '@assets/svg/schedule.svg';
 const Schedule = () => {
   return (
     <div className="max-w-xl h-96 mx-auto mt-[12%]">
-      <Carousel pauseOnHover>
+      <LottieHandler type="working" />
+      {/* <Carousel pauseOnHover>
         <img src={schedule} alt="..." />
         <img
           src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
@@ -21,7 +25,7 @@ const Schedule = () => {
           src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
           alt="..."
         />
-      </Carousel>
+      </Carousel> */}
     </div>
   );
 };

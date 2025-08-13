@@ -59,7 +59,8 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
       role="button"
       aria-label={`Node: ${data.label}`}
     >
-      <span>{data.label}</span>
+      <span className="hover:text-red-700 ">{data.label}</span>
+
       <button
         className="close-btn"
         onClick={handleClose}

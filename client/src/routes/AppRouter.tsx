@@ -13,16 +13,13 @@ const GPACalculator = lazy(
   () => import('@components/Feature/GPA/GPACalculator')
 );
 const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
+const About = lazy(() => import('@pages/about/About'));
 import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import FireParticles from '@components/common/Background/FireParticles';
-
 import { scheduleToken } from '@util/scheduleToken';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
 
-// import ParticlesBackground from '@components/common/Background/ParticlesBackground';
-
-// import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -50,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: 'schedule',
         element: <Sehedule />,
+      },
+      {
+        path: 'about',
+        element: <About />,
       },
     ],
   },

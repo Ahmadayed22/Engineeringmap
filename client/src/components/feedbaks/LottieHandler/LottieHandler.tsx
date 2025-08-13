@@ -4,13 +4,14 @@ import error from '@assets/lottie/error.json';
 import empty from '@assets/lottie/empty.json';
 import loading from '@assets/lottie/SandyLoading.json';
 import success from '@assets/lottie/success.json';
-
+import working from '@assets/lottie/working.json';
 const lottieFiles = {
   notFound: notFound,
   error: error,
   empty: empty,
   loading: loading,
   success,
+  working,
 };
 
 type LottieHandlerProps = {

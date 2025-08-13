@@ -5,15 +5,13 @@ import { Outlet } from 'react-router';
 
 const MainLayOut = () => {
   return (
-    <div className=" text-gray-800 dark:text-gray-200">
-      <div className="">
-        <ToasterComp />
-        <Header />
-        <div className="bg-transparent mt-7">
-          <Outlet />
-        </div>
-        <Footer />
+    <div className=" text-gray-800 dark:text-gray-200 min-h-screen">
+      <ToasterComp />
+      <Header />
+      <div className="bg-transparent mt-7">
+        <Outlet />
       </div>
+      <Footer />
     </div>
   );
 };
