@@ -35,7 +35,10 @@ public class RefreshTokenService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Delete existing refresh token for this user
-        refreshTokenRepo.findByUser(user).ifPresent(refreshTokenRepo::delete);
+        refreshTokenRepo.findByUser(user).ifPresent(existingToken -> {
+            refreshTokenRepo.delete(existingToken);
+           refreshTokenRepo.flush();
+        });
 
         RefreshToken refreshToken = new RefreshToken(
                 UUID.randomUUID().toString(),

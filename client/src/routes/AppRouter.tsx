@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 // layouts
 import { lazy } from 'react';
 
@@ -16,6 +16,9 @@ const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
 import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import FireParticles from '@components/common/Background/FireParticles';
+
+import { scheduleToken } from '@util/scheduleToken';
+import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
 
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 
@@ -53,6 +56,14 @@ const router = createBrowserRouter([
 ]);
 
 const AppRouter = () => {
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector((state) => state.auth.accessToken);
+
+  useEffect(() => {
+    if (accessToken) {
+      scheduleToken(accessToken, dispatch);
+    }
+  }, [accessToken, dispatch]);
   return (
     <Suspense
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}

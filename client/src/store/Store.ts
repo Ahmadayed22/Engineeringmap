@@ -25,7 +25,7 @@ const rootPersistConfig = {
 const authPersistConfig = {
   key: 'auth',
   storage: storage,
-  whitelist: ['userInfo', 'accessToken'],
+  whitelist: ['userInfo', 'accessToken', 'refreshToken'],
 };
 
 const rootReducer = combineReducers({

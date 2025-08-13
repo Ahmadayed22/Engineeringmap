@@ -1,40 +1,46 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '@store/Store';
 import AxiosErrorHandler from '@util/AxiosErrorHandler';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-type TFormData = {
-  email: string;
-  password: string;
-};
-
 type DecodedToken = {
-  roles: string[]; // ["ROLE_USER"], ["ROLE_ADMIN"],
+  roles: string[];
   sub: string;
   exp: number;
   iat: number;
+  userId: number;
 };
 
-type TResponse = {
+type TRefreshResponse = {
   accessToken: string;
   refreshToken: string;
   userInfo: {
     id: number;
     username: string;
     email: string;
-    roles: string[];
   };
 };
 
-const thunkAuthLogin = createAsyncThunk(
-  'auth/thunkAuthLogin',
-  async (formData: TFormData, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+const thunkAuthRefresh = createAsyncThunk(
+  'auth/thunkAuthRefresh',
+  async (_, thunkAPI) => {
+    const { rejectWithValue, getState } = thunkAPI;
+    const state = getState() as RootState;
+    const refreshToken = state.auth.refreshToken;
+
+    if (!refreshToken) {
+      return rejectWithValue('No refresh token available');
+    }
+
     try {
-      const res = await axios.post<TResponse>('/api/auth/signin', formData);
+      const res = await axios.post<TRefreshResponse>('/api/auth/refresh', {
+        refreshToken,
+      });
 
       const decoded = jwtDecode<DecodedToken>(res.data.accessToken);
       const roles = decoded.roles || [];
+
       return {
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
@@ -48,4 +54,5 @@ const thunkAuthLogin = createAsyncThunk(
     }
   }
 );
-export default thunkAuthLogin;
+
+export default thunkAuthRefresh;

@@ -8,6 +8,7 @@ type TAuthState = {
     roles: string[];
   } | null;
   accessToken: string | null;
+  refreshToken: string | null;
   loading: TLoading;
   error: string | null;
 };

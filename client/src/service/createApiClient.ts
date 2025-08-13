@@ -18,7 +18,6 @@ export const createApiClient = (token?: string | null): AxiosInstance => {
   client.interceptors.request.use(
     (config) => {
       // Debug logging
-
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

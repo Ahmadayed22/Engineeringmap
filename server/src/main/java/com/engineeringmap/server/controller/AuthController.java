@@ -48,6 +48,7 @@ public class AuthController {
            LoginResponse response = authService.login(loginRequest);
            return ResponseEntity.ok(response);
        } catch (Exception e) {
+        e.printStackTrace(); 
            return ResponseEntity.status(401).body("Login failed: " + e.getMessage());
        }
    }
@@ -60,25 +61,30 @@ public class AuthController {
             return ResponseEntity.status(403).body("Refresh failed: " + e.getMessage());
         }
     }
-    @PostMapping("/logout")
+     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         try {
-            // Extract user ID from JWT token in Authorization header
             String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 String token = authHeader.substring(7);
-                String username = jwtUtil.extractUsername(token);
                 
-                // Find user by username and logout
+                // Validate token first
+                if (!jwtUtil.isTokenValid(token)) {
+                    return ResponseEntity.status(401).body("Invalid or expired token");
+                }
+                
+                String username = jwtUtil.extractUsername(token);
                 User user = userRepo.findByUsername(username)
                     .orElseThrow(() -> new RuntimeException("User not found"));
                 
                 authService.logout(user.getId());
                 return ResponseEntity.ok().body("Logged out successfully");
             }
-            return ResponseEntity.badRequest().body("Invalid token");
+            return ResponseEntity.badRequest().body("Authorization header missing or invalid");
         } catch (Exception e) {
+            e.printStackTrace(); // Add this for debugging
             return ResponseEntity.badRequest().body("Logout failed: " + e.getMessage());
         }
+    
     }
 }
