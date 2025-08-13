@@ -16,10 +16,12 @@ const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
 import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import FireParticles from '@components/common/Background/FireParticles';
+
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 const queryClient = new QueryClient();
+
 const router = createBrowserRouter([
   {
     path: '/',

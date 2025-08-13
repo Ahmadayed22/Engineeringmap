@@ -8,10 +8,12 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.engineeringmap.server.dto.request.LoginRequest;
+import com.engineeringmap.server.dto.request.RefreshTokenRequest;
 import com.engineeringmap.server.dto.request.SignInRequest;
 import com.engineeringmap.server.dto.response.LoginResponse;
 import com.engineeringmap.server.dto.response.UserInfo;
 import com.engineeringmap.server.dto.response.UserResponse;
+import com.engineeringmap.server.entity.RefreshToken;
 import com.engineeringmap.server.entity.Role;
 import com.engineeringmap.server.entity.RoleType;
 import com.engineeringmap.server.entity.User;
@@ -29,15 +31,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     
     private final UserRepo userRepo;
-
-
     private final JwtUtil jwtUtil;
     private final RoleRepo roleRepo;
+     private final RefreshTokenService refreshTokenService;
 
-    public AuthService(UserRepo userRepo, JwtUtil jwtUtil, RoleRepo roleRepo) {
+    public AuthService(UserRepo userRepo, JwtUtil jwtUtil, RoleRepo roleRepo , RefreshTokenService refreshTokenService) {
         this.userRepo = userRepo;
         this.jwtUtil = jwtUtil;
         this.roleRepo = roleRepo;
+        this.refreshTokenService = refreshTokenService;
     }
         // This method handles user registration
         // It checks if the email or username already exists, encodes the password, and saves
@@ -76,9 +78,29 @@ public LoginResponse login(LoginRequest loginRequest) {
         throw new RuntimeException("Invalid password.");
     }
     String token = jwtUtil.generateToken(user);
+    RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
     UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
 
-    return new LoginResponse(userInfo, token);
+    return new LoginResponse(userInfo, token, refreshToken.getToken());
 
 }
+   public LoginResponse refreshToken(RefreshTokenRequest request) {
+        String requestRefreshToken = request.refreshToken();
+
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String accessToken = jwtUtil.generateToken(user);
+                    UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
+                    return new LoginResponse(userInfo, accessToken, requestRefreshToken);
+                })
+                .orElseThrow(() -> new RuntimeException("Refresh token is not in database!"));
+    }
+    
+    @Transactional
+    public void logout(Long userId) {
+        refreshTokenService.deleteByUserId(userId);
+    }
+    
 }

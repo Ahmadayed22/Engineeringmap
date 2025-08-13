@@ -34,7 +34,6 @@ const thunkAuthLogin = createAsyncThunk(
 
       const decoded = jwtDecode<DecodedToken>(res.data.accessToken);
       const roles = decoded.roles || [];
-
       return {
         accessToken: res.data.accessToken,
         userInfo: {

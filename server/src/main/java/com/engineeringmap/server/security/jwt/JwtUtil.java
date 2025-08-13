@@ -18,25 +18,30 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long expirationTime;
+    @Value("${jwt.access.expiration:900000}") // 15 minutes default
+    private long accessTokenExpirationTime;
 
-public String generateToken(User user) {
-    List<String> roles = user.getRoles().stream()
-            .map(role -> role.getName().name()) // "ADMIN", "USER"
-            .collect(Collectors.toList());
+    public String generateToken(User user) {
+        List<String> roles = user.getRoles().stream()
+                .map(role -> role.getName().name())
+                .collect(Collectors.toList());
 
-    return Jwts.builder()
-            .setSubject(user.getUsername())
-            .claim("roles", roles)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact();
-}
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("roles", roles)
+                .claim("userId", user.getId())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
 
     public String extractUsername(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public Long extractUserId(String token) {
+        return getClaims(token).get("userId", Long.class);
     }
 
     public boolean isTokenValid(String token) {
