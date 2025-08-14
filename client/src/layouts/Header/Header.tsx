@@ -105,22 +105,20 @@ const Header = () => {
       className="!bg-[#828282] shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8"
     >
       {/* Brand Section */}
-      <Link
-        to="/"
+      <NavbarBrand
+        as={Link}
         className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200"
       >
-        <NavbarBrand>
-          <img
-            src={AboAyed}
-            alt="Engineering Map Logo"
-            className="h-8 w-8 sm:h-10 sm:w-10 rounded-full mr-1 bg-white p-1 shadow-sm"
-          />
-          <span className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold text-white ">
-            <span className="hidden sm:inline">Engineering Map</span>
-            <span className="sm:hidden">Eng Map</span>
-          </span>
-        </NavbarBrand>
-      </Link>
+        {/* <img
+          // src={Zenon}
+          // alt="Engineering Map Logo"
+          className=""
+        /> */}
+        <span className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold text-white ">
+          <span className="hidden sm:inline">Engineering Map</span>
+          <span className="sm:hidden">Eng Map</span>
+        </span>
+      </NavbarBrand>
 
       {/* Right Side Actions */}
       <div className="flex items-center space-x-3 md:order-2">

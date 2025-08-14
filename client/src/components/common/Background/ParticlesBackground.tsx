@@ -20,9 +20,7 @@ const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
   }, []);
 
   const particlesLoaded = useCallback(
-    async (container: Container | undefined) => {
-      console.log('Particles container loaded:', container);
-    },
+    async (container: Container | undefined) => {},
     []
   );
 
