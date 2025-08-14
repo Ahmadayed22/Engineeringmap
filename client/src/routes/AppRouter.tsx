@@ -9,16 +9,14 @@ const MainLayOut = lazy(() => import('@layouts/Main/MainLayOut'));
 const Home = lazy(() => import('@pages/Home/Home'));
 const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
-const GPACalculator = lazy(
-  () => import('@components/Feature/GPA/GPACalculator')
-);
+const GPACalculator = lazy(() => import('@pages/GPA/GPACalculator'));
 const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
 const About = lazy(() => import('@pages/about/About'));
 import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
-import FireParticles from '@components/common/Background/FireParticles';
 import { scheduleToken } from '@util/scheduleToken';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
+import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 
 const queryClient = new QueryClient();
 
@@ -70,8 +68,8 @@ const AppRouter = () => {
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
     >
       <QueryClientProvider client={queryClient}>
-        {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
-        <FireParticles />
+        <ParticlesBackground className="fixed inset-0 -z-10" />
+        {/* <FireParticles /> */}
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Suspense>

@@ -11,9 +11,14 @@ type MarkModalprops = {
 function MarkModal({ openModal, setOpenModal }: MarkModalprops) {
   return (
     <>
-      <Modal show={openModal} onClose={() => setOpenModal(false)} size="md">
-        <ModalHeader>Add your Mark</ModalHeader>
-        <ModalBody>
+      <Modal
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+        size="md"
+        className="z-150"
+      >
+        <ModalHeader className="!bg-[#171717]">Add your Mark</ModalHeader>
+        <ModalBody className="!bg-[#171717]">
           <SelectMark />
         </ModalBody>
       </Modal>

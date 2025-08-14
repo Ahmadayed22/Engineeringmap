@@ -13,9 +13,15 @@ function MaterialModal({ openModal, setOpenModal, item }: MaterialModalProps) {
     useMaterial({ setOpenModal });
 
   return (
-    <Modal show={openModal} size="md" onClose={onCloseModal} popup>
-      <ModalHeader className="p-6">Add Material</ModalHeader>
-      <ModalBody>
+    <Modal
+      show={openModal}
+      size="md"
+      onClose={onCloseModal}
+      popup
+      className="z-150 "
+    >
+      <ModalHeader className="p-6 !bg-[#171717]">Add Material</ModalHeader>
+      <ModalBody className="!bg-[#171717]">
         <form className="space-y-6" onSubmit={handleSubmit(submitMaterial)}>
           <InputForm
             label={

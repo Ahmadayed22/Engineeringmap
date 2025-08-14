@@ -75,7 +75,7 @@ const SignUp = () => {
           error={errors.confirmPassword?.message}
         />
 
-        <Button type="submit">
+        <Button type="submit" className="cursor-pointer">
           {loading === 'pending' ? (
             <>
               <Spinner></Spinner>

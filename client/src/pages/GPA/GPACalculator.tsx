@@ -98,11 +98,13 @@ export default function GPACalculator() {
     <div className="max-w-lg mx-auto p-4">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-white text-3xl font-bold mt-2">GPA</h1>
+        <h1 className="text-[#828282] text-3xl font-bold mt-2">
+          Calculate Your GPA
+        </h1>
       </div>
 
       {/* Old Average */}
-      <div className="bg-black p-4 rounded shadow mt-4">
+      <div className="bg-[#828282] p-4 rounded shadow mt-4">
         <h2 className="text-white font-bold text-lg">Old Average</h2>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <input
@@ -122,7 +124,7 @@ export default function GPACalculator() {
       </div>
 
       {/* This Semester */}
-      <div className="bg-black p-4 rounded shadow mt-4">
+      <div className="bg-[#828282] p-4 rounded shadow mt-4">
         <h2 className="text-white font-bold text-lg">This Semester</h2>
         {semesterCourses.map((c, i) => (
           <div key={i} className="grid grid-cols-3 gap-2 mt-2">
@@ -144,7 +146,7 @@ export default function GPACalculator() {
               }
             />
             <select
-              className="border rounded p-2 bg-black text-white"
+              className="border rounded p-2 bg-[#828282] text-white"
               value={c.grade}
               onChange={(e) => updateSemesterCourse(i, 'grade', e.target.value)}
             >
@@ -159,7 +161,7 @@ export default function GPACalculator() {
       </div>
 
       {/* Repeated Courses */}
-      <div className="bg-black p-4 rounded shadow mt-4">
+      <div className="bg-[#828282] p-4 rounded shadow mt-4">
         <div className="grid grid-cols-2 gap-3">
           <h2 className="text-white font-bold text-lg">Repeated Courses</h2>
           <div className="flex justify-between items-center">
@@ -188,7 +190,7 @@ export default function GPACalculator() {
               }
             />
             <select
-              className="border rounded p-2 bg-black text-white"
+              className="border rounded p-2 bg-[#828282] text-white"
               value={c.newGrade}
               onChange={(e) =>
                 updateRepeatedCourse(i, 'newGrade', e.target.value)
@@ -201,7 +203,7 @@ export default function GPACalculator() {
               ))}
             </select>
             <select
-              className="border rounded p-2 bg-black text-white"
+              className="border rounded p-2 bg-[#828282] text-white"
               value={c.oldGrade}
               onChange={(e) =>
                 updateRepeatedCourse(i, 'oldGrade', e.target.value)
@@ -220,7 +222,7 @@ export default function GPACalculator() {
       {/* Calculate Button */}
       <button
         onClick={calculateGPA}
-        className="bg-black text-white w-full py-2 rounded mt-4 font-bold cursor-pointer"
+        className="bg-[#828282] text-white w-full py-2 rounded mt-4 font-bold cursor-pointer"
       >
         Calculate
       </button>

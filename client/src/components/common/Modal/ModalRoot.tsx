@@ -49,7 +49,7 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
               <br />
               <span>
                 {' '}
-                الخط الابيض المقطع يدل على ان المادة تعتمد على ما قبلها
+                الخط الاسود المتقطع يدل على ان المادة تعتمد على ما قبلها
               </span>
               <br />
               <span>
@@ -67,7 +67,7 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
           <span className="text-white mb-4">
             : <>دلالة الوان الخطة</>
           </span>
-          <p className="text-sm text-black ">
+          <p className="text-sm text-[#828282] ">
             <span className="text-gray-300">مواد هندسة الحاسوب</span> ■
           </p>
           <p className="text-sm text-[#631d3b]">
@@ -76,14 +76,14 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
           <p className="text-sm text-[#166e25]">
             <span className="text-gray-300">مواد هندسة الكهربائية</span> ■
           </p>
-          <p className="text-sm text-[#0f3460]">
-            <span className="text-gray-300">مواد كلية العلوم</span> ■
-          </p>
           <p className="text-sm text-[#a87716]">
             <span className="text-gray-300">
               مواد كلية تكنولوجيا المعلومات{' '}
             </span>{' '}
             ■
+          </p>
+          <p className="text-sm text-[#0f3460]">
+            <span className="text-gray-300">مواد كلية العلوم</span> ■
           </p>
         </ModalFooter>
       </Modal>

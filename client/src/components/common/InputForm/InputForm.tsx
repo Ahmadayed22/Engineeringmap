@@ -22,8 +22,8 @@ const InputForm = ({
 }: InputFormProps) => {
   return (
     <div>
-      <div className="mb-2 block">
-        <Label>{label}</Label>
+      <div className="mb-2 block ">
+        <Label className="!text-[#828282]">{label}</Label>
       </div>
       <TextInput
         id={id}

@@ -90,7 +90,7 @@ const initialNodes: Node[] = [
   },
   {
     id: 'calculus1',
-    position: { x: 1700, y: -200 },
+    position: { x: 1750, y: -200 },
     type: 'custom',
     data: {
       label: `${staticValuesMap.get('calculus1')} `,
@@ -115,7 +115,7 @@ const initialNodes: Node[] = [
   {
     id: 'linearAlgebra',
     type: 'custom',
-    position: { x: 1950, y: -50 },
+    position: { x: 1940, y: -50 },
 
     data: {
       label: staticValuesMap.get('linearAlgebra'),
@@ -152,7 +152,7 @@ const initialNodes: Node[] = [
   {
     id: 'numericalAnalysisLab',
     type: 'custom',
-    position: { x: 1928, y: 100 },
+    position: { x: 1932, y: 100 },
     data: {
       label: staticValuesMap.get('numericalAnalysisLab'),
       courseId: 11,
@@ -256,7 +256,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSI',
     type: 'custom',
-    position: { x: -1450, y: 350 },
+    position: { x: -1435, y: 350 },
     data: {
       label: staticValuesMap.get('digitalElectronicsVLSI'),
       courseId: 20,
@@ -267,7 +267,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSILab',
     type: 'custom',
-    position: { x: -1475, y: 500 },
+    position: { x: -1458, y: 500 },
     data: {
       label: staticValuesMap.get('digitalElectronicsVLSILab'),
       courseId: 21,
@@ -338,7 +338,7 @@ const initialNodes: Node[] = [
   {
     id: 'dataStructuresAlgorithms',
     type: 'custom',
-    position: { x: -450, y: 500 },
+    position: { x: -448, y: 500 },
     data: {
       label: staticValuesMap.get('dataStructuresAlgorithms'),
       courseId: 27,
@@ -406,7 +406,7 @@ const initialNodes: Node[] = [
   {
     id: 'parallelProcessors',
     type: 'custom',
-    position: { x: -560, y: 850 },
+    position: { x: -574, y: 850 },
     data: {
       label: staticValuesMap.get('parallelProcessors'),
       courseId: 32,
@@ -418,7 +418,7 @@ const initialNodes: Node[] = [
   {
     id: 'parallelProcessorsLab',
     type: 'custom',
-    position: { x: -595, y: 1000 },
+    position: { x: -593, y: 1000 },
     data: {
       label: staticValuesMap.get('parallelProcessorsLab'),
       courseId: 33,
@@ -545,7 +545,7 @@ const initialNodes: Node[] = [
   {
     id: 'electronics2',
     type: 'custom',
-    position: { x: 974, y: 100 },
+    position: { x: 970, y: 100 },
     data: {
       label: staticValuesMap.get('electronics1'),
       courseId: 16,
@@ -556,7 +556,7 @@ const initialNodes: Node[] = [
   {
     id: 'signalsSystems3',
     type: 'custom',
-    position: { x: 1225, y: 100 },
+    position: { x: 1240, y: 100 },
     data: {
       label: staticValuesMap.get('signalsSystems'),
       courseId: 18,
@@ -626,7 +626,7 @@ const initialNodes: Node[] = [
   {
     id: 'java2',
     type: 'custom',
-    position: { x: 660, y: 650 },
+    position: { x: 662, y: 650 },
     data: {
       label: staticValuesMap.get('java'),
       courseId: 24,
@@ -662,7 +662,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworks',
     type: 'custom',
-    position: { x: 850, y: 375 },
+    position: { x: 852, y: 375 },
     data: {
       label: staticValuesMap.get('computerNetworks'),
       courseId: 47,
@@ -685,7 +685,7 @@ const initialNodes: Node[] = [
   {
     id: 'internetOfThings',
     type: 'custom',
-    position: { x: 827, y: 535 },
+    position: { x: 844, y: 535 },
     data: {
       label: staticValuesMap.get('internetOfThings'),
       courseId: 49,
@@ -708,7 +708,7 @@ const initialNodes: Node[] = [
   {
     id: 'controlSystems',
     type: 'custom',
-    position: { x: 1073, y: 670 },
+    position: { x: 1059, y: 670 },
     data: {
       label: staticValuesMap.get('controlSystems'),
       courseId: 50,
@@ -719,7 +719,7 @@ const initialNodes: Node[] = [
   {
     id: 'mobileRobots',
     type: 'custom',
-    position: { x: 1034, y: 825 },
+    position: { x: 1035, y: 825 },
     data: {
       label: staticValuesMap.get('mobileRobots'),
       courseId: 51,
@@ -782,7 +782,7 @@ const initialNodes: Node[] = [
   {
     id: 'objectOrientedProblemSolving',
     type: 'custom',
-    position: { x: 1400, y: 1050 }, // Position near computerNetworks
+    position: { x: 1402, y: 1050 }, // Position near computerNetworks
     data: {
       label: staticValuesMap.get('java'),
       courseId: 24,
@@ -833,7 +833,7 @@ const initialNodes: Node[] = [
   {
     id: 'selectedTopicsInCE',
     type: 'custom',
-    position: { x: 539, y: 1225 }, // Position in advanced topics area
+    position: { x: 535, y: 1225 }, // Position in advanced topics area
     data: {
       label: staticValuesMap.get('selectedTopicsInCE'),
       courseId: 57,

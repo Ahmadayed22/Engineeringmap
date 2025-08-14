@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 import { useAuth } from '@hooks/CustomHook/useAuth';
 import { Select, Button } from 'flowbite-react';
+import toast from 'react-hot-toast';
 
 type FormData = {
   mark: string;
@@ -15,9 +16,7 @@ const SelectMark = () => {
 
   const { register, handleSubmit } = useForm<FormData>();
 
-  // Define the mutation function
   const addMark = async (data: FormData): Promise<void> => {
-    console.log(data);
     await axios.post(`/api/courses/${courseId}/mark`, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -28,9 +27,11 @@ const SelectMark = () => {
   const mutation = useMutation<void, Error, FormData>({
     mutationFn: addMark,
     onSuccess: () => {
+      toast.success('Mark have been Added');
       console.log('Mark submitted successfully');
     },
     onError: (error) => {
+      toast.error('Failed adding mark');
       console.error('Failed to submit mark:', error);
     },
   });
@@ -55,7 +56,7 @@ const SelectMark = () => {
       <div className="flex justify-end mt-4">
         <Button
           type="submit"
-          className="mt-3 cursor-pointer "
+          className="mt-3 cursor-pointer  "
           disabled={mutation.isPending}
         >
           {mutation.isPending ? 'Adding...' : 'Add '}

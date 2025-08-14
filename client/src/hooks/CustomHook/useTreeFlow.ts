@@ -66,7 +66,6 @@ const useTreeFlow = () => {
             ...node.data,
             isStrikethrough: isCompleted,
             onClose: handleNodeClose,
-            // Add loading state to individual nodes if needed
             isUpdating: isMutating,
             mark: hoveredNodeId === node.id && oneMark ? oneMark : undefined,
             showMark: hoveredNodeId === node.id && !!oneMark,

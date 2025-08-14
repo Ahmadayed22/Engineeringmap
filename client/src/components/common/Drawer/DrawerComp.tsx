@@ -36,12 +36,12 @@ export function DrawerComp({
   const [openMark, setOpenMark] = useState<boolean>(false);
   const { accessToken } = useAuth();
   return (
-    <div className="relative ">
+    <div className="relative z-100 ">
       <Drawer
         open={isOpen}
         onClose={onClose}
         position="right"
-        className="w-full sm:max-w-sm md:max-w-xl lg:max-w-2xl "
+        className="w-full sm:max-w-sm md:max-w-xl lg:max-w-2xl !bg-[#171717] "
       >
         <div className="flex flex-col h-full w-full">
           {/* Header */}

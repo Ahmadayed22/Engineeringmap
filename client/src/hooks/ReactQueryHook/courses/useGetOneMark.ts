@@ -21,11 +21,11 @@ const useGetOneMark = (courseId: number | null) => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['mark', courseId],
+    queryKey: ['oneMark', courseId],
     queryFn: getMarkCourses,
     enabled: !!accessToken && !!courseId,
-    retry: false, // Don't retry if no mark exists
-    staleTime: 30000, // Cache for 30 seconds
+    retry: false,
+    staleTime: 5000,
   });
 
   return { oneMark, isLoading, error };

@@ -1,41 +1,25 @@
+// Blue – General Sciences: #2F80ED
+
+// Green – Electronics: #27AE60
+
+// Orange – Programming: #F2994A
+
+// Purple – Advanced Topics: #9B51E0
+
+// Grey – Support/Other: #828282 /4F4F4F
+
 const baseNodeStyle = {
-  // fontFamily: 'Tajawal, sans-serif',
-  // // border: '1px solid #ffffff',
-  // fontWeight: 'bold',
-  // fontSize: '14px',
-  // display: 'flex',
-  // alignItems: 'center',
-  // justifyContent: 'center',
-  // cursor: 'pointer',
-  // borderRadius: 10,
-  // // Choose one of these animations:
-  // // animation: 'dashBorder 2s linear infinite', // Moving border segments
-  // // animation: 'movingDash 2s linear infinite', // Moving dashed border
-  // // animation: 'rotateBorder 3s linear infinite', // Rotating border
-  // // animation: 'pulseBorder 2s ease-in-out infinite', // Pulsing glow effect
-  // // animation: 'glowBorder 1.5s ease-in-out infinite', // Glowing border
-  // // animation: 'dashBorder2 2s ease-in-out infinite ',
-  // Position: 'relative',
-  // Padding: '10 30 10 10',
-  borderRadius: ' 10px',
-  // fontSize: '16px',
-  // color: 'white',
-  // fontWeight: 'bold',
-  // display: 'flex',
-  // alignItems: 'center',
-  // justifyContent: 'center',
-  // cursor: 'pointer',
-  // transition: ' opacity 0.3s ease',
+  borderRadius: ' 14px',
 };
 
 const RootStyle = {
   ...baseNodeStyle,
-  backgroundColor: 'black',
+  backgroundColor: '#828282',
 };
 
 const nodeStyle = {
   ...baseNodeStyle,
-  backgroundColor: 'black',
+  backgroundColor: '#828282',
 };
 
 const ItStyle = {
