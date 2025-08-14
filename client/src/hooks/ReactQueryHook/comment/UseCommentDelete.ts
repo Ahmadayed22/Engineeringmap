@@ -43,7 +43,7 @@ const UseCommentDelete = ({ comment }: CommentCardContentProps) => {
       });
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onError: (error) => {
+    onError: (_error) => {
       toast.error(`Failed to delete comment. Please try again.`, {
         icon: '❌',
         style: ErrorToast,

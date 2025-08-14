@@ -4,7 +4,7 @@ import { initialNodes } from '@components/layout/node/initialNodes';
 
 export function useInitialNodes() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [nodes, setNodes] = useState<Node[]>(() =>
+  const [, setNodes] = useState<Node[]>(() =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialNodes.map((node: any) => ({
       ...node,

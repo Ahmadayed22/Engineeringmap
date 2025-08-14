@@ -50,7 +50,7 @@ const useEditComment = ({ comment, setOpenEdit }: EditCommentProps) => {
       });
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onError: (err: Error) => {
+    onError: () => {
       toast.error(`Failed to Update comment. ${mutation.error?.message}`, {
         icon: '❌',
         style: ErrorToast,

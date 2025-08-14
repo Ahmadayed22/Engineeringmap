@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const useCommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
+const useCommentSection = ({ courseId }: CommentSectionProps) => {
   const getCommentCount = async () => {
     try {
       const res = await axios.get(`/api/comments/course/${courseId}/count`);

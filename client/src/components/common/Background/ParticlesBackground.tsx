@@ -2,10 +2,9 @@ import { useCallback } from 'react';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
 import type { Container, Engine } from 'tsparticles-engine';
-// import particlesConfig from './praticlesConfigWhite';
-// import particlesConfigBlack from './praticlesConfigBlack';
+
 import particlesConfig from './praticlesConfigWhite';
-// import particlesConfig from './praticlesConfigWhite';
+
 interface ParticlesBackgroundProps {
   id?: string;
   className?: string;
@@ -20,7 +19,8 @@ const ParticlesBackground: React.FC<ParticlesBackgroundProps> = ({
   }, []);
 
   const particlesLoaded = useCallback(
-    async (container: Container | undefined) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (_container: Container | undefined) => {},
     []
   );
 

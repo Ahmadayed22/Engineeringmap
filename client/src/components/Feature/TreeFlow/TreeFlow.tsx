@@ -72,7 +72,7 @@ const TreeFlowInner = memo(() => {
         <DrawerComp
           isOpen={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          title={title}
+          title={typeof title === 'string' ? title : undefined}
           nodeName={nodeName}
           courseId={courseId}
         />

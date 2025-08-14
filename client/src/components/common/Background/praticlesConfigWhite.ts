@@ -1,4 +1,5 @@
-const particlesConfig = {
+import type { IOptions, RecursivePartial } from 'tsparticles-engine';
+const particlesConfig: RecursivePartial<IOptions> = {
   autoPlay: true,
   background: {
     color: {
@@ -7,12 +8,10 @@ const particlesConfig = {
     opacity: 1,
   },
   backgroundMask: {
-    composite: 'destination-out',
+    composite: 'destination-out' as GlobalCompositeOperation,
     cover: {
       opacity: 1,
-      color: {
-        value: '#F0F2F5',
-      },
+      color: { value: '#fff' },
     },
     enable: false,
   },
@@ -27,7 +26,7 @@ const particlesConfig = {
   duration: 0,
   fpsLimit: 120,
   interactivity: {
-    detectsOn: 'window',
+    detectsOn: 'window' as const,
     events: {
       onClick: {
         enable: true,
@@ -37,7 +36,7 @@ const particlesConfig = {
         selectors: [],
         enable: false,
         mode: [],
-        type: 'circle',
+        type: 'circle' as const,
       },
       onHover: {
         enable: true,
@@ -282,10 +281,7 @@ const particlesConfig = {
         width: 1920,
         height: 1080,
       },
-      limit: {
-        mode: 'delete',
-        value: 0,
-      },
+      limit: 0,
       value: 80,
     },
     opacity: {

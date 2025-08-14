@@ -116,7 +116,7 @@ const useTreeFlow = () => {
   const [rootModalOpen, setRootModalOpen] = useState(false);
 
   const handleNodeClick: NodeMouseHandler = useCallback(
-    (event, node) => {
+    (_event, node) => {
       setCourseId(node.data.courseId);
       setNodeName(node.id);
 

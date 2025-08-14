@@ -42,7 +42,7 @@ const useMutationCompleteCourse = () => {
       // Return context with previous and new data
       return { previousCompleted };
     },
-    onError: (err, variables, context) => {
+    onError: (_err, _variables, context) => {
       // Revert on error
       if (context?.previousCompleted) {
         queryClient.setQueryData(
