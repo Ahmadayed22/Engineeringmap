@@ -14,6 +14,9 @@ import {
 } from 'flowbite-react';
 import { useState } from 'react';
 
+import MarkModal from '../Modal/MarkModal';
+import { useAuth } from '@hooks/CustomHook/useAuth';
+
 type DrawerCompProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -30,6 +33,8 @@ export function DrawerComp({
   courseId,
 }: DrawerCompProps) {
   const [openMaterial, setOpenMaterial] = useState<boolean>(true);
+  const [openMark, setOpenMark] = useState<boolean>(false);
+  const { accessToken } = useAuth();
   return (
     <div className="relative ">
       <Drawer
@@ -62,6 +67,17 @@ export function DrawerComp({
               >
                 Material
               </Button>
+              {accessToken && (
+                <>
+                  <Button
+                    className="cursor-pointer"
+                    color="alternative"
+                    onClick={() => setOpenMark(true)}
+                  >
+                    AddMark
+                  </Button>
+                </>
+              )}
             </ButtonGroup>
           </div>
           {openMaterial ? (
@@ -82,6 +98,10 @@ export function DrawerComp({
             </>
           )}
         </div>
+
+        <>
+          <MarkModal setOpenModal={setOpenMark} openModal={openMark} />
+        </>
       </Drawer>
     </div>
   );

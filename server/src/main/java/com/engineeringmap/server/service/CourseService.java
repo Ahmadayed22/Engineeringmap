@@ -122,19 +122,34 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course Not Found"));
         Optional<Tracking> existingMark = TrackingRepo.findByUserIdAndCourseId(userId, courseId);
-        if (existingMark.isPresent() ) {
+        if (existingMark.isPresent()) {
             Tracking mark = existingMark.get();
             mark.setMark(markRequest);
             TrackingRepo.save(mark);
-        }
-        else {
+        } else {
             Tracking mark = new Tracking();
             mark.setUser(user);
             mark.setCourse(course);
             mark.setMark(markRequest);
             TrackingRepo.save(mark);
         }
+
+    }
+
+  
+    public List<String> getMarkCourses(Long userId) {
         
-      
+        return TrackingRepo.findByUserId(userId).stream()
+                .map(mark -> mark.getMark())
+                .filter(mark -> mark != null)
+                .collect(Collectors.toList());
+        
+    }
+
+    public String getMarkCourseById(Long userId, Long courseId) {
+        Tracking tracking = TrackingRepo.findByUserIdAndCourseId(userId, courseId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Mark not found for userId: " + userId + " and courseId: " + courseId));
+        return tracking.getMark();
     }
 }

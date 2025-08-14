@@ -105,11 +105,27 @@ public class CourseController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             long userId = userDetails.getId();
-            courseService.createMark(courseId, userId,markRequest.mark());
+            courseService.createMark(courseId, userId, markRequest.mark());
             return ResponseEntity.ok(new SuccessResponse("Mark have been Add"));
 
         } catch (Exception e) {
-             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
     }
+
+    @GetMapping("/user/mark")
+    public ResponseEntity<List<String>> getMarkCourses(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getId();
+        List<String> markCourses = courseService.getMarkCourses(userId);
+        return ResponseEntity.ok(markCourses);
+    }
+    
+    @GetMapping("/{courseId}/mark")
+    public ResponseEntity<String> getMarkCourseById(@PathVariable Long courseId , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getId();
+        String markCourses = courseService.getMarkCourseById(userId,courseId);
+        return ResponseEntity.ok(markCourses);
+    }
+
+    
 }

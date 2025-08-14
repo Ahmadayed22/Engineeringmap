@@ -1,4 +1,3 @@
-// Enhanced CustomNode.tsx - With toggle strikethrough behavior
 import { Handle, Position } from '@xyflow/react';
 import './CustomNode.css';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
@@ -10,14 +9,15 @@ interface CustomNodeProps {
     courseId?: number;
     title: string;
     isClosing?: boolean;
-    isStrikethrough?: boolean; // New prop for strikethrough state
+    isStrikethrough?: boolean;
     onClose?: (id: string) => void;
     style?: React.CSSProperties;
+    mark?: string;
+    showMark?: boolean;
   };
   id: string;
 }
 
-// Enhanced memoized CustomNode component
 const CustomNode = memo(({ data, id }: CustomNodeProps) => {
   const handleClose = React.useCallback(
     (e: React.MouseEvent) => {
@@ -29,7 +29,6 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
     [data.onClose, id]
   );
 
-  // Enhanced keyboard support
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === 'Delete' || e.key === 'Backspace') {
@@ -42,7 +41,6 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
     [data.onClose, id]
   );
 
-  // Build class names based on state
   const getClassName = () => {
     let className = 'custom-node';
     if (data.isClosing) className += ' closing';
@@ -59,7 +57,7 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
       role="button"
       aria-label={`Node: ${data.label}`}
     >
-      <span className="hover:text-red-700 ">{data.label}</span>
+      <span>{data.label}</span>
 
       <button
         className="close-btn"
@@ -78,6 +76,15 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
       >
         <IoMdCloseCircleOutline className="text-2xl" />
       </button>
+
+      {data.showMark && data.mark && (
+        <div className="mark-container">
+          <span className="mark" aria-label={`Mark: ${data.mark}`}>
+            {data.mark}
+          </span>
+        </div>
+      )}
+
       <Handle
         type="source"
         position={Position.Bottom}

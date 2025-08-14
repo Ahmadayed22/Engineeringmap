@@ -8,6 +8,7 @@ import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
 import { ModalRoot } from '@components/common';
 import CustomNode from '@components/layout/node/CustomNode';
 import { memo, useMemo } from 'react';
+
 // import CustomNode from '@components/layout/node/CustomNode';
 
 const TreeFlowInner = memo(() => {
@@ -23,9 +24,9 @@ const TreeFlowInner = memo(() => {
     rootModalOpen,
     setRootModalOpen,
     onNodeMouseEnter,
+    onNodeMouseLeave,
   } = useTreeFlow();
 
-  // Memoize nodeTypes to prevent recreation
   const nodeTypes = useMemo(
     () => ({
       custom: CustomNode,
@@ -50,6 +51,7 @@ const TreeFlowInner = memo(() => {
         onConnect={onConnect}
         onNodeClick={handleNodeClick}
         onNodeMouseEnter={onNodeMouseEnter}
+        onNodeMouseLeave={onNodeMouseLeave}
         defaultEdgeOptions={defaultEdgeOptions}
         minZoom={0.3}
         fitView

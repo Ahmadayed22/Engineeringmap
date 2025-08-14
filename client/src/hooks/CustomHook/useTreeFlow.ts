@@ -15,13 +15,16 @@ import { initialEdges } from '@components/layout/edge/initialEdges';
 
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 import useCompletedCoursesWithQuery from '@hooks/ReactQueryHook/courses/useCompletedCoursesWithQuery';
+import useGetOneMark from '@hooks/ReactQueryHook/courses/useGetOneMark';
 
 const useTreeFlow = () => {
   const [baseNodes, setBaseNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
     useTreeFlowContext();
-
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  const [hoveredCourseId, setHoveredCourseId] = useState<number | null>(null);
+  const { oneMark } = useGetOneMark(hoveredCourseId || 0);
   // React Query integration
   const {
     completedCourses,
@@ -65,6 +68,8 @@ const useTreeFlow = () => {
             onClose: handleNodeClose,
             // Add loading state to individual nodes if needed
             isUpdating: isMutating,
+            mark: hoveredNodeId === node.id && oneMark ? oneMark : undefined,
+            showMark: hoveredNodeId === node.id && !!oneMark,
           },
         };
       }
@@ -72,7 +77,14 @@ const useTreeFlow = () => {
         ...node,
       };
     });
-  }, [baseNodes, completedCourses, handleNodeClose, isMutating]);
+  }, [
+    baseNodes,
+    completedCourses,
+    handleNodeClose,
+    isMutating,
+    hoveredNodeId,
+    oneMark,
+  ]);
 
   // Standard React Flow handlers
   const onNodesChange: OnNodesChange = useCallback(
@@ -90,8 +102,16 @@ const useTreeFlow = () => {
     []
   );
 
-  const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
-    console.log('Mouse entered node', node.id);
+  const onNodeMouseEnter = useCallback((_: React.MouseEvent, node: Node) => {
+    setHoveredNodeId(node.id);
+    if (node.data.courseId) {
+      setHoveredCourseId(Number(node.data.courseId) || null);
+    }
+  }, []);
+
+  const onNodeMouseLeave = useCallback(() => {
+    setHoveredNodeId(null);
+    setHoveredCourseId(null);
   }, []);
 
   const [rootModalOpen, setRootModalOpen] = useState(false);
@@ -120,6 +140,7 @@ const useTreeFlow = () => {
     onNodesChange,
     onEdgesChange,
     onNodeMouseEnter,
+    onNodeMouseLeave,
     onConnect,
     handleNodeClick,
     setDrawerOpen,

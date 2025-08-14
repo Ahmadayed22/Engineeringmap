@@ -14,5 +14,7 @@ public interface TrackingRepo extends JpaRepository<Tracking, Long> {
     Optional<Tracking> findByUserIdAndCourseId(Long userId, Long courseId);
 
     List<Tracking> findByUserIdAndCompleted(Long userId, boolean completed);
-    
+
+    List<Tracking> findByUserId(Long userId);
+     
 } 

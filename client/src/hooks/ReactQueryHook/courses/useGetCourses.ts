@@ -34,6 +34,10 @@ const useGetCourses = () => {
     const response = await apiClient.get('/courses/user/completed');
     return response.data;
   };
+  const getMarkCourses = async (): Promise<number[]> => {
+    const response = await apiClient.get('/courses/user/mark');
+    return response.data;
+  };
 
   const getAllCourses = async (): Promise<CourseResponseDto[]> => {
     const response = await apiClient.get('/courses');
@@ -52,6 +56,7 @@ const useGetCourses = () => {
     getCompletedCourses,
     getAllCourses,
     getCourseById,
+    getMarkCourses,
   };
 };
 

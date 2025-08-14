@@ -14,7 +14,7 @@
 /* Base custom node styles */
 .custom-node {
   position: relative;
-  padding: 20px ;
+  padding: 20px;
   color: white;
   font-weight: 600;
   font-size: 18px;
@@ -29,7 +29,6 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
-
 }
 
 /* Hover effects for better interactivity */
@@ -44,7 +43,12 @@
   transform: scale(1) rotate(0deg);
 }
 
-/* Enhanced close button */
+.custom-node:hover .mark-container {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Enhanced close button - TOP RIGHT DIAGONAL */
 .close-btn {
   background: var(--node-danger);
   border: none;
@@ -52,8 +56,8 @@
   font-size: 17px;
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0;
+  top:  0px;        /* Move further up for diagonal effect */
+  right: 0px;      /* Move further right for diagonal effect */
   z-index: 10;
   width: 24px;
   height: 24px;
@@ -113,77 +117,47 @@
   }
 }
 
-/* Strikethrough state - first click */
-/* .custom-node.strikethrough {
-  opacity: 0.7;
-  filter: grayscale(0.3);
+/* Mark styling - TOP LEFT DIAGONAL */
+.mark-container {
+  position: absolute;
+  top: 0px;        /* Move further up for diagonal effect */
+  left: 0px;       /* Move further left for diagonal effect */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+  opacity: 0;
+  transform: scale(0.8);
 }
 
-.custom-node.strikethrough span {
-  position: relative;
+/* Show mark when node is hovered */
+.custom-node:hover .mark-container {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.custom-node.strikethrough span::after {
+/* Mark text styling */
+.mark {
+  background: var(--node-primary);
+  color: var(--node-white);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional: Small arrow/triangle below the mark */
+/* .mark-container::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(to right, #ef4444, #dc2626);
-  border-radius: 1px;
-  animation: drawStrikethrough 0.4s ease-out forwards;
-  box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
-} 
-.custom-node.strikethrough {
-  opacity: 0.7;
-
-  animation: shakeAndSettle 1s ease-out;
-
-}
-
-@keyframes shakeAndSettle {
-  0% { transform: translateX(0); }
-  10% { transform: translateX(-3px) rotate(-1deg); }
-  20% { transform: translateX(3px) rotate(1deg); }
-  30% { transform: translateX(-2px) rotate(-0.5deg); }
-  40% { transform: translateX(2px) rotate(0.5deg); }
-  50% { transform: translateX(-1px); }
-  60% { transform: translateX(1px); }
-  70%, 100% { transform: translateX(0) rotate(0deg); }
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--node-primary);
 } */
-/* --------------------------- */
-/* .custom-node.strikethrough span::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 0;
-  height: 3px;
-  background: linear-gradient(45deg, #ef4444, #dc2626, #ef4444);
-  background-size: 200% 100%;
-  border-radius: 2px;
-  animation: drawStrikeThroughShimmer 0.8s ease-out forwards;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
-}
-
-@keyframes drawStrikeThroughShimmer {
-  0% {
-    width: 0;
-    background-position: 200% 0;
-  }
-  70% {
-    width: 100%;
-    background-position: 200% 0;
-  }
-  100% {
-    width: 100%;
-    background-position: -200% 0;
-  }
-} */ */
-
-/* --------------------------- */
-/* --------------------------- */
 
 .custom-node.strikethrough {
   opacity: 0.85;
@@ -215,31 +189,6 @@
   }
 }
 
-/* .custom-node.strikethrough span::after {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, red, red);
-  border-radius: 1px;
-  animation: paperTear 0.7s ease-out forwards;
-  box-shadow: 0 1px 2px rgba(139, 69, 19, 0.3);
-  -webkit-animation: paperTear 0.7s ease-out forwards;
-}
-.custom-node.strikethrough span::before  {
-  content: '';
-  position: absolute;
-  top: 90%;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, red, red);
-  border-radius: 1px;
-  animation: paperTear 0.7s ease-out forwards;
-  box-shadow: 0 1px 2px rgba(139, 69, 19, 0.3);
-} */
 .custom-node.strikethrough span::after {
   content: '';
   position: absolute;
@@ -247,7 +196,6 @@
   left: 0;
   height: 100%;
   width: 10px; 
-  
   background:
     linear-gradient(90deg, red, red) 0 10% / 100% 2px no-repeat,
     linear-gradient(90deg, red, red) 0 50% / 100% 2px no-repeat,
@@ -257,14 +205,10 @@
   animation: paperTear 0.7s ease-out forwards;
 }
 
-
 @keyframes paperTear {
   0% { width: 0; }
   100% { width: 100%; }
 }
-
-
-/* --------------------------- */
 
 @keyframes drawStrikethrough {
   0% {
@@ -452,9 +396,15 @@
   .close-btn {
     width: 22px;
     height: 22px;
-    top: -5px;
-    right: -5px;
+    top: -6px;
+    right: -6px;
     font-size: 17px;
+  }
+  
+  .mark-container {
+    top: -6px;
+    left: -6px;
+    font-size: 13px;
   }
 }
 
@@ -468,9 +418,15 @@
   .close-btn {
     width: 20px;
     height: 20px;
-    top: -4px;
-    right: -4px;
+    top: 0px;
+    right:  0px;
     font-size: 17px;
+  }
+  
+  .mark-container {
+    top:  0px;
+    left:  0px;
+    font-size: 12px;
   }
 }
 
