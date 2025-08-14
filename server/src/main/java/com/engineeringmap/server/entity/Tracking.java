@@ -24,4 +24,6 @@ public class Tracking {
     @Column(nullable = false)
     private boolean completed;
     
+    @Column
+    private String mark;
 }

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.engineeringmap.server.dto.request.CourseRequestDto;
+import com.engineeringmap.server.dto.request.MarkRequest;
 import com.engineeringmap.server.dto.response.CourseResponseDto;
 import com.engineeringmap.server.entity.Course;
 import com.engineeringmap.server.entity.Tracking;
@@ -113,5 +114,27 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
             .stream()
             .map(completion -> completion.getCourse().getId())
             .collect(Collectors.toList());
+    }
+
+    public void createMark(Long courseId, Long userId, String markRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Use Not Found"));
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course Not Found"));
+        Optional<Tracking> existingMark = TrackingRepo.findByUserIdAndCourseId(userId, courseId);
+        if (existingMark.isPresent() ) {
+            Tracking mark = existingMark.get();
+            mark.setMark(markRequest);
+            TrackingRepo.save(mark);
+        }
+        else {
+            Tracking mark = new Tracking();
+            mark.setUser(user);
+            mark.setCourse(course);
+            mark.setMark(markRequest);
+            TrackingRepo.save(mark);
+        }
+        
+      
     }
 }

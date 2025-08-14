@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.engineeringmap.server.dto.request.CourseRequestDto;
+import com.engineeringmap.server.dto.request.MarkRequest;
 import com.engineeringmap.server.dto.request.TrackingRequest;
 import com.engineeringmap.server.dto.response.CourseResponseDto;
 import com.engineeringmap.server.dto.response.ErrorResponse;
@@ -97,5 +98,18 @@ public class CourseController {
         Long userId = userDetails.getId();
         List<Long> completedCourses = courseService.getCompletedCourses(userId);
         return ResponseEntity.ok(completedCourses);
+    }
+
+    @PostMapping("/{courseId}/mark") 
+    public ResponseEntity<?> courseMark(@PathVariable Long courseId,@Valid @RequestBody MarkRequest markRequest,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            long userId = userDetails.getId();
+            courseService.createMark(courseId, userId,markRequest.mark());
+            return ResponseEntity.ok(new SuccessResponse("Mark have been Add"));
+
+        } catch (Exception e) {
+             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        }
     }
 }
