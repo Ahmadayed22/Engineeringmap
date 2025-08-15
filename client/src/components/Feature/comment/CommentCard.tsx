@@ -12,12 +12,16 @@ import { useAppSelector } from '@store/reduxHooks';
 
 const CommentCard = ({ comment }: CommentCardProps) => {
   const { username } = useGetUserName({ comment });
-
+  const [openEdit, setOpenEdit] = useState(false);
   return (
     <div className="space-y-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-800 dark:bg-neutral-900 ">
       <CommentCardHeader username={username} comment={comment} />
-      <CommentCardContent comment={comment} />
-      <CommentCardButtons comment={comment} />
+      <CommentCardContent comment={comment} openEdit={openEdit} />
+      <CommentCardButtons
+        comment={comment}
+        openEdit={openEdit}
+        setOpenEdit={setOpenEdit}
+      />
     </div>
   );
 };
@@ -33,13 +37,26 @@ function CommentCardHeader({ username, comment }: CommentCardHeaderProps) {
   );
 }
 
-function CommentCardContent({ comment }: CommentCardContentProps) {
-  return <p className="flex justify-end">{comment.content}</p>;
-}
+type CommentCardContent = {
+  openEdit: boolean;
+} & CommentCardContentProps;
 
-function CommentCardButtons({ comment }: CommentCardContentProps) {
+function CommentCardContent({ comment, openEdit }: CommentCardContent) {
+  return (
+    <>{!openEdit && <p className="flex justify-end">{comment.content}</p>}</>
+  );
+}
+type CommentCardButtons = {
+  setOpenEdit: (value: boolean) => void;
+} & CommentCardContent;
+
+function CommentCardButtons({
+  comment,
+  openEdit,
+  setOpenEdit,
+}: CommentCardButtons) {
   const { openModal, setOpenModal, mutation } = UseCommentDelete({ comment });
-  const [openEdit, setOpenEdit] = useState(false);
+
   const { userInfo } = useAppSelector((state) => state.auth); // Get current user's ID
 
   const isOwnComment = comment.userId === userInfo?.id;

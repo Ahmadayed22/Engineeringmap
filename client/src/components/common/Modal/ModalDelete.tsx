@@ -11,7 +11,7 @@ function ModalDelete({ openModal, setOpenModal, onDelete }: ModalDeleteProps) {
     <Modal
       show={openModal}
       onClose={() => setOpenModal(false)}
-      className="cursor-not-allowed"
+      className="cursor-not-allowed z-150"
       theme={{
         header: {
           close: {
@@ -20,13 +20,13 @@ function ModalDelete({ openModal, setOpenModal, onDelete }: ModalDeleteProps) {
         },
       }}
     >
-      <div className="bg-[#242424] rounded-lg">
+      <div className="bg-[#171717] rounded-lg">
         {' '}
         {/* Wrap content for background */}
-        <ModalHeader className="bg-[#242424] text-white">
+        <ModalHeader className="bg-[#171717] text-white">
           Delete Comment
         </ModalHeader>
-        <ModalBody className="bg-[#242424]">
+        <ModalBody className="bg-[#171717]">
           <div className="space-y-6">
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               Are you sure you want to delete this comment? This Action cannot

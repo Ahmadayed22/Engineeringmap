@@ -15,17 +15,18 @@ import { initialEdges } from '@components/layout/edge/initialEdges';
 
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 import useCompletedCoursesWithQuery from '@hooks/ReactQueryHook/courses/useCompletedCoursesWithQuery';
-import useGetOneMark from '@hooks/ReactQueryHook/courses/useGetOneMark';
+import useGetAllMark from '@hooks/ReactQueryHook/courses/useGetAllMark';
 
 const useTreeFlow = () => {
   const [baseNodes, setBaseNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
     useTreeFlowContext();
-  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
-  const [hoveredCourseId, setHoveredCourseId] = useState<number | null>(null);
-  const { oneMark } = useGetOneMark(hoveredCourseId || 0);
-  // React Query integration
+
+  // Fetch all marks in one request
+  const { allMarks, isLoading: marksLoading } = useGetAllMark();
+
+  // React Query integration for completed courses
   const {
     completedCourses,
     loading,
@@ -38,10 +39,8 @@ const useTreeFlow = () => {
   // Enhanced toggle handler with React Query
   const handleNodeClose = useCallback(
     async (nodeId: string) => {
-      // Prevent multiple clicks while mutation is pending
       if (isMutating) return;
 
-      // Find the node to get its courseId
       const node = baseNodes.find((n) => n.id === nodeId);
       if (!node || !node.data.courseId) {
         console.warn('Node or courseId not found for:', nodeId);
@@ -54,11 +53,13 @@ const useTreeFlow = () => {
     [baseNodes, toggleCourseCompletion, isMutating]
   );
 
-  // Enrich nodes with completion state from React Query
+  // Enrich nodes with completion state and marks (no hover state needed)
   const optimizedNodes = useMemo(() => {
     return baseNodes.map((node) => {
       if (node.type === 'custom' && node.data.courseId) {
         const isCompleted = completedCourses.has(Number(node.data.courseId));
+        const courseId = Number(node.data.courseId);
+        const mark = allMarks[courseId];
 
         return {
           ...node,
@@ -67,23 +68,13 @@ const useTreeFlow = () => {
             isStrikethrough: isCompleted,
             onClose: handleNodeClose,
             isUpdating: isMutating,
-            mark: hoveredNodeId === node.id && oneMark ? oneMark : undefined,
-            showMark: hoveredNodeId === node.id && !!oneMark,
+            mark, // Always pass the mark, CSS will handle visibility
           },
         };
       }
-      return {
-        ...node,
-      };
+      return node;
     });
-  }, [
-    baseNodes,
-    completedCourses,
-    handleNodeClose,
-    isMutating,
-    hoveredNodeId,
-    oneMark,
-  ]);
+  }, [baseNodes, completedCourses, handleNodeClose, isMutating, allMarks]);
 
   // Standard React Flow handlers
   const onNodesChange: OnNodesChange = useCallback(
@@ -100,18 +91,6 @@ const useTreeFlow = () => {
     (params) => setEdges((es) => addEdge(params, es)),
     []
   );
-
-  const onNodeMouseEnter = useCallback((_: React.MouseEvent, node: Node) => {
-    setHoveredNodeId(node.id);
-    if (node.data.courseId) {
-      setHoveredCourseId(Number(node.data.courseId) || null);
-    }
-  }, []);
-
-  const onNodeMouseLeave = useCallback(() => {
-    setHoveredNodeId(null);
-    setHoveredCourseId(null);
-  }, []);
 
   const [rootModalOpen, setRootModalOpen] = useState(false);
 
@@ -138,8 +117,6 @@ const useTreeFlow = () => {
     setNodes: setBaseNodes,
     onNodesChange,
     onEdgesChange,
-    onNodeMouseEnter,
-    onNodeMouseLeave,
     onConnect,
     handleNodeClick,
     setDrawerOpen,
@@ -147,7 +124,7 @@ const useTreeFlow = () => {
     setRootModalOpen,
 
     // React Query states
-    loading,
+    loading: loading || marksLoading,
     error: combinedError,
     isMutating,
     completedCoursesCount: completedCourses.size,

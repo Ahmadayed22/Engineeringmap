@@ -1,10 +1,9 @@
-import CommentSectionProps from '@customTypes/CommentSection';
 import CommentList from './CommentList';
 
 import useCommentSection from '@hooks/ReactQueryHook/comment/useCommentSection';
 import React from 'react';
 
-const CommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
+const CommentSection = () => {
   const {
     commentCount,
     comments,
@@ -12,7 +11,7 @@ const CommentSection = ({ nodeName, courseId }: CommentSectionProps) => {
     countError,
     commentsError,
     isCountLoading,
-  } = useCommentSection({ nodeName, courseId });
+  } = useCommentSection();
 
   if (isCountLoading || isCommentsLoading) return <div>Loading...</div>;
   if (countError) return <div>Error: {countError.message}</div>;

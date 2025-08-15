@@ -37,12 +37,7 @@ const CommentForm = ({ courseId }: CommentFormProps) => {
               {errors.comment.message}
             </p>
           )}
-          <Button
-            type="submit"
-            // disabled={mutation.isLoading}
-            className="w-full cursor-pointer"
-          >
-            {/* {mutation.isLoading ? 'Submitting...' : 'Comment'} */}
+          <Button type="submit" className="w-full cursor-pointer">
             Comment
           </Button>
         </>

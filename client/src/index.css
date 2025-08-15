@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
-/* @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap'); */
+
 
 .react-flow__handle-top,
 .react-flow__handle-bottom {

@@ -1,6 +1,7 @@
 package com.engineeringmap.server.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -127,5 +128,11 @@ public class CourseController {
         return ResponseEntity.ok(markCourses);
     }
 
-    
+    @GetMapping("/user/marks/batch")
+    public ResponseEntity<Map<Long, String>> getAllUserMarks(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getId();
+        Map<Long, String> allMarks = courseService.getAllUserMarks(userId);
+        return ResponseEntity.ok(allMarks);
+    }
+
 }

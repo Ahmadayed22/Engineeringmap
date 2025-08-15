@@ -1,4 +1,4 @@
-import { useAppSelector } from '@store/reduxHooks';
+import { useAuth } from '@hooks/CustomHook/useAuth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -18,8 +18,7 @@ interface CommentFormProps {
 
 const useCommentForm = ({ courseId }: CommentFormProps) => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAppSelector((state) => state.auth);
-  // const { comments, commentCount } = useCommentSection();
+  const { accessToken } = useAuth();
 
   const {
     register,
@@ -32,9 +31,6 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
     },
   });
 
-  // Optional: Log comments for debugging
-  // console.log('Comments:', comments);
-  //   console.log('courseId:', courseId);
   const createComment = async ({ content, courseId }: CreateCommentProps) => {
     const res = await axios.post(
       '/api/comments',
@@ -55,8 +51,12 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
   const mutation = useMutation({
     mutationFn: createComment,
     onSuccess: () => {
+      // Invalidate both the comments and comment count queries
       queryClient.invalidateQueries({
         queryKey: ['CourseByCourseId', courseId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['commentsCount', courseId],
       });
       reset();
     },
@@ -67,20 +67,16 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
 
   const submitComment: SubmitHandler<CommentInput> = (data) => {
     if (!accessToken) {
-      // console.error('No access token available');
+      console.error('No access token available');
       return;
     }
 
-    // if (!courseId) {
-    //   console.error('Course ID is not available');
-    //   return;
-    // }
-
     mutation.mutate({
       content: data.comment,
-      courseId, // Use courseId prop
+      courseId,
     });
   };
+
   return { register, handleSubmit, errors, submitComment, accessToken };
 };
 

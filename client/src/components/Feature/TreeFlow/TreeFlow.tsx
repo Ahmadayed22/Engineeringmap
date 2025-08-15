@@ -12,7 +12,7 @@ import { memo, useMemo } from 'react';
 // import CustomNode from '@components/layout/node/CustomNode';
 
 const TreeFlowInner = memo(() => {
-  const { courseId, drawerOpen, title, nodeName } = useTreeFlowContext();
+  const { courseId, drawerOpen, title } = useTreeFlowContext();
   const {
     nodes,
     edges,
@@ -23,8 +23,6 @@ const TreeFlowInner = memo(() => {
     setDrawerOpen,
     rootModalOpen,
     setRootModalOpen,
-    onNodeMouseEnter,
-    onNodeMouseLeave,
   } = useTreeFlow();
 
   const nodeTypes = useMemo(
@@ -50,8 +48,6 @@ const TreeFlowInner = memo(() => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeClick={handleNodeClick}
-        onNodeMouseEnter={onNodeMouseEnter}
-        onNodeMouseLeave={onNodeMouseLeave}
         defaultEdgeOptions={defaultEdgeOptions}
         minZoom={0.3}
         fitView
@@ -60,7 +56,7 @@ const TreeFlowInner = memo(() => {
         proOptions={{ hideAttribution: true }}
         nodeTypes={nodeTypes}
         nodesDraggable={false}
-      ></ReactFlow>
+      />
 
       {rootModalOpen && (
         <ModalRoot
@@ -73,7 +69,6 @@ const TreeFlowInner = memo(() => {
           isOpen={drawerOpen}
           onClose={() => setDrawerOpen(false)}
           title={typeof title === 'string' ? title : undefined}
-          nodeName={nodeName}
           courseId={courseId}
         />
       )}
@@ -82,6 +77,7 @@ const TreeFlowInner = memo(() => {
 });
 
 TreeFlowInner.displayName = 'TreeFlowInner';
+
 export default function TreeFlow() {
   return (
     <TreeFlowProvider>

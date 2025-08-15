@@ -9,11 +9,13 @@ const EditComment = ({ comment, setOpenEdit }: EditCommentProps) => {
       setOpenEdit,
     });
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="my-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="my-4 w-full">
       <div className="mb-4">
         <Textarea
+          className="text-end"
           id="comment"
           rows={2}
+          defaultValue={comment.content}
           {...register('comment', { required: 'Comment is required' })}
         />
         {errors.comment && (
@@ -26,12 +28,13 @@ const EditComment = ({ comment, setOpenEdit }: EditCommentProps) => {
         <Button
           className="cursor-pointer"
           type="button"
+          color={'alternative'}
           onClick={() => setOpenEdit(false)}
         >
           Close
         </Button>
         <Button
-          className="cursor-pointer"
+          className="cursor-pointer "
           type="submit"
           disabled={mutation.isPending}
         >

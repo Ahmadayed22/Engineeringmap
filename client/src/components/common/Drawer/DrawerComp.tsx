@@ -21,7 +21,6 @@ type DrawerCompProps = {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  nodeName: string | null | undefined;
   courseId: number | unknown | null;
 };
 
@@ -29,12 +28,12 @@ export function DrawerComp({
   isOpen,
   onClose,
   title,
-  nodeName,
   courseId,
 }: DrawerCompProps) {
   const [openMaterial, setOpenMaterial] = useState<boolean>(true);
   const [openMark, setOpenMark] = useState<boolean>(false);
   const { accessToken } = useAuth();
+
   return (
     <div className="relative z-100 ">
       <Drawer
@@ -45,11 +44,7 @@ export function DrawerComp({
       >
         <div className="flex flex-col h-full w-full">
           {/* Header */}
-          <DrawerHeader
-            title={title}
-            // titleIcon={HiEnvelope}
-            // className="text-center"
-          />
+          <DrawerHeader title={title} />
 
           <div className="text-center mb-4">
             <ButtonGroup>
@@ -83,7 +78,7 @@ export function DrawerComp({
           {openMaterial ? (
             <>
               <DrawerItems className="flex-1 overflow-y-auto p-4">
-                <CommentSection nodeName={nodeName} courseId={courseId} />
+                <CommentSection />
               </DrawerItems>
 
               {/* Sticky Bottom Form */}

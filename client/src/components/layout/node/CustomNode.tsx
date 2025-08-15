@@ -1,52 +1,20 @@
 import { Handle, Position } from '@xyflow/react';
 import './CustomNode.css';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
-import React, { memo } from 'react';
-
-interface CustomNodeProps {
-  data: {
-    label: string;
-    courseId?: number;
-    title: string;
-    isClosing?: boolean;
-    isStrikethrough?: boolean;
-    onClose?: (id: string) => void;
-    style?: React.CSSProperties;
-    mark?: string;
-    showMark?: boolean;
-  };
-  id: string;
-}
+import { memo } from 'react';
+import CustomNodeProps from '@customTypes/CustomeNode';
+import useCustomNode from '@hooks/CustomHook/useCustomNode';
 
 const CustomNode = memo(({ data, id }: CustomNodeProps) => {
-  const handleClose = React.useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (data.onClose) {
-        data.onClose(id);
-      }
-    },
-    [data.onClose, id]
-  );
-
-  const handleKeyDown = React.useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Delete' || e.key === 'Backspace') {
-        e.stopPropagation();
-        if (data.onClose) {
-          data.onClose(id);
-        }
-      }
-    },
-    [data.onClose, id]
-  );
-
-  const getClassName = () => {
-    let className = 'custom-node';
-    if (data.isClosing) className += ' closing';
-    if (data.isStrikethrough && !data.isClosing) className += ' strikethrough';
-    return className;
-  };
+  const {
+    handleClose,
+    handleKeyDown,
+    getClassName,
+    getAriaLabel,
+    getCloseButtonAriaLabel,
+    getCloseButtonTitle,
+    getMarkAriaLabel,
+  } = useCustomNode({ data, id });
 
   return (
     <div
@@ -55,31 +23,23 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
       tabIndex={0}
       onKeyDown={handleKeyDown}
       role="button"
-      aria-label={`Node: ${data.label}`}
+      aria-label={getAriaLabel()}
     >
       <span>{data.label}</span>
 
       <button
         className="close-btn"
         onClick={handleClose}
-        aria-label={
-          data.isStrikethrough
-            ? `Really close ${data.label}`
-            : `Close ${data.label}`
-        }
-        title={
-          data.isStrikethrough
-            ? 'Click to remove strikethrough'
-            : 'Click to add strikethrough'
-        }
+        aria-label={getCloseButtonAriaLabel()}
+        title={getCloseButtonTitle()}
         tabIndex={-1}
       >
         <IoMdCloseCircleOutline className="text-2xl" />
       </button>
 
-      {data.showMark && data.mark && (
+      {data.mark && (
         <div className="mark-container">
-          <span className="mark" aria-label={`Mark: ${data.mark}`}>
+          <span className="mark" aria-label={getMarkAriaLabel()}>
             {data.mark}
           </span>
         </div>

@@ -14,8 +14,6 @@ const Login = () => {
     searchParams,
     loading,
     error,
-    navigate,
-    accessToken,
     dispatch,
   } = useLogin();
 
@@ -23,9 +21,6 @@ const Login = () => {
     dispatch(resetUI());
   }, [dispatch]);
 
-  if (accessToken) {
-    navigate('/');
-  }
   return (
     <div className="max-w-md mx-auto h-screen mt-[15%]">
       <div className="mb-4">

@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,12 +28,12 @@ public class CourseService {
     
     private final CourseRepo courseRepository;
     private final UserRepo userRepository;
-    private final TrackingRepo TrackingRepo;
+    private final TrackingRepo trackingRepo;
     
     public CourseService(CourseRepo courseRepository  , UserRepo userRepository, TrackingRepo trackingRepo) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
-        this.TrackingRepo = trackingRepo;
+        this.trackingRepo = trackingRepo;
     }
 
     public List<CourseResponseDto> getAllCourses() {
@@ -93,24 +94,24 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
         Course course = courseRepository.findById(courseId)
             .orElseThrow(() -> new RuntimeException("Course not found"));
 
-        Optional<Tracking> existingCompletion = TrackingRepo.findByUserIdAndCourseId(userId, courseId);
+        Optional<Tracking> existingCompletion = trackingRepo.findByUserIdAndCourseId(userId, courseId);
         if (existingCompletion.isPresent()) {
             Tracking completion = existingCompletion.get();
             completion.setCompleted(completed);
  
-            TrackingRepo.save(completion);
+            trackingRepo.save(completion);
         } else if (completed) {
             Tracking completion = new Tracking();
             completion.setUser(user);
             completion.setCourse(course);
             completion.setCompleted(true);
          
-            TrackingRepo.save(completion);
+            trackingRepo.save(completion);
         }
     }
 
     public List<Long> getCompletedCourses(Long userId) {
-        return TrackingRepo.findByUserIdAndCompleted(userId, true)
+        return trackingRepo.findByUserIdAndCompleted(userId, true)
             .stream()
             .map(completion -> completion.getCourse().getId())
             .collect(Collectors.toList());
@@ -121,17 +122,17 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
                 .orElseThrow(() -> new RuntimeException("Use Not Found"));
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course Not Found"));
-        Optional<Tracking> existingMark = TrackingRepo.findByUserIdAndCourseId(userId, courseId);
+        Optional<Tracking> existingMark = trackingRepo.findByUserIdAndCourseId(userId, courseId);
         if (existingMark.isPresent()) {
             Tracking mark = existingMark.get();
             mark.setMark(markRequest);
-            TrackingRepo.save(mark);
+            trackingRepo.save(mark);
         } else {
             Tracking mark = new Tracking();
             mark.setUser(user);
             mark.setCourse(course);
             mark.setMark(markRequest);
-            TrackingRepo.save(mark);
+            trackingRepo.save(mark);
         }
 
     }
@@ -139,7 +140,7 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
   
     public List<String> getMarkCourses(Long userId) {
         
-        return TrackingRepo.findByUserId(userId).stream()
+        return trackingRepo.findByUserId(userId).stream()
                 .map(mark -> mark.getMark())
                 .filter(mark -> mark != null)
                 .collect(Collectors.toList());
@@ -147,9 +148,19 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
     }
 
     public String getMarkCourseById(Long userId, Long courseId) {
-        Tracking tracking = TrackingRepo.findByUserIdAndCourseId(userId, courseId)
+        Tracking tracking = trackingRepo.findByUserIdAndCourseId(userId, courseId)
                 .orElseThrow(() -> new RuntimeException(
                         "Mark not found for userId: " + userId + " and courseId: " + courseId));
         return tracking.getMark();
     }
+
+    public Map<Long, String> getAllUserMarks(Long userId) {
+        List<Tracking> trackings = trackingRepo.findByUserIdAndMarkIsNotNull(userId);
+        return trackings.stream()
+            .collect(Collectors.toMap(
+                tracking -> tracking.getCourse().getId(),
+                Tracking::getMark
+            ));
+    }
+
 }
