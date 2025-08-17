@@ -13,8 +13,7 @@ A comprehensive web application designed to help engineering students navigate t
 - [Server-Side Application](#server-side-application)
 - [API Documentation](#api-documentation)
 - [Development](#development)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## 🚀 Overview
 
