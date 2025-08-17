@@ -97,11 +97,11 @@ The application follows a modern full-stack architecture pattern:
 - **Build Tool**: Modern build pipeline with optimization
 
 ### Backend
-- **Runtime**: Node.js with Express.js framework
-- **Database**: [Database technology - likely MongoDB/PostgreSQL]
-- **Authentication**: JWT-based security system
+- **Framework**: Java Spring Boot with Spring MVC
+- **Database**: PostgreSQL with Spring Data JPA
+- **Authentication**: JWT-based security system with Spring Security
 - **API Architecture**: RESTful services with comprehensive validation
-- **Security**: Industry-standard security practices and middleware
+- **Security**: Industry-standard security practices and Spring Security middleware
 
 ### Development Tools
 - **Version Control**: Git with structured branching strategy
@@ -112,9 +112,11 @@ The application follows a modern full-stack architecture pattern:
 ## 🚦 Getting Started
 
 ### Prerequisites
-- Node.js (version 14 or higher)
+- Java 11 or higher
+- Maven 3.6+ for dependency management
+- PostgreSQL 12 or higher
+- Node.js (version 14 or higher) for frontend
 - npm or yarn package manager
-- [Database system] installed and running
 - Git for version control
 
 ### Installation
@@ -128,7 +130,7 @@ The application follows a modern full-stack architecture pattern:
 2. **Install dependencies**
    ```bash
    # Install backend dependencies
-   npm install
+   mvn clean install
    
    # Install frontend dependencies
    cd client
@@ -138,38 +140,39 @@ The application follows a modern full-stack architecture pattern:
 
 3. **Environment Configuration**
    ```bash
-   # Copy environment template
-   cp .env.example .env
+   # Copy application properties template
+   cp src/main/resources/application.properties.example src/main/resources/application.properties
    
-   # Edit the .env file with your configuration
-   nano .env
+   # Edit the application.properties file with your PostgreSQL configuration
+   nano src/main/resources/application.properties
    ```
 
 4. **Database Setup**
    ```bash
-   # Run database migrations
-   npm run db:migrate
+   # Create PostgreSQL database
+   createdb engineeringmap
    
-   # Seed initial data (optional)
-   npm run db:seed
+   # Run Spring Boot application (will auto-create tables with JPA)
+   mvn spring-boot:run
+   
+   # Or seed initial data using data.sql (if provided)
    ```
 
 5. **Start the Development Server**
    ```bash
-   # Start backend server
-   npm run server
+   # Start backend server (Spring Boot)
+   mvn spring-boot:run
    
    # In a new terminal, start frontend
-   npm run client
-   
-   # Or start both concurrently
+   cd client
    npm run dev
+   cd ..
    ```
 
 6. **Access the Application**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-   - API Documentation: http://localhost:5000/api/docs
+   - Backend API: http://localhost:8080
+   - API Documentation: http://localhost:8080/swagger-ui.html
 
 ## 🎨 Client-Side Application
 
@@ -207,30 +210,31 @@ The backend provides RESTful APIs for:
 - **User Management**: Account creation, authentication, and profiles
 - **Material Management**: File uploads and document handling
 - **Comment System**: Discussion and collaboration features
-- **GPA Calculator**: Academic performance calculations
+
 
 ### Security System
-- **Authentication**: JWT-based user authentication
-- **Authorization**: Role-based access control
-- **Input Validation**: Comprehensive request validation
-- **Security Middleware**: Protection against common vulnerabilities
-- **Rate Limiting**: API usage limits and abuse prevention
+- **Authentication**: JWT-based user authentication with Spring Security
+- **Authorization**: Role-based access control using Spring Security
+- **Input Validation**: Bean validation with Spring Boot validation annotations
+- **Security Configuration**: Spring Security configuration for API endpoints
+- **Password Encryption**: BCrypt password hashing
+- **CORS Configuration**: Cross-origin resource sharing setup
 
 ### Data Models
-Well-structured data schemas for:
-- **User Model**: User accounts and profiles
-- **Course Model**: Course information and metadata
-- **Material Model**: Document and resource management
-- **Comment Model**: Discussion and collaboration data
-- **GPA Model**: Academic performance tracking
+Well-structured JPA entity models for:
+- **User Entity**: User accounts and profiles with JPA annotations
+- **Course Entity**: Course information and metadata
+- **Material Entity**: Document and resource management
+- **Comment Entity**: Discussion and collaboration data with relationships
+- **GPA Entity**: Academic performance tracking with calculated fields
 
 ### Business Services
-Modular services handling:
-- **Course Management**: Course CRUD operations and business logic
-- **User Authentication**: Login, registration, and session management
-- **Material Management**: File handling and storage operations
-- **Comment System**: Discussion threading and moderation
-- **GPA Calculator**: Performance calculation algorithms
+Spring Service layer components handling:
+- **Course Service**: Course CRUD operations with business logic
+- **User Service**: User management with Spring Security integration
+- **Material Service**: File handling and storage operations
+- **Comment Service**: Discussion threading and moderation
+
 
 ## 📚 API Documentation
 
@@ -268,12 +272,7 @@ PUT    /api/comments/:id        - Update comment
 DELETE /api/comments/:id        - Delete comment
 ```
 
-### GPA Calculator Endpoints
-```
-GET  /api/gpa/:userId       - Get user GPA data
-POST /api/gpa/calculate     - Calculate GPA
-PUT  /api/gpa/:id          - Update GPA record
-```
+
 
 ## 🔧 Development
 
@@ -286,50 +285,58 @@ PUT  /api/gpa/:id          - Update GPA record
 ### Code Structure
 ```
 engineeringmap/
-├── client/                 # Frontend React application
+├── client/                    # Frontend React application
 │   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── utils/         # Utility functions
-│   │   └── styles/        # CSS and styling files
-│   └── public/            # Static assets
-├── server/                # Backend Node.js application
-│   ├── controllers/       # API route handlers
-│   ├── models/           # Database models
-│   ├── middleware/       # Custom middleware
-│   ├── routes/           # API route definitions
-│   ├── services/         # Business logic services
-│   └── utils/            # Server utilities
-├── docs/                 # Project documentation
-└── tests/               # Test suites
+│   │   ├── components/        # Reusable UI components
+│   │   ├── pages/            # Page components
+│   │   ├── hooks/            # Custom React hooks
+│   │   ├── utils/            # Utility functions
+│   │   └── styles/           # CSS and styling files
+│   └── public/               # Static assets
+├── src/main/java/            # Backend Spring Boot application
+│   ├── controller/           # REST controllers
+│   ├── entity/              # JPA entity models
+│   ├── repository/          # Spring Data JPA repositories
+│   ├── service/             # Business logic services
+│   ├── config/              # Spring configuration classes
+│   ├── security/            # Security configuration and JWT utilities
+│   └── dto/                 # Data Transfer Objects
+├── src/main/resources/       # Application resources
+│   ├── application.properties # Spring Boot configuration
+│   └── data.sql             # Initial data (optional)
+├── docs/                    # Project documentation
+└── src/test/                # Test suites
 ```
 
 ### Testing
 ```bash
 # Run all tests
-npm test
-
-# Run frontend tests
-npm run test:client
-
-# Run backend tests
-npm run test:server
+mvn test
 
 # Run tests with coverage
-npm run test:coverage
+mvn test jacoco:report
+
+# Run frontend tests
+cd client
+npm test
+cd ..
+
+# Run integration tests
+mvn verify
 ```
 
 ### Building for Production
 ```bash
+# Build backend (creates JAR file)
+mvn clean package
+
 # Build frontend
-npm run build:client
-
-# Build backend
-npm run build:server
-
-# Build both
+cd client
 npm run build
+cd ..
+
+# Run the production JAR
+java -jar target/engineeringmap-1.0.0.jar
 ```
 
 ## 🤝 Contributing
@@ -376,4 +383,3 @@ This project is licensed under the [MIT License](LICENSE). See the LICENSE file 
 
 ---
 
-*This README provides a comprehensive overview of the Engineering Map project. For detailed technical documentation, please refer to the individual component documentation in the `/docs` folder.*
