@@ -67,10 +67,8 @@ public class SecurityConfig {
             "/api/resource/*",
             "/api/courses/*",
             "/api/courses",
-            "/",                // allow root for React index.html
-            "/index.html",      // allow React entry point
-            "/static/**",       // allow static JS/CSS files
-            "/favicon.ico"      // optional
+            "/", 
+            "/**"         // allow all static files
 
     };
 
