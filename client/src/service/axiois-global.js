@@ -1,7 +1,6 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:8080/';
-// import axios from 'axios';
 
-// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL =
+  process.env.REACT_APP_API_URL || 'https://engineeringmap.onrender.com';
 
-// export default axios;
+export default axios;
