@@ -13,7 +13,7 @@ import com.engineeringmap.server.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
+
 public class UserController {
     private final UserService userService;
 

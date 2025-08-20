@@ -30,7 +30,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/api/comments")
-@CrossOrigin(origins = "*")
+
 public class CommentController {
 
     private final CommentService commentService;

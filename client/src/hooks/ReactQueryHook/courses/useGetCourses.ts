@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { TrackingRequest } from '@customTypes/Tracking';
-import { createApiClient } from '@services/createApiClient';
 import { useAppSelector } from '@store/reduxHooks';
 
 type CourseResponseDto = {
@@ -13,8 +13,6 @@ type CourseResponseDto = {
 const useGetCourses = () => {
   const { accessToken } = useAppSelector((state) => state.auth);
 
-  const apiClient = createApiClient(accessToken);
-
   const completeCourse = async ({
     courseId,
     completed,
@@ -23,31 +21,53 @@ const useGetCourses = () => {
     completed: boolean;
   }): Promise<void> => {
     const payload: TrackingRequest = { completed };
-    const response = await apiClient.post(
-      `/courses/${courseId}/complete`,
-      payload
+    const response = await axios.post(
+      `/api/courses/${courseId}/complete`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     return response.data;
   };
 
   const getCompletedCourses = async (): Promise<number[]> => {
-    const response = await apiClient.get('/courses/user/completed');
+    const response = await axios.get('/api/courses/user/completed', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   };
+
   const getMarkCourses = async (): Promise<number[]> => {
-    const response = await apiClient.get('/courses/user/mark');
+    const response = await axios.get('/api/courses/user/mark', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   };
 
   const getAllCourses = async (): Promise<CourseResponseDto[]> => {
-    const response = await apiClient.get('/courses');
+    const response = await axios.get('/api/courses', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   };
 
   const getCourseById = async (
     courseId: number
   ): Promise<CourseResponseDto> => {
-    const response = await apiClient.get(`/courses/${courseId}`);
+    const response = await axios.get(`/api/courses/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   };
 
