@@ -1,16 +1,9 @@
 package com.engineeringmap.server.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.*;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.*;
+
 @Entity
 @Table(name = "roles")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Role {
     
     @Id
@@ -20,4 +13,28 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private RoleType name;
+
+    public Role() {
+    }
+
+    public Role(Long id, RoleType name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public RoleType getName() {
+        return name;
+    }
+
+    public void setName(RoleType name) {
+        this.name = name;
+    }
 }
