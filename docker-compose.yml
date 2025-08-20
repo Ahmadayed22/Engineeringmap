@@ -1,31 +1,14 @@
 version: "3.9"
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: postgres_db
-    environment:
-      POSTGRES_DB: engineeringmap
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Ahmadwa.22
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   app:
     build: .
     container_name: fullstack_app
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/engineeringmap
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: Ahmadwa.22
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/postengmap
+      SPRING_DATASOURCE_USERNAME: postengmap_user
+      SPRING_DATASOURCE_PASSWORD: jkSoPuWvXKzMEs7EjEUM6u2I8eXb5AUx
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       PORT: 8080
-    depends_on:
-      - postgres
-
-volumes:
-  postgres_data:
