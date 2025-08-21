@@ -16,7 +16,7 @@ import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import { scheduleToken } from '@util/scheduleToken';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
-import ParticlesBackground from '@components/common/Background/ParticlesBackground';
+// import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 
 const queryClient = new QueryClient();
 
@@ -68,8 +68,9 @@ const AppRouter = () => {
       fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
     >
       <QueryClientProvider client={queryClient}>
-        <ParticlesBackground className="fixed inset-0 -z-10" />
+        {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
         {/* <FireParticles /> */}
+        <div className="bg-[#F0F2F5] fixed inset-0 -z-10"></div>
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Suspense>

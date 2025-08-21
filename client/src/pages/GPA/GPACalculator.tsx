@@ -78,7 +78,7 @@ export default function GPACalculator() {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-[#828282] text-3xl font-bold mt-2">
+          <h1 className="text-gray-600 text-3xl font-bold mt-2">
             Calculate Your GPA
           </h1>
         </div>

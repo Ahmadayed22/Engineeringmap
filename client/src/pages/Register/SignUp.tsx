@@ -28,7 +28,7 @@ const SignUp = () => {
   return (
     <div>
       <form
-        className="flex max-w-md flex-col gap-4 mx-auto h-screen justify-center "
+        className="flex max-w-md flex-col gap-4 mx-2 sm:mx-auto h-screen justify-center "
         onSubmit={handleSubmit(submitForm)}
       >
         {/* username */}

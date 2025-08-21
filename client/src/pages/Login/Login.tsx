@@ -31,7 +31,10 @@ const Login = () => {
         )}
       </div>
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(submitForm)}>
+      <form
+        className="flex flex-col gap-4 mx-2"
+        onSubmit={handleSubmit(submitForm)}
+      >
         {/* email */}
         <InputForm
           register={register}

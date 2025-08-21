@@ -1,5 +1,4 @@
 import { HelperText, Label, TextInput } from 'flowbite-react';
-// import { UseFormRegister } from 'react-hook-form';
 
 type InputFormProps = {
   label: string;

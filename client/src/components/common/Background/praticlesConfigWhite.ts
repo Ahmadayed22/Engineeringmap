@@ -281,15 +281,15 @@ const particlesConfig: RecursivePartial<IOptions> = {
         width: 1920,
         height: 1080,
       },
-      limit: 0,
-      value: 80,
+      limit: 10,
+      value: 5,
     },
     opacity: {
       value: 0.5,
       animation: {
         count: 0,
         enable: false,
-        speed: 2,
+        speed: 1,
         decay: 0,
         delay: 0,
         sync: false,
