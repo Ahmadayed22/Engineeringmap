@@ -28,8 +28,8 @@ export const useAuth = () => {
     return userInfo?.roles?.includes(`ROLE_${role}`) || false;
   };
 
-  const isAdmin = hasRole('ADMIN');
-  const isUser = hasRole('USER');
+  const isAdmin = userInfo?.roles.includes('ADMIN');
+  const isUser = userInfo?.roles.includes('USER');
 
   return {
     // State

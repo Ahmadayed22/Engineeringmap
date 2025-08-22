@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.engineeringmap.server.dto.response.CommentResponseDTO;
 import com.engineeringmap.server.entity.Comment;
 import com.engineeringmap.server.entity.Course;
+import com.engineeringmap.server.entity.RoleType;
 import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.mapper.CommentMapper;
 import com.engineeringmap.server.repo.CommentRepo;
@@ -78,8 +79,14 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
 
-        if (!comment.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only delete your own comments");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        
+             boolean isAdmin = user.getRoles().stream()
+                .anyMatch(role -> role.getName() == RoleType.ADMIN);
+
+        if (!isAdmin && !comment.getUser().getId().equals(userId)) {
+            throw new RuntimeException("You can only delete your own comments unless you are an admin");
         }
 
         commentRepository.delete(comment);

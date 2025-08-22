@@ -1,5 +1,5 @@
 import '@xyflow/react/dist/style.css';
-import { DrawerComp } from '@components/common/Drawer/DrawerComp';
+import DrawerComp from '@components/common/Drawer/DrawerComp';
 import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 import { MarkerType, ReactFlow } from '@xyflow/react';
 import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
@@ -8,7 +8,7 @@ import CustomNode from '@components/layout/node/CustomNode';
 import { memo, useMemo } from 'react';
 
 const TreeFlowInner = memo(() => {
-  const { courseId, drawerOpen, title } = useTreeFlowContext();
+  const { title } = useTreeFlowContext();
   const {
     nodes,
     edges,
@@ -16,7 +16,7 @@ const TreeFlowInner = memo(() => {
     onEdgesChange,
     onConnect,
     handleNodeClick,
-    setDrawerOpen,
+
     rootModalOpen,
     setRootModalOpen,
   } = useTreeFlow();
@@ -60,14 +60,7 @@ const TreeFlowInner = memo(() => {
           onClose={() => setRootModalOpen(false)}
         />
       )}
-      {!rootModalOpen && title !== 'root' && (
-        <DrawerComp
-          isOpen={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          title={typeof title === 'string' ? title : undefined}
-          courseId={courseId}
-        />
-      )}
+      {!rootModalOpen && title !== 'root' && <DrawerComp />}
     </div>
   );
 });

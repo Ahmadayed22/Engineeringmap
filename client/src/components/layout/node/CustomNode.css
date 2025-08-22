@@ -389,50 +389,7 @@
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .custom-node {
-    min-width: 160px;
-    padding: 10px 35px 10px 14px;
-    font-size: 17px;
-  }
-  
-  .close-btn {
-    width: 22px;
-    height: 22px;
-    top: -6px;
-    right: -6px;
-    font-size: 17px;
-  }
-  
-  .mark-container {
-    top: -6px;
-    left: -6px;
-    font-size: 13px;
-  }
-}
 
-@media (max-width: 480px) {
-  .custom-node {
-    min-width: 140px;
-    padding: 8px 30px 8px 12px;
-    font-size: 17px;
-  }
-  
-  .close-btn {
-    width: 20px;
-    height: 20px;
-    top: 0px;
-    right:  0px;
-    font-size: 17px;
-  }
-  
-  .mark-container {
-    top:  0px;
-    left:  0px;
-    font-size: 12px;
-  }
-}
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {

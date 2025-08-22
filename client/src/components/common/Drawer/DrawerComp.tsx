@@ -12,39 +12,30 @@ import {
   DrawerItems,
   // Label,
 } from 'flowbite-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import MarkModal from '../Modal/MarkModal';
 import { useAuth } from '@hooks/CustomHook/useAuth';
+import { useTreeFlowContext } from '@context/TreeFlowContext';
+import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
 
-type DrawerCompProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: string;
-  courseId: number | unknown | null;
-};
-
-export function DrawerComp({
-  isOpen,
-  onClose,
-  title,
-  courseId,
-}: DrawerCompProps) {
+function DrawerComp() {
   const [openMaterial, setOpenMaterial] = useState<boolean>(true);
   const [openMark, setOpenMark] = useState<boolean>(false);
   const { accessToken } = useAuth();
-
+  const { courseId, title, drawerOpen } = useTreeFlowContext();
+  const { setDrawerOpen } = useTreeFlow();
   return (
     <div className="relative z-100 ">
       <Drawer
-        open={isOpen}
-        onClose={onClose}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
         position="right"
         className="w-full sm:max-w-sm md:max-w-xl lg:max-w-2xl !bg-[#171717] "
       >
         <div className="flex flex-col h-full w-full">
           {/* Header */}
-          <DrawerHeader title={title} />
+          <DrawerHeader title={typeof title === 'string' ? title : undefined} />
 
           <div className="text-center mb-4">
             <ButtonGroup>
@@ -101,3 +92,5 @@ export function DrawerComp({
     </div>
   );
 }
+
+export default React.memo(DrawerComp);

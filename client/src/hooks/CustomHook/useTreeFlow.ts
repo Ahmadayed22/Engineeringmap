@@ -23,7 +23,6 @@ const useTreeFlow = () => {
   const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
     useTreeFlowContext();
 
-  // Fetch all marks in one request
   const { allMarks, isLoading: marksLoading } = useGetAllMark();
 
   // React Query integration for completed courses
@@ -36,7 +35,7 @@ const useTreeFlow = () => {
     mutationError,
   } = useCompletedCoursesWithQuery();
 
-  // Enhanced toggle handler with React Query
+  // toggle handler with React Query
   const handleNodeClose = useCallback(
     async (nodeId: string) => {
       if (isMutating) return;
@@ -54,7 +53,7 @@ const useTreeFlow = () => {
   );
 
   // Enrich nodes with completion state and marks (no hover state needed)
-  const optimizedNodes = useMemo(() => {
+  const customNodes = useMemo(() => {
     return baseNodes.map((node) => {
       if (node.type === 'custom' && node.data.courseId) {
         const isCompleted = completedCourses.has(Number(node.data.courseId));
@@ -68,7 +67,7 @@ const useTreeFlow = () => {
             isStrikethrough: isCompleted,
             onClose: handleNodeClose,
             isUpdating: isMutating,
-            mark, // Always pass the mark, CSS will handle visibility
+            mark,
           },
         };
       }
@@ -112,7 +111,7 @@ const useTreeFlow = () => {
   const combinedError = error || mutationError?.message;
 
   return {
-    nodes: optimizedNodes,
+    nodes: customNodes,
     edges,
     setNodes: setBaseNodes,
     onNodesChange,

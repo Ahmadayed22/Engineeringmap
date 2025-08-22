@@ -8,7 +8,7 @@ import UseCommentDelete from '@hooks/ReactQueryHook/comment/UseCommentDelete';
 import useGetUserName from '@hooks/ReactQueryHook/material/useGetUserName';
 import React, { useState } from 'react';
 import EditComment from './EditComment';
-import { useAppSelector } from '@store/reduxHooks';
+import { useAuth } from '@hooks/CustomHook/useAuth';
 
 const CommentCard = ({ comment }: CommentCardProps) => {
   const { username } = useGetUserName({ comment });
@@ -57,12 +57,12 @@ function CommentCardButtons({
 }: CommentCardButtons) {
   const { openModal, setOpenModal, mutation } = UseCommentDelete({ comment });
 
-  const { userInfo } = useAppSelector((state) => state.auth); // Get current user's ID
+  const { isAdmin, userInfo } = useAuth();
 
   const isOwnComment = comment.userId === userInfo?.id;
   return (
     <div className="flex justify-start">
-      {!openEdit && isOwnComment && (
+      {!openEdit && (isOwnComment || isAdmin) && (
         <div className="flex justify-end">
           <button className="cursor-pointer" onClick={() => setOpenEdit(true)}>
             Edit

@@ -5,7 +5,7 @@ import MaterialModal from '@components/common/Modal/MaterialModal';
 import React, { useState } from 'react';
 import { useDeleteMaterial } from '@hooks/index';
 import { Material } from '@customTypes/Material';
-import { useAppSelector } from '@store/reduxHooks';
+import { useAuth } from '@hooks/CustomHook/useAuth';
 
 type MaterialCardProps = {
   item: { label: string; key: string };
@@ -25,7 +25,18 @@ const MaterialCard = ({
   userId,
 }: MaterialCardProps) => {
   const [openModal, setOpenModal] = useState(false);
-  const { userInfo } = useAppSelector((state) => state.auth);
+  const { userInfo, isAdmin } = useAuth();
+
+  const truncateUrl = (url: string): string => {
+    const baseUrl = url.split('?')[0];
+
+    const maxLength = 50;
+    if (baseUrl.length > maxLength) {
+      return `${baseUrl.substring(0, maxLength - 3)}...`;
+    }
+    return baseUrl;
+  };
+
   return (
     <div className="flex flex-col gap-1 mb-2">
       <div className="flex flex-row items-center gap-2 transition justify-end relative mb-3">
@@ -61,14 +72,15 @@ const MaterialCard = ({
               className="flex flex-row items-center gap-2 justify-end"
             >
               <a
-                href={material[item.key] as string}
+                href={material[item.key] as string} // Full URL for the link
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-500 hover:text-blue-600"
               >
-                {material[item.key]}
+                {truncateUrl(material[item.key] as string)}{' '}
+                {/* Display truncated URL */}
               </a>
-              {userId && material.userId === userId && (
+              {userId && (material.userId === userId || isAdmin) && (
                 <button
                   onClick={() => deleteMaterial.mutate(material.id)}
                   disabled={deleteMaterial.isPending}

@@ -9,6 +9,7 @@ import com.engineeringmap.server.dto.request.ResourceRequestDto;
 import com.engineeringmap.server.dto.response.ResouceResponseDto;
 import com.engineeringmap.server.entity.Course;
 import com.engineeringmap.server.entity.Resource;
+import com.engineeringmap.server.entity.RoleType;
 import com.engineeringmap.server.entity.User;
 import com.engineeringmap.server.exception.ResourceNotFoundException;
 import com.engineeringmap.server.mapper.ResourceMapper;
@@ -58,7 +59,7 @@ public ResouceResponseDto createResourceByCourseId(ResourceRequestDto dto, Long 
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
             
         if (!resource.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only edit your own comments");
+            throw new RuntimeException("You can only edit your own resource");
         }
 
         ResourceMapper.updateEntity(resource, dto );
@@ -69,10 +70,17 @@ public ResouceResponseDto createResourceByCourseId(ResourceRequestDto dto, Long 
     public void deleteResourceById(Long id, Long userId) {
          // Ensure the user is authorized to delete the resource
         Resource resource = resourceRepo.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
-          if (!resource.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only delete your own comments");
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found with id: " + userId));
+                
+        boolean isAdmin = user.getRoles().stream()
+                .anyMatch(role -> role.getName() == RoleType.ADMIN);
+
+        if (!isAdmin && !resource.getUser().getId().equals(userId)) {
+            throw new RuntimeException("You can only delete your own resource unless you are an admin");
         }
+   
         resourceRepo.delete(resource);
     }
 }
