@@ -6,15 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SPAController {
 
-    // This will catch all routes that are NOT API routes or static resources
-    @RequestMapping(value = "/{path:^(?!api)(?!static).*$}/**")
-    public String forwardToIndex() {
-        return "forward:/index.html";
-    }
-    
-    // Handle root path
-    @RequestMapping("/")
-    public String index() {
-        return "forward:/index.html";
+    @RequestMapping(value = {
+        "/",
+        "/about",
+        "/gpa",
+         "/schedule",
+         "/signup", 
+        "/login"
+        // Add your specific React routes here
+    })
+   public String forward() {
+        return "forward:/dist/index.htm";  // Keep the original path
     }
 }
