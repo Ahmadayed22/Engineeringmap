@@ -15,7 +15,6 @@ import com.engineeringmap.server.dto.request.TrackingRequest;
 import com.engineeringmap.server.dto.response.CourseResponseDto;
 import com.engineeringmap.server.dto.response.ErrorResponse;
 import com.engineeringmap.server.dto.response.SuccessResponse;
-import com.engineeringmap.server.entity.Course;
 import com.engineeringmap.server.security.UserDetailsImpl;
 import com.engineeringmap.server.service.CourseService;
 

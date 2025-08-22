@@ -6,7 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.engineeringmap.server.dto.request.CommentRequestDTO;
@@ -22,11 +22,11 @@ import com.engineeringmap.server.dto.request.UpdateCommentRequest;
 import com.engineeringmap.server.dto.response.CommentResponseDTO;
 import com.engineeringmap.server.dto.response.ErrorResponse;
 import com.engineeringmap.server.dto.response.SuccessResponse;
-import com.engineeringmap.server.entity.Comment;
+
 import com.engineeringmap.server.service.CommentService;
 import com.engineeringmap.server.security.UserDetailsImpl;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+
 
 @RestController
 @RequestMapping("/api/comments")

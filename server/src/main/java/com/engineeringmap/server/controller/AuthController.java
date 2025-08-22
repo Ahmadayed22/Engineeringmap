@@ -1,7 +1,6 @@
 package com.engineeringmap.server.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 
 import com.engineeringmap.server.dto.request.LoginRequest;
 import com.engineeringmap.server.dto.request.RefreshTokenRequest;
