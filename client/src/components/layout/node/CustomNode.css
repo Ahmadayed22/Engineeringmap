@@ -358,7 +358,7 @@
 }
 
 /* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   .custom-node,
   .close-btn,
   .react-flow__handle {
@@ -374,10 +374,10 @@
   .custom-node::before {
     display: none;
   }
-}
+} */
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+/* @media (prefers-contrast: high) {
   .custom-node {
     border: 2px solid currentColor;
     background: #000080;
@@ -387,12 +387,12 @@
     border: 2px solid var(--node-white);
     background: #800000;
   }
-}
+} */
 
 
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --node-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     --node-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.4);
@@ -405,10 +405,10 @@
   .react-flow__handle {
     border-color: rgba(255, 255, 255, 0.8);
   }
-}
+} */
 
 /* Print styles */
-@media print {
+/* @media print {
   .custom-node {
     background: white !important;
     color: black !important;
@@ -419,4 +419,4 @@
   .close-btn {
     display: none !important;
   }
-}
+} */
