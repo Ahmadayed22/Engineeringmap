@@ -7,8 +7,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/postengmap
-      SPRING_DATASOURCE_USERNAME: postengmap_user
-      SPRING_DATASOURCE_PASSWORD: jkSoPuWvXKzMEs7EjEUM6u2I8eXb5AUx
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME:  ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       PORT: 8080
