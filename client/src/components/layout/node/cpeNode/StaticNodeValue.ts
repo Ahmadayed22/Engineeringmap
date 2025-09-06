@@ -1,4 +1,4 @@
-const staticValues = [
+const CPE = [
   { id: 'root', value: '2022 - الخطة الشجرية لهندسة الحاسوب' },
   { id: 'physics', value: 'الفيزياء العامة 1' },
   { id: 'Discrete Mathematics', value: 'رياضيات منفصلة' },
@@ -141,4 +141,4 @@ const staticValues2 = [
   { id: 60, value: 'Digital Forensics' },
 ];
 
-export { staticValues, staticValues2 };
+export { CPE, staticValues2 };

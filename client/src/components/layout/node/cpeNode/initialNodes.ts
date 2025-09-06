@@ -7,19 +7,17 @@ import {
   ElectricityStyle,
   MechatronicsStyle,
 } from './NodeStyle';
-import { staticValues } from './StaticNodeValue';
+import { CPE } from './StaticNodeValue';
 
-// Create a map from staticValues for easy lookup
-const staticValuesMap = new Map(
-  staticValues.map((item) => [item.id, item.value])
-);
+// Create a map from CPE for easy lookup
+const CPEMap = new Map(CPE.map((item) => [item.id, item.value]));
 
 const initialNodes: Node[] = [
   {
     id: 'root',
     position: { x: -150, y: -400 },
     data: {
-      label: staticValuesMap.get('root'),
+      label: CPEMap.get('root'),
       title: 'root',
     },
     type: 'input',
@@ -38,7 +36,7 @@ const initialNodes: Node[] = [
     position: { x: -950, y: -200 },
     type: 'custom',
     data: {
-      label: `${staticValuesMap.get('physics')} `,
+      label: `${CPEMap.get('physics')} `,
       courseId: 1,
       title: 'physics',
     },
@@ -49,7 +47,7 @@ const initialNodes: Node[] = [
     position: { x: -100, y: -200 },
     type: 'custom',
     data: {
-      label: `${staticValuesMap.get('Discrete Mathematics')} `,
+      label: `${CPEMap.get('Discrete Mathematics')} `,
       courseId: 2,
       title: 'Discrete Mathematics',
     },
@@ -60,7 +58,7 @@ const initialNodes: Node[] = [
     position: { x: 450, y: -200 },
     type: 'custom',
     data: {
-      label: `${staticValuesMap.get('csBasics')} `,
+      label: `${CPEMap.get('csBasics')} `,
       courseId: 3,
       title: 'Computer Basics',
     },
@@ -71,7 +69,7 @@ const initialNodes: Node[] = [
     position: { x: 800, y: -200 },
     type: 'custom',
     data: {
-      label: `${staticValuesMap.get('statistics')} `,
+      label: `${CPEMap.get('statistics')} `,
       courseId: 4,
       title: 'statistics',
     },
@@ -82,7 +80,7 @@ const initialNodes: Node[] = [
     position: { x: 1200, y: -200 },
     type: 'custom',
     data: {
-      label: `${staticValuesMap.get('chemistry')} `,
+      label: `${CPEMap.get('chemistry')} `,
       courseId: 5,
       title: 'chemistry',
     },
@@ -93,7 +91,7 @@ const initialNodes: Node[] = [
     position: { x: 1750, y: -200 },
     type: 'custom',
     data: {
-      label: `${staticValuesMap.get('calculus1')} `,
+      label: `${CPEMap.get('calculus1')} `,
       courseId: 6,
       title: 'calculus1',
     },
@@ -106,7 +104,7 @@ const initialNodes: Node[] = [
     position: { x: 1550, y: -50 },
     type: 'custom',
     data: {
-      label: staticValuesMap.get('calculus2'),
+      label: CPEMap.get('calculus2'),
       courseId: 7,
       title: 'calculus2',
     },
@@ -118,7 +116,7 @@ const initialNodes: Node[] = [
     position: { x: 1940, y: -50 },
 
     data: {
-      label: staticValuesMap.get('linearAlgebra'),
+      label: CPEMap.get('linearAlgebra'),
       courseId: 8,
       title: 'linearAlgebra',
     },
@@ -130,7 +128,7 @@ const initialNodes: Node[] = [
     position: { x: 1750, y: 200 },
     type: 'custom',
     data: {
-      label: staticValuesMap.get('calculus3'),
+      label: CPEMap.get('calculus3'),
       courseId: 9,
       title: 'calculus3',
     },
@@ -142,7 +140,7 @@ const initialNodes: Node[] = [
     position: { x: 1400, y: 200 },
 
     data: {
-      label: staticValuesMap.get('probability'),
+      label: CPEMap.get('probability'),
       courseId: 10,
       title: 'probability',
     },
@@ -154,7 +152,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1932, y: 100 },
     data: {
-      label: staticValuesMap.get('numericalAnalysisLab'),
+      label: CPEMap.get('numericalAnalysisLab'),
       courseId: 11,
       title: 'numericalAnalysisLab',
     },
@@ -167,7 +165,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1050, y: -75 },
     data: {
-      label: staticValuesMap.get('physicsLab1'),
+      label: CPEMap.get('physicsLab1'),
       courseId: 12,
       title: 'physicsLab1',
     },
@@ -178,7 +176,7 @@ const initialNodes: Node[] = [
     position: { x: -850, y: -75 },
     type: 'custom',
     data: {
-      label: staticValuesMap.get('physics2'),
+      label: CPEMap.get('physics2'),
       courseId: 13,
       title: 'physics2',
     },
@@ -190,7 +188,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -975, y: 50 },
     data: {
-      label: staticValuesMap.get('electricCircuits'),
+      label: CPEMap.get('electricCircuits'),
       courseId: 14,
       title: 'electricCircuits',
     },
@@ -201,7 +199,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -750, y: 50 },
     data: {
-      label: staticValuesMap.get('physicsLab2'),
+      label: CPEMap.get('physicsLab2'),
       courseId: 15,
       title: 'physicsLab2',
     },
@@ -213,7 +211,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1350, y: 200 },
     data: {
-      label: staticValuesMap.get('electronics1'),
+      label: CPEMap.get('electronics1'),
       courseId: 16,
       title: 'electronics1',
     },
@@ -224,7 +222,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1150, y: 200 },
     data: {
-      label: staticValuesMap.get('electricCircuitsLab'),
+      label: CPEMap.get('electricCircuitsLab'),
       courseId: 17,
       title: 'electricCircuitsLab',
     },
@@ -235,7 +233,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -900, y: 200 },
     data: {
-      label: staticValuesMap.get('signalsSystems'),
+      label: CPEMap.get('signalsSystems'),
       courseId: 18,
       title: 'signalsSystems',
     },
@@ -246,7 +244,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -650, y: 200 },
     data: {
-      label: staticValuesMap.get('electricalMachines'),
+      label: CPEMap.get('electricalMachines'),
       courseId: 19,
       title: 'electricalMachines',
     },
@@ -258,7 +256,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1435, y: 350 },
     data: {
-      label: staticValuesMap.get('digitalElectronicsVLSI'),
+      label: CPEMap.get('digitalElectronicsVLSI'),
       courseId: 20,
       title: 'digitalElectronicsVLSI',
     },
@@ -269,7 +267,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1458, y: 500 },
     data: {
-      label: staticValuesMap.get('digitalElectronicsVLSILab'),
+      label: CPEMap.get('digitalElectronicsVLSILab'),
       courseId: 21,
       title: 'digitalElectronicsVLSILab',
     },
@@ -282,7 +280,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -200, y: -50 },
     data: {
-      label: staticValuesMap.get('c++'),
+      label: CPEMap.get('c++'),
       courseId: 22,
       title: 'c++',
     },
@@ -293,7 +291,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 975, y: -50 },
     data: {
-      label: staticValuesMap.get('digitalLogic'),
+      label: CPEMap.get('digitalLogic'),
       courseId: 23,
       title: 'digitalLogic',
     },
@@ -306,7 +304,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -450, y: 100 },
     data: {
-      label: staticValuesMap.get('java'),
+      label: CPEMap.get('java'),
       courseId: 24,
       title: 'java',
     },
@@ -317,7 +315,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -50, y: 100 },
     data: {
-      label: staticValuesMap.get('python'),
+      label: CPEMap.get('python'),
       courseId: 25,
       title: 'python',
     },
@@ -329,7 +327,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -625, y: 400 },
     data: {
-      label: staticValuesMap.get('softwareEngineering'),
+      label: CPEMap.get('softwareEngineering'),
       courseId: 26,
       title: 'softwareEngineering',
     },
@@ -340,7 +338,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -448, y: 500 },
     data: {
-      label: staticValuesMap.get('dataStructuresAlgorithms'),
+      label: CPEMap.get('dataStructuresAlgorithms'),
       courseId: 27,
       title: 'dataStructuresAlgorithms',
     },
@@ -352,7 +350,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1400, y: 700 },
     data: {
-      label: staticValuesMap.get('mobileComputing'),
+      label: CPEMap.get('mobileComputing'),
       courseId: 28,
       title: 'mobileComputing',
     },
@@ -363,7 +361,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -1075, y: 700 },
     data: {
-      label: staticValuesMap.get('databaseSystems'),
+      label: CPEMap.get('databaseSystems'),
       courseId: 29,
       title: 'databaseSystems',
     },
@@ -374,7 +372,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -850, y: 700 },
     data: {
-      label: staticValuesMap.get('modernOperatingSystems'),
+      label: CPEMap.get('modernOperatingSystems'),
       courseId: 30,
       title: 'modernOperatingSystems',
     },
@@ -385,7 +383,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -600, y: 700 },
     data: {
-      label: staticValuesMap.get('design'),
+      label: CPEMap.get('design'),
       courseId: 43,
       title: 'design',
     },
@@ -396,7 +394,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -300, y: 700 },
     data: {
-      label: staticValuesMap.get('competitiveProgramming'),
+      label: CPEMap.get('competitiveProgramming'),
       courseId: 31,
       title: 'competitiveProgramming',
     },
@@ -408,7 +406,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -574, y: 850 },
     data: {
-      label: staticValuesMap.get('parallelProcessors'),
+      label: CPEMap.get('parallelProcessors'),
       courseId: 32,
       title: 'parallelProcessors',
     },
@@ -420,7 +418,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -593, y: 1000 },
     data: {
-      label: staticValuesMap.get('parallelProcessorsLab'),
+      label: CPEMap.get('parallelProcessorsLab'),
       courseId: 33,
       title: 'parallelProcessorsLab',
     },
@@ -432,7 +430,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -200, y: 225 },
     data: {
-      label: staticValuesMap.get('signalsSystems'),
+      label: CPEMap.get('signalsSystems'),
       courseId: 18,
       title: 'signalsSystems',
     },
@@ -443,7 +441,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 70, y: 225 },
     data: {
-      label: staticValuesMap.get('linearAlgebra'),
+      label: CPEMap.get('linearAlgebra'),
       courseId: 8,
       title: 'linearAlgebra',
     },
@@ -455,7 +453,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -263, y: 410 },
     data: {
-      label: staticValuesMap.get('digitalImageProcessing'),
+      label: CPEMap.get('digitalImageProcessing'),
       courseId: 34,
       title: 'digitalImageProcessing',
     },
@@ -467,7 +465,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -50, y: 600 },
     data: {
-      label: staticValuesMap.get('aiAndMachineLearning'),
+      label: CPEMap.get('aiAndMachineLearning'),
       courseId: 35,
       title: 'aiAndMachineLearning',
     },
@@ -479,7 +477,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -350, y: 900 },
     data: {
-      label: staticValuesMap.get('computerVision'),
+      label: CPEMap.get('computerVision'),
       courseId: 36,
       title: 'computerVision',
     },
@@ -490,7 +488,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: -100, y: 900 },
     data: {
-      label: staticValuesMap.get('computationalIntelligence'),
+      label: CPEMap.get('computationalIntelligence'),
       courseId: 37,
       title: 'computationalIntelligence',
     },
@@ -501,7 +499,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 150, y: 900 },
     data: {
-      label: staticValuesMap.get('advancedMLTopics'),
+      label: CPEMap.get('advancedMLTopics'),
       courseId: 38,
       title: 'advancedMLTopics',
     },
@@ -512,7 +510,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 500, y: 900 },
     data: {
-      label: staticValuesMap.get('dataScience'),
+      label: CPEMap.get('dataScience'),
       courseId: 39,
       title: 'dataScience',
     },
@@ -525,7 +523,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 300, y: 100 },
     data: {
-      label: staticValuesMap.get('c++'),
+      label: CPEMap.get('c++'),
       courseId: 22,
       title: 'c++',
     },
@@ -536,7 +534,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 675, y: 100 },
     data: {
-      label: staticValuesMap.get('digitalLogicLab'),
+      label: CPEMap.get('digitalLogicLab'),
       courseId: 40,
       title: 'digitalLogicLab',
     },
@@ -547,7 +545,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 970, y: 100 },
     data: {
-      label: staticValuesMap.get('electronics1'),
+      label: CPEMap.get('electronics1'),
       courseId: 16,
       title: 'electronics1',
     },
@@ -558,7 +556,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1240, y: 100 },
     data: {
-      label: staticValuesMap.get('signalsSystems'),
+      label: CPEMap.get('signalsSystems'),
       courseId: 18,
       title: 'signalsSystems',
     },
@@ -570,7 +568,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 310, y: 300 },
     data: {
-      label: staticValuesMap.get('computerArchitecture'),
+      label: CPEMap.get('computerArchitecture'),
       courseId: 41,
       title: 'computerArchitecture',
     },
@@ -582,7 +580,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 115, y: 450 },
     data: {
-      label: staticValuesMap.get('advancedDigitalDesign'),
+      label: CPEMap.get('advancedDigitalDesign'),
       courseId: 42,
       title: 'advancedDigitalDesign',
     },
@@ -593,7 +591,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 440, y: 450 },
     data: {
-      label: staticValuesMap.get('digitalLogicLab'),
+      label: CPEMap.get('digitalLogicLab'),
       courseId: 40,
       title: 'digitalLogicLab',
     },
@@ -604,7 +602,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 665, y: 450 },
     data: {
-      label: staticValuesMap.get('design'),
+      label: CPEMap.get('design'),
       courseId: 43,
       title: 'design',
     },
@@ -616,7 +614,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 438, y: 600 },
     data: {
-      label: staticValuesMap.get('computerOrganizationLab'),
+      label: CPEMap.get('computerOrganizationLab'),
       courseId: 44,
       title: 'computerOrganizationLab',
     },
@@ -628,7 +626,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 662, y: 650 },
     data: {
-      label: staticValuesMap.get('java'),
+      label: CPEMap.get('java'),
       courseId: 24,
       title: 'java',
     },
@@ -640,7 +638,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 635, y: 815 },
     data: {
-      label: staticValuesMap.get('optimizedCompilers'),
+      label: CPEMap.get('optimizedCompilers'),
       courseId: 45,
       title: 'optimizedCompilers',
     },
@@ -652,7 +650,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 970, y: 250 },
     data: {
-      label: staticValuesMap.get('embeddedSystems'),
+      label: CPEMap.get('embeddedSystems'),
       courseId: 46,
       title: 'embeddedSystems',
     },
@@ -664,7 +662,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 852, y: 375 },
     data: {
-      label: staticValuesMap.get('computerNetworks'),
+      label: CPEMap.get('computerNetworks'),
       courseId: 47,
       title: 'computerNetworks',
     },
@@ -675,7 +673,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1050, y: 375 },
     data: {
-      label: staticValuesMap.get('embeddedSystemsLab'),
+      label: CPEMap.get('embeddedSystemsLab'),
       courseId: 48,
       title: 'embeddedSystemsLab',
     },
@@ -687,7 +685,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 844, y: 535 },
     data: {
-      label: staticValuesMap.get('internetOfThings'),
+      label: CPEMap.get('internetOfThings'),
       courseId: 49,
       title: 'internetOfThings',
     },
@@ -699,7 +697,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1058, y: 535 },
     data: {
-      label: staticValuesMap.get('signalsSystems'),
+      label: CPEMap.get('signalsSystems'),
       courseId: 18,
       title: 'signalsSystems',
     },
@@ -710,7 +708,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1059, y: 670 },
     data: {
-      label: staticValuesMap.get('controlSystems'),
+      label: CPEMap.get('controlSystems'),
       courseId: 50,
       title: 'controlSystems',
     },
@@ -721,7 +719,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1035, y: 825 },
     data: {
-      label: staticValuesMap.get('mobileRobots'),
+      label: CPEMap.get('mobileRobots'),
       courseId: 51,
       title: 'mobileRobots',
     },
@@ -733,7 +731,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1242, y: 725 },
     data: {
-      label: staticValuesMap.get('computerNetworks'),
+      label: CPEMap.get('computerNetworks'),
       courseId: 47,
       title: 'computerNetworks',
     },
@@ -746,7 +744,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 600, y: 1050 }, // Position near other network courses
     data: {
-      label: staticValuesMap.get('computerArchitecture'),
+      label: CPEMap.get('computerArchitecture'),
       courseId: 41,
       title: 'computerArchitecture',
     },
@@ -758,7 +756,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 875, y: 1050 }, // Position near other network courses
     data: {
-      label: staticValuesMap.get('wirelessNetworks'),
+      label: CPEMap.get('wirelessNetworks'),
       courseId: 52,
       title: 'wirelessNetworks',
     },
@@ -771,7 +769,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1150, y: 1050 }, // Position near computerNetworks
     data: {
-      label: staticValuesMap.get('computerNetworksLab'),
+      label: CPEMap.get('computerNetworksLab'),
       courseId: 53,
       title: 'computerNetworksLab',
     },
@@ -784,7 +782,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1402, y: 1050 }, // Position near computerNetworks
     data: {
-      label: staticValuesMap.get('java'),
+      label: CPEMap.get('java'),
       courseId: 24,
       title: 'java',
     },
@@ -796,7 +794,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1700, y: 1050 }, // Position in advanced topics area
     data: {
-      label: staticValuesMap.get('cloudComputing'),
+      label: CPEMap.get('cloudComputing'),
       courseId: 54,
       title: 'cloudComputing',
     },
@@ -809,7 +807,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1975, y: 1050 }, // Position near network courses
     data: {
-      label: staticValuesMap.get('informationSecurity'),
+      label: CPEMap.get('informationSecurity'),
       courseId: 55,
       title: 'informationSecurity',
     },
@@ -822,7 +820,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 2250, y: 1050 }, // Position near signals/systems
     data: {
-      label: staticValuesMap.get('dataCommunicationSystems'),
+      label: CPEMap.get('dataCommunicationSystems'),
       courseId: 56,
       title: 'dataCommunicationSystems',
     },
@@ -835,7 +833,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 535, y: 1225 }, // Position in advanced topics area
     data: {
-      label: staticValuesMap.get('selectedTopicsInCE'),
+      label: CPEMap.get('selectedTopicsInCE'),
       courseId: 57,
       title: 'selectedTopicsInCE',
     },
@@ -848,7 +846,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1150, y: 1225 }, // Position near networks labs
     data: {
-      label: staticValuesMap.get('advancedNetworksLab'),
+      label: CPEMap.get('advancedNetworksLab'),
       courseId: 58,
       title: 'advancedNetworksLab',
     },
@@ -861,7 +859,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1409, y: 1225 }, // Position near networks courses
     data: {
-      label: staticValuesMap.get('networkProtocolsProgramming'),
+      label: CPEMap.get('networkProtocolsProgramming'),
       courseId: 59,
       title: 'networkProtocolsProgramming',
     },
@@ -874,7 +872,7 @@ const initialNodes: Node[] = [
     type: 'custom',
     position: { x: 1985, y: 1225 }, // Position in security/advanced area
     data: {
-      label: staticValuesMap.get('digitalForensics'),
+      label: CPEMap.get('digitalForensics'),
       courseId: 60,
       title: 'digitalForensics',
     },

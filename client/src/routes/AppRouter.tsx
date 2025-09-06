@@ -12,10 +12,13 @@ const Login = lazy(() => import('@pages/Login/Login'));
 const GPACalculator = lazy(() => import('@pages/GPA/GPACalculator'));
 const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
 const About = lazy(() => import('@pages/about/About'));
+const CpeFlow = lazy(() => import('@pages/computerEngineering/CpeFlow'));
+const EeFlow = lazy(() => import('@pages/electricalEngineering/EeFlow'));
 import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import { scheduleToken } from '@util/scheduleToken';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
+
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 
 const queryClient = new QueryClient();
@@ -37,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'computerEngineer',
+        element: <CpeFlow />,
+      },
+      {
+        path: 'electricalEngineer',
+        element: <EeFlow />,
       },
       {
         path: 'gpa',

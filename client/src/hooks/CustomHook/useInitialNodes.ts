@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Node } from '@xyflow/react';
-import { initialNodes } from '@components/layout/node/initialNodes';
+import { initialNodes } from '@components/layout/node/cpeNode/initialNodes';
 
 export function useInitialNodes() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

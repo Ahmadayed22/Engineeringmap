@@ -10,14 +10,12 @@ import {
   addEdge,
   NodeMouseHandler,
 } from '@xyflow/react';
-import { initialNodes } from '@components/layout/node/initialNodes';
-import { initialEdges } from '@components/layout/edge/initialEdges';
 
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 import useCompletedCoursesWithQuery from '@hooks/ReactQueryHook/courses/useCompletedCoursesWithQuery';
 import useGetAllMark from '@hooks/ReactQueryHook/courses/useGetAllMark';
 
-const useTreeFlow = () => {
+const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
   const [baseNodes, setBaseNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const { setCourseId, setNodeName, setTitle, setDrawerOpen } =
@@ -52,7 +50,7 @@ const useTreeFlow = () => {
     [baseNodes, toggleCourseCompletion, isMutating]
   );
 
-  // Enrich nodes with completion state and marks (no hover state needed)
+  // Enrich nodes with completion state and marks
   const customNodes = useMemo(() => {
     return baseNodes.map((node) => {
       if (node.type === 'custom' && node.data.courseId) {
