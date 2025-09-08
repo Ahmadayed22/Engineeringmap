@@ -2,41 +2,20 @@ const style = {
   strokeWidth: 4,
   stroke: '#000000',
 };
-const BlackStyle = {
-  strokeWidth: 4,
-  stroke: '#000000',
-};
 
-const RedStyle = {
+const It_Sciences = {
   strokeWidth: 4,
-  stroke: '#ff0000',
+  stroke: '#960202',
 };
 
 const ElectricityStyle = {
   strokeWidth: 4,
-  stroke: '#008000',
+  stroke: '#029640',
 };
 
-const SciencesStyle = {
+const computerStyle = {
   strokeWidth: 4,
-  stroke: '#079cba',
+  stroke: '#161717',
 };
 
-const ItStyle = {
-  strokeWidth: 4,
-  stroke: '#ffa500',
-};
-const MechatronicsStyle = {
-  strokeWidth: 4,
-  stroke: '#641d4b',
-};
-
-export {
-  style,
-  BlackStyle,
-  RedStyle,
-  ElectricityStyle,
-  SciencesStyle,
-  ItStyle,
-  MechatronicsStyle,
-};
+export { style, It_Sciences, computerStyle, ElectricityStyle };

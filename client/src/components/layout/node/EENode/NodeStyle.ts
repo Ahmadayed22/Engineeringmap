@@ -17,36 +17,19 @@ const RootStyle = {
   backgroundColor: '#828282',
 };
 
-const nodeStyle = {
+const It_Sciences = {
   ...baseNodeStyle,
-  backgroundColor: '#828282',
+  backgroundColor: '#960202',
 };
 
-const ItStyle = {
+const computerStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#a87716',
-};
-
-const SciencesStyle = {
-  ...baseNodeStyle,
-  backgroundColor: '#0f3460',
+  backgroundColor: '#161717',
 };
 
 const ElectricityStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#166e25',
+  backgroundColor: '#029640',
 };
 
-const MechatronicsStyle = {
-  ...baseNodeStyle,
-  backgroundColor: '#631d3b',
-};
-
-export {
-  RootStyle,
-  nodeStyle,
-  ItStyle,
-  SciencesStyle,
-  ElectricityStyle,
-  MechatronicsStyle,
-};
+export { RootStyle, It_Sciences, computerStyle, ElectricityStyle };

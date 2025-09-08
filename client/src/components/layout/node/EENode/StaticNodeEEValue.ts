@@ -7,8 +7,8 @@ const EE = [
   { id: 'calculus3', value: 'تفاضل وتكامل 3' },
   { id: 'engineeringEconomy', value: 'اقتصاد هندسي' },
   { id: 'engineeringProbability', value: 'الاحتمالات والإحصاء' },
-  { id: 'engineeringMath1', value: 'التحليل الهندسي 1' },
-  { id: 'engineeringMath2', value: 'التحليل الهندسي 2' },
+  { id: 'engineeringMath1', value: 'التحليلات الهندسي 1' },
+  { id: 'engineeringMath2', value: 'التحليلات الهندسي 2' },
 
   // فيزياء
   { id: 'physics1', value: 'الفيزياء العامة 1' },
@@ -17,10 +17,9 @@ const EE = [
   { id: 'physicsLab2', value: 'الفيزياء العملية 2' },
 
   // أساسيات هندسية
-  { id: 'engineeringDrawing', value: 'الرسم الهندسي' },
   { id: 'descriptiveGeometry', value: 'الهندسة الوصفية' },
   { id: 'numericalMethods', value: 'الطرق العددية الهندسية' },
-  { id: 'engineeringEthics', value: 'الاخلاقيات الهندسية' },
+  { id: 'engineeringEthics', value: 'الأخلاقيات الهندسية' },
 
   // كهرباء أساسية
   { id: 'electricCircuits1', value: 'الدوائر الكهربائية 1' },
@@ -77,7 +76,7 @@ const EE = [
   { id: 'multimediaStreaming', value: 'بث الوسائل المتعددة' },
 
   // أنظمة وتحكم
-  { id: 'controlSystems1', value: 'أنظمة تحكم 1' },
+  { id: 'controlSystems', value: 'أنظمة تحكم ' },
   { id: 'selectedTopicsControl', value: 'موضوعات مختارة في التحكم' },
   { id: 'instrumentsAndControlLab', value: 'مختبر الاجهزة والتحكم' },
 

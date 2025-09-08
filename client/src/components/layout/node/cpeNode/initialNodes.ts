@@ -209,7 +209,7 @@ const initialNodes: Node[] = [
   {
     id: 'electronics1',
     type: 'custom',
-    position: { x: -1350, y: 200 },
+    position: { x: -1450, y: 200 },
     data: {
       label: CPEMap.get('electronics1'),
       courseId: 16,
@@ -254,7 +254,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSI',
     type: 'custom',
-    position: { x: -1435, y: 350 },
+    position: { x: -1450, y: 350 },
     data: {
       label: CPEMap.get('digitalElectronicsVLSI'),
       courseId: 20,
@@ -265,7 +265,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSILab',
     type: 'custom',
-    position: { x: -1458, y: 500 },
+    position: { x: -1450, y: 500 },
     data: {
       label: CPEMap.get('digitalElectronicsVLSILab'),
       courseId: 21,
@@ -660,7 +660,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworks',
     type: 'custom',
-    position: { x: 852, y: 375 },
+    position: { x: 845, y: 375 },
     data: {
       label: CPEMap.get('computerNetworks'),
       courseId: 47,
@@ -683,7 +683,7 @@ const initialNodes: Node[] = [
   {
     id: 'internetOfThings',
     type: 'custom',
-    position: { x: 844, y: 535 },
+    position: { x: 845, y: 535 },
     data: {
       label: CPEMap.get('internetOfThings'),
       courseId: 49,

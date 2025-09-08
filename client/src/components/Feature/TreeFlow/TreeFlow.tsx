@@ -64,7 +64,7 @@ const TreeFlowInner = memo(
           style={{ background: 'transparent' }}
           proOptions={{ hideAttribution: true }}
           nodeTypes={nodeTypes}
-          nodesDraggable={false}
+          // nodesDraggable={false}
         />
 
         {rootModalOpen && (

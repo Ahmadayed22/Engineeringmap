@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 
-import cpe from '../../../public/cpe.webp';
-import EE from '../../../public/EE.webp';
+import cpe from '@assets/EngPlan/cpe.webp';
+import EE from '@assets/EngPlan/EE.webp';
 
 const Home = () => {
   return (

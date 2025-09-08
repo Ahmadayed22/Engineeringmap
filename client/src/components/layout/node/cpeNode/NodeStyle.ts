@@ -19,7 +19,7 @@ const RootStyle = {
 
 const nodeStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#828282',
+  backgroundColor: '#121212',
 };
 
 const ItStyle = {
