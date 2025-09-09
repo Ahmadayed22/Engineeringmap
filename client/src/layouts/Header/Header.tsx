@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { authLogout } from '@store/auth/authSlice';
 import { useQueryClient } from '@tanstack/react-query';
 import AboAyed from '../../assets/svg/AboAyed.svg';
-
+import '@styles/bgStyle.css';
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -98,7 +98,7 @@ const Header = () => {
     <Navbar
       fluid
       rounded={false}
-      className="!bg-gray-600 shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8"
+      className=" shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8"
     >
       <NavbarBrand className="flex items-center space-x-3">
         <span className="text-lg sm:text-xl font-semibold text-white whitespace-nowrap hover:opacity-80 transition-opacity duration-200">

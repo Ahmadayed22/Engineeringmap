@@ -30,7 +30,7 @@ export const initialNodesEE: Node[] = [
   // first level
   {
     id: 'csRemedial',
-    position: { x: -1450, y: -200 },
+    position: { x: -1600, y: -200 },
     type: 'custom',
     data: {
       label: `${EEMap.get('csRemedial')} `,
@@ -398,6 +398,405 @@ export const initialNodesEE: Node[] = [
       label: `${EEMap.get('biomedicalElectronics')} `,
       courseId: 1,
       title: 'biomedicalElectronics',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'signalsAndSystems__',
+    position: { x: -550, y: 400 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('signalsAndSystems')} `,
+      courseId: 1,
+      title: 'signalsAndSystems',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'powerElectronics',
+    position: { x: -550, y: 550 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('powerElectronics')} `,
+      courseId: 1,
+      title: 'powerElectronics',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'electricDrives',
+    position: { x: -550, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('electricDrives')} `,
+      courseId: 1,
+      title: 'electricDrives',
+    },
+    style: ElectricityStyle,
+  },
+  // signalsAndSystems path
+  {
+    id: 'engineeringProbability',
+    position: { x: -1000, y: 400 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('engineeringProbability')} `,
+      courseId: 1,
+      title: 'engineeringProbability',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'communications1_',
+    position: { x: -1000, y: 550 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('communications1')} `,
+      courseId: 1,
+      title: 'communications1',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'digitalElectronics_',
+    position: { x: -850, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('digitalElectronics')} `,
+      courseId: 1,
+      title: 'digitalElectronics',
+    },
+    style: ElectricityStyle,
+  },
+
+  {
+    id: 'communications2',
+    position: { x: -1125, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('communications2')} `,
+      courseId: 1,
+      title: 'communications2',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'communicationNetworks',
+    position: { x: -1400, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('communicationNetworks')} `,
+      courseId: 1,
+      title: 'communicationNetworks',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'digitalSignalProcessing',
+    position: { x: -1650, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('digitalSignalProcessing')} `,
+      courseId: 1,
+      title: 'digitalSignalProcessing',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'opticalCommunications',
+    position: { x: -1900, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('opticalCommunications')} `,
+      courseId: 1,
+      title: 'opticalCommunications',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'selectedTopicsControl_',
+    position: { x: -2175, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('selectedTopicsControl')} `,
+      courseId: 1,
+      title: 'selectedTopicsControl',
+    },
+    style: ElectricityStyle,
+  },
+  //communications2 path
+
+  {
+    id: 'mobileCommunications',
+    position: { x: -1125, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('mobileCommunications')} `,
+      courseId: 1,
+      title: 'mobileCommunications',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'communicationsLab',
+    position: { x: -850, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('communicationsLab')} `,
+      courseId: 1,
+      title: 'communicationsLab',
+    },
+    style: ElectricityStyle,
+  },
+
+  {
+    id: 'multimediaStreaming',
+    position: { x: -1400, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('multimediaStreaming')} `,
+      courseId: 1,
+      title: 'multimediaStreaming',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'advancedCommunicationsLab',
+    position: { x: -1650, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('advancedCommunicationsLab')} `,
+      courseId: 1,
+      title: 'advancedCommunicationsLab',
+    },
+    style: ElectricityStyle,
+  },
+
+  //electricCircuits2 path
+  {
+    id: 'electricCircuitsLab',
+    position: { x: 1150, y: 400 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('electricCircuitsLab')} `,
+      courseId: 1,
+      title: 'electricCircuitsLab',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'electricalMachines1',
+    position: { x: 850, y: 400 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('electricalMachines1')} `,
+      courseId: 1,
+      title: 'electricalMachines1',
+    },
+    style: ElectricityStyle,
+  },
+  //electricalMachines1 path
+  {
+    id: 'electricalMachines2',
+    position: { x: 1000, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('electricalMachines2')} `,
+      courseId: 1,
+      title: 'electricalMachines2',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'powerSystemAnalysis',
+    position: { x: 700, y: 700 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('powerSystemAnalysis')} `,
+      courseId: 1,
+      title: 'powerSystemAnalysis',
+    },
+    style: ElectricityStyle,
+  },
+
+  {
+    id: 'electricalMachinesLab',
+    position: { x: 1200, y: 825 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('electricalMachinesLab')} `,
+      courseId: 1,
+      title: 'electricalMachinesLab',
+    },
+    style: ElectricityStyle,
+  },
+  //powerSystemAnalysis path
+
+  {
+    id: 'powerSystemProtection',
+    position: { x: 1000, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('powerSystemProtection')} `,
+      courseId: 1,
+      title: 'powerSystemProtection',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'selectedTopicsPower',
+    position: { x: 668, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('selectedTopicsPower')} `,
+      courseId: 1,
+      title: 'selectedTopicsPower',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'highVoltageEngineering',
+    position: { x: 425, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('highVoltageEngineering')} `,
+      courseId: 1,
+      title: 'highVoltageEngineering',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'powerSystemOperations',
+    position: { x: 150, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('powerSystemOperations')} `,
+      courseId: 1,
+      title: 'powerSystemOperations',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'powerSystemPlanning',
+    position: { x: -100, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('powerSystemPlanning')} `,
+      courseId: 1,
+      title: 'powerSystemPlanning',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'renewableEnergyAndQuality',
+    position: { x: -450, y: 900 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('renewableEnergyAndQuality')} `,
+      courseId: 1,
+      title: 'renewableEnergyAndQuality',
+    },
+    style: ElectricityStyle,
+  },
+
+  //powerSystemProtection path
+  {
+    id: 'powerLab',
+    position: { x: 1000, y: 1050 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('powerLab')} `,
+      courseId: 1,
+      title: 'powerLab',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'advancedPowerLab',
+    position: { x: 700, y: 1050 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('advancedPowerLab')} `,
+      courseId: 1,
+      title: 'advancedPowerLab',
+    },
+    style: ElectricityStyle,
+  },
+  // csRemedial path
+  {
+    id: 'csSkills',
+    position: { x: -1610, y: -75 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('csSkills')} `,
+      courseId: 3,
+      title: 'csSkills',
+    },
+    style: computerStyle,
+  },
+  {
+    id: 'digitalLogic',
+    position: { x: -1588, y: 75 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('digitalLogic')} `,
+      courseId: 3,
+      title: 'digitalLogic',
+    },
+    style: computerStyle,
+  },
+  {
+    id: 'digitalLogicLab',
+    position: { x: -1800, y: 225 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('digitalLogicLab')} `,
+      courseId: 3,
+      title: 'digitalLogicLab',
+    },
+    style: computerStyle,
+  },
+  {
+    id: 'microprocessors',
+    position: { x: -1400, y: 225 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('microprocessors')} `,
+      courseId: 3,
+      title: 'microprocessors',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'microcontrollerApplications',
+    position: { x: -1400, y: 350 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('microcontrollerApplications')} `,
+      courseId: 3,
+      title: 'microcontrollerApplications',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'microcontrollerApplicationsLab',
+    position: { x: -1300, y: 500 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('microcontrollerApplicationsLab')} `,
+      courseId: 3,
+      title: 'microcontrollerApplicationsLab',
+    },
+    style: ElectricityStyle,
+  },
+  {
+    id: 'computerApplications',
+    position: { x: -1550, y: 500 },
+    type: 'custom',
+    data: {
+      label: `${EEMap.get('computerApplications')} `,
+      courseId: 3,
+      title: 'computerApplications',
     },
     style: ElectricityStyle,
   },

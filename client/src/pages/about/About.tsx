@@ -14,13 +14,13 @@ const About = () => {
         style={{ fontFamily: "'Amiri', serif" }} // Arabic font
       >
         {/* Arabic Quote */}
-        <h1 className="text-3xl md:text-4xl text-center text-gray-800 mb-10 leading-relaxed">
+        <h1 className="text-3xl md:text-4xl text-center text-gray-300 mb-10 leading-relaxed">
           المؤمن كالغيث، أينما حل نفع
         </h1>
 
         {/* Social Links */}
         <div
-          className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
+          className="bg-gray-300 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
           <h2 className="text-2xl font-semibold mb-6 text-[#3F3F3F]">
@@ -58,7 +58,7 @@ const About = () => {
 
         {/* Footer */}
         <p
-          className="mt-10 text-gray-700 text-lg"
+          className="mt-10 text-gray-300 text-lg"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
           Developed By <span className="font-semibold">Ahmad Ayed</span>

@@ -6,7 +6,6 @@ import { Suspense, useEffect } from 'react';
 import { lazy } from 'react';
 
 const MainLayOut = lazy(() => import('@layouts/Main/MainLayOut'));
-const Home = lazy(() => import('@pages/Home/Home'));
 const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
 const GPACalculator = lazy(() => import('@pages/GPA/GPACalculator'));
@@ -18,6 +17,7 @@ import Error from '@pages/Error/Error';
 import { LottieHandler } from '@components/feedbaks';
 import { scheduleToken } from '@util/scheduleToken';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
+import { Home } from '@pages/index';
 
 // import ParticlesBackground from '@components/common/Background/ParticlesBackground';
 

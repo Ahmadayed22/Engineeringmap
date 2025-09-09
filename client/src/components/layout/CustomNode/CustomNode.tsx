@@ -25,7 +25,7 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
       role="button"
       aria-label={getAriaLabel()}
     >
-      <span>{data.label}</span>
+      <span className="whitespace-normal">{data.label}</span>
 
       <button
         className="close-btn"

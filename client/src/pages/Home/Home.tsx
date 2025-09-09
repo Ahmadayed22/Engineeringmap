@@ -5,9 +5,9 @@ import EE from '@assets/EngPlan/EE.webp';
 
 const Home = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 px-4">
+    <div className="min-h-screen flex flex-col justify-center items-center  px-4">
       {/* Title */}
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-10">
+      <h1 className="text-2xl md:text-3xl font-bold text-white mb-10">
         اختر الخطة المطلوبة
       </h1>
 

@@ -1,0 +1,13 @@
+.custom-bg {
+    background-color: #0f1729;
+    background-image: radial-gradient(at 72% 0%, hsla(240, 78%, 77%, 0.29) 0px, transparent 50%),
+                      radial-gradient(at 88% 68%, hsl(222, 47%, 11%) 0px, transparent 50%),
+                      radial-gradient(at 0% 100%, hsl(222, 47%, 11%) 0px, transparent 50%),
+                      radial-gradient(at 100% 0%, hsl(222, 47%, 11%) 0px, transparent 50%),
+                      radial-gradient(at 100% 0%, hsla(350, 78%, 59%, 0.78) 0px, transparent 50%),
+                      radial-gradient(at 0% 100%, hsl(206, 73%, 41%) 0px, transparent 50%),
+                      radial-gradient(at 0% 9%, hsla(240, 78%, 77%, 0.41) 0px, transparent 50%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
