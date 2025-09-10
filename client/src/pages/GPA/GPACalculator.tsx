@@ -78,13 +78,13 @@ export default function GPACalculator() {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-gray-600 text-3xl font-bold mt-2">
+          <h1 className="text-white text-3xl font-bold mt-2">
             Calculate Your GPA
           </h1>
         </div>
 
         {/* Old Average */}
-        <div className="bg-gray-600 p-4 rounded shadow mt-4">
+        <div className="bg-[#1F2937] p-4 rounded shadow mt-4">
           <h2 className="text-white font-bold text-lg">Old Average</h2>
           <div className="grid grid-cols-2 gap-2 mt-2">
             {/* Hours as Select */}
@@ -105,7 +105,7 @@ export default function GPACalculator() {
         </div>
 
         {/* This Semester */}
-        <div className="bg-gray-600 p-4 rounded shadow mt-4">
+        <div className="bg-[#1F2937] p-4 rounded shadow mt-4">
           <h2 className="text-white font-bold text-lg">This Semester</h2>
           {semesterFields.map((field, i) => (
             <div key={field.id} className="grid grid-cols-3 gap-2 mt-2">
@@ -118,7 +118,7 @@ export default function GPACalculator() {
 
               {/* Hours as Select */}
               <select
-                className="border rounded p-2 bg-gray-600"
+                className="border rounded p-2 bg-[#1F2937]"
                 {...register(`semesterCourses.${i}.hours`)}
                 defaultValue=""
               >
@@ -131,7 +131,7 @@ export default function GPACalculator() {
               </select>
 
               <select
-                className="border rounded p-2 bg-gray-600 text-white"
+                className="border rounded p-2 bg-[#1F2937] text-white"
                 {...register(`semesterCourses.${i}.grade`)}
               >
                 {grades.map((g) => (
@@ -145,7 +145,7 @@ export default function GPACalculator() {
         </div>
 
         {/* Repeated Courses */}
-        <div className="bg-gray-600 p-4 rounded shadow mt-4">
+        <div className="bg-[#1F2937] p-4 rounded shadow mt-4">
           <h2 className="text-white font-bold text-lg">Repeated Courses</h2>
           {repeatedFields.map((field, i) => (
             <div key={field.id} className="grid grid-cols-4 gap-2 mt-2">
@@ -158,7 +158,7 @@ export default function GPACalculator() {
 
               {/* Hours as Select */}
               <select
-                className="border rounded p-2 bg-gray-600"
+                className="border rounded p-2 bg-[#1F2937]"
                 {...register(`repeatedCourses.${i}.hours`)}
                 defaultValue=""
               >
@@ -171,7 +171,7 @@ export default function GPACalculator() {
               </select>
 
               <select
-                className="border rounded p-2 bg-gray-600 text-white"
+                className="border rounded p-2 bg-[#1F2937] text-white"
                 {...register(`repeatedCourses.${i}.newGrade`)}
               >
                 {grades.map((g) => (
@@ -182,7 +182,7 @@ export default function GPACalculator() {
               </select>
 
               <select
-                className="border rounded p-2 bg-gray-600 text-white"
+                className="border rounded p-2 bg-[#1F2937] text-white"
                 {...register(`repeatedCourses.${i}.oldGrade`)}
               >
                 {grades.map((g) => (
@@ -198,7 +198,7 @@ export default function GPACalculator() {
         {/* Calculate Button */}
         <button
           type="submit"
-          className="bg-gray-600 text-white w-full py-2 rounded mt-4 font-bold cursor-pointer"
+          className="bg-[#1F2937] text-white w-full py-2 rounded mt-4 font-bold cursor-pointer"
         >
           Calculate
         </button>

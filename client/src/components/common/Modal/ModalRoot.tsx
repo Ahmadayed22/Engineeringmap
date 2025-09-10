@@ -63,11 +63,12 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
             </p>
           </div>
         </ModalBody>
+
         <ModalFooter className="flex flex-col items-end text-right space-y-1">
           <span className="text-white mb-4">
             : <>دلالة الوان الخطة</>
           </span>
-          <p className="text-sm text-[#828282] ">
+          <p className="text-sm text-[#87032f] ">
             <span className="text-gray-300">مواد هندسة الحاسوب</span> ■
           </p>
           <p className="text-sm text-[#631d3b]">

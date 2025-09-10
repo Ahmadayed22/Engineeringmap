@@ -100,6 +100,7 @@ const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
         setRootModalOpen(true);
       } else {
         setTitle(node.data.title);
+
         setDrawerOpen(true);
       }
     },
@@ -119,7 +120,6 @@ const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
     setDrawerOpen,
     rootModalOpen,
     setRootModalOpen,
-
     // React Query states
     loading: loading || marksLoading,
     error: combinedError,

@@ -25,7 +25,7 @@
   box-shadow: var(--node-shadow);
   transition: all var(--transition-smooth);
   cursor: pointer;
-  min-width: 220px;
+  min-width: 225px;
   flex-wrap: wrap;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);

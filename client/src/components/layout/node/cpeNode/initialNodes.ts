@@ -101,7 +101,7 @@ const initialNodes: Node[] = [
   // Second level of calculus1
   {
     id: 'calculus2',
-    position: { x: 1550, y: -50 },
+    position: { x: 1600, y: -50 },
     type: 'custom',
     data: {
       label: CPEMap.get('calculus2'),
@@ -137,7 +137,7 @@ const initialNodes: Node[] = [
   {
     id: 'probability',
     type: 'custom',
-    position: { x: 1400, y: 200 },
+    position: { x: 1450, y: 200 },
 
     data: {
       label: CPEMap.get('probability'),
@@ -150,7 +150,7 @@ const initialNodes: Node[] = [
   {
     id: 'numericalAnalysisLab',
     type: 'custom',
-    position: { x: 1932, y: 100 },
+    position: { x: 1940, y: 100 },
     data: {
       label: CPEMap.get('numericalAnalysisLab'),
       courseId: 11,
@@ -163,7 +163,7 @@ const initialNodes: Node[] = [
   {
     id: 'physicsLab1',
     type: 'custom',
-    position: { x: -1050, y: -75 },
+    position: { x: -1100, y: -75 },
     data: {
       label: CPEMap.get('physicsLab1'),
       courseId: 12,
@@ -186,7 +186,7 @@ const initialNodes: Node[] = [
   {
     id: 'electricCircuits',
     type: 'custom',
-    position: { x: -975, y: 50 },
+    position: { x: -1000, y: 50 },
     data: {
       label: CPEMap.get('electricCircuits'),
       courseId: 14,
@@ -254,7 +254,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSI',
     type: 'custom',
-    position: { x: -1450, y: 350 },
+    position: { x: -1521, y: 350 },
     data: {
       label: CPEMap.get('digitalElectronicsVLSI'),
       courseId: 20,
@@ -265,7 +265,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalElectronicsVLSILab',
     type: 'custom',
-    position: { x: -1450, y: 500 },
+    position: { x: -1545, y: 500 },
     data: {
       label: CPEMap.get('digitalElectronicsVLSILab'),
       courseId: 21,
@@ -359,7 +359,7 @@ const initialNodes: Node[] = [
   {
     id: 'databaseSystems',
     type: 'custom',
-    position: { x: -1075, y: 700 },
+    position: { x: -1095, y: 700 },
     data: {
       label: CPEMap.get('databaseSystems'),
       courseId: 29,
@@ -404,7 +404,7 @@ const initialNodes: Node[] = [
   {
     id: 'parallelProcessors',
     type: 'custom',
-    position: { x: -574, y: 850 },
+    position: { x: -590, y: 850 },
     data: {
       label: CPEMap.get('parallelProcessors'),
       courseId: 32,
@@ -416,7 +416,7 @@ const initialNodes: Node[] = [
   {
     id: 'parallelProcessorsLab',
     type: 'custom',
-    position: { x: -593, y: 1000 },
+    position: { x: -590, y: 1000 },
     data: {
       label: CPEMap.get('parallelProcessorsLab'),
       courseId: 33,
@@ -451,7 +451,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalImageProcessing',
     type: 'custom',
-    position: { x: -263, y: 410 },
+    position: { x: -251, y: 410 },
     data: {
       label: CPEMap.get('digitalImageProcessing'),
       courseId: 34,
@@ -463,7 +463,7 @@ const initialNodes: Node[] = [
   {
     id: 'aiAndMachineLearning',
     type: 'custom',
-    position: { x: -50, y: 600 },
+    position: { x: -25, y: 600 },
     data: {
       label: CPEMap.get('aiAndMachineLearning'),
       courseId: 35,
@@ -554,7 +554,7 @@ const initialNodes: Node[] = [
   {
     id: 'signalsSystems3',
     type: 'custom',
-    position: { x: 1240, y: 100 },
+    position: { x: 1300, y: 100 },
     data: {
       label: CPEMap.get('signalsSystems'),
       courseId: 18,
@@ -589,7 +589,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalLogicLab2',
     type: 'custom',
-    position: { x: 440, y: 450 },
+    position: { x: 430, y: 450 },
     data: {
       label: CPEMap.get('digitalLogicLab'),
       courseId: 40,
@@ -612,7 +612,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerOrganizationLab',
     type: 'custom',
-    position: { x: 438, y: 600 },
+    position: { x: 430, y: 600 },
     data: {
       label: CPEMap.get('computerOrganizationLab'),
       courseId: 44,
@@ -636,7 +636,7 @@ const initialNodes: Node[] = [
   {
     id: 'optimizedCompilers',
     type: 'custom',
-    position: { x: 635, y: 815 },
+    position: { x: 632, y: 815 },
     data: {
       label: CPEMap.get('optimizedCompilers'),
       courseId: 45,
@@ -671,7 +671,7 @@ const initialNodes: Node[] = [
   {
     id: 'embeddedSystemsLab',
     type: 'custom',
-    position: { x: 1050, y: 375 },
+    position: { x: 1100, y: 375 },
     data: {
       label: CPEMap.get('embeddedSystemsLab'),
       courseId: 48,
@@ -695,7 +695,7 @@ const initialNodes: Node[] = [
   {
     id: 'signalsAndSystems',
     type: 'custom',
-    position: { x: 1058, y: 535 },
+    position: { x: 1100, y: 535 },
     data: {
       label: CPEMap.get('signalsSystems'),
       courseId: 18,
@@ -706,7 +706,7 @@ const initialNodes: Node[] = [
   {
     id: 'controlSystems',
     type: 'custom',
-    position: { x: 1059, y: 670 },
+    position: { x: 1100, y: 670 },
     data: {
       label: CPEMap.get('controlSystems'),
       courseId: 50,
@@ -717,7 +717,7 @@ const initialNodes: Node[] = [
   {
     id: 'mobileRobots',
     type: 'custom',
-    position: { x: 1035, y: 825 },
+    position: { x: 1093, y: 825 },
     data: {
       label: CPEMap.get('mobileRobots'),
       courseId: 51,
@@ -729,7 +729,7 @@ const initialNodes: Node[] = [
   {
     id: 'computerNetworks2',
     type: 'custom',
-    position: { x: 1242, y: 725 },
+    position: { x: 1300, y: 900 },
     data: {
       label: CPEMap.get('computerNetworks'),
       courseId: 47,
@@ -831,7 +831,7 @@ const initialNodes: Node[] = [
   {
     id: 'selectedTopicsInCE',
     type: 'custom',
-    position: { x: 535, y: 1225 }, // Position in advanced topics area
+    position: { x: 533, y: 1225 }, // Position in advanced topics area
     data: {
       label: CPEMap.get('selectedTopicsInCE'),
       courseId: 57,
@@ -870,7 +870,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalForensics',
     type: 'custom',
-    position: { x: 1985, y: 1225 }, // Position in security/advanced area
+    position: { x: 1975, y: 1225 }, // Position in security/advanced area
     data: {
       label: CPEMap.get('digitalForensics'),
       courseId: 60,

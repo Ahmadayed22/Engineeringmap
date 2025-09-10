@@ -1,11 +1,6 @@
 import { type Node } from '@xyflow/react';
 
-import {
-  RootStyle,
-  It_Sciences,
-  computerStyle,
-  ElectricityStyle,
-} from './NodeStyle';
+import { It_Sciences, computerStyle, ElectricityStyle } from './NodeStyle';
 import { EE } from './StaticNodeEEValue';
 
 const EEMap = new Map(EE.map((item) => [item.id, item.value]));

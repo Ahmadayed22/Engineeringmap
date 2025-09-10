@@ -1,10 +1,10 @@
 const style = {
   strokeWidth: 4,
-  stroke: '#000000',
+  stroke: '#87032f',
 };
 const BlackStyle = {
   strokeWidth: 4,
-  stroke: '#000000',
+  stroke: '#87032f',
 };
 
 const RedStyle = {
