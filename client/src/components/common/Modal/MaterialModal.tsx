@@ -24,17 +24,25 @@ function MaterialModal({ openModal, setOpenModal, item }: MaterialModalProps) {
       <ModalBody className="!bg-[#171717]">
         <form className="space-y-6" onSubmit={handleSubmit(submitMaterial)}>
           <InputForm
-            label={
-              item?.key
-                ? item.key.charAt(0).toUpperCase() + item.key.slice(1)
-                : ''
-            }
+            label={`  Name of ${item?.key ? item?.key.charAt(0).toUpperCase() + item.key.slice(1) : ''} `}
+            id="name"
+            name="name"
+            register={register}
+            placeholder={`Enter ${item?.key} name`}
+            error={errors.name?.message}
+          />
+          <InputForm
+            label={` ${item?.key ? item?.key.charAt(0).toUpperCase() + item.key.slice(1) : ''} URL Link `}
             id={item?.key || ''}
             name={item?.key || ''}
             register={register}
             placeholder={`Enter ${item?.key} URL Link`}
-            error={errors.books?.message}
+            error={
+              // show either the specific error or the general refine error
+              errors[item?.key as keyof typeof errors]?.message
+            }
           />
+          /*{' '}
           {/* <InputForm
             label="Summaries"
             id="summaries"

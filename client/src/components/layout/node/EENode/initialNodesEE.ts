@@ -34,7 +34,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('csRemedial')} `,
-      courseId: 3,
+      courseId: 111,
       title: 'csRemedial',
     },
     style: It_Sciences,
@@ -90,7 +90,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('engineeringMath1')} `,
-      courseId: 9,
+      courseId: 63,
       title: 'engineeringMath1',
     },
     style: ElectricityStyle,
@@ -101,7 +101,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('signalsAndSystems')} `,
-      courseId: 9,
+      courseId: 94,
       title: 'signalsAndSystems',
     },
     style: ElectricityStyle,
@@ -112,7 +112,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('engineeringMath2')} `,
-      courseId: 9,
+      courseId: 64,
       title: 'engineeringMath2',
     },
     style: ElectricityStyle,
@@ -124,7 +124,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('numericalMethods')} `,
-      courseId: 9,
+      courseId: 66,
       title: 'numericalMethods',
     },
     style: ElectricityStyle,
@@ -135,7 +135,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('engineeringEconomy')} `,
-      courseId: 9,
+      courseId: 61,
       title: 'engineeringEconomy',
     },
     style: ElectricityStyle,
@@ -146,7 +146,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('physics2')} `,
-      courseId: 9,
+      courseId: 13,
       title: 'physics2',
     },
     style: It_Sciences,
@@ -158,7 +158,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('controlSystems')} `,
-      courseId: 9,
+      courseId: 108,
       title: 'controlSystems',
     },
     style: ElectricityStyle,
@@ -169,7 +169,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('instrumentsAndControlLab')} `,
-      courseId: 9,
+      courseId: 110,
       title: 'instrumentsAndControlLab',
     },
     style: ElectricityStyle,
@@ -180,7 +180,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('selectedTopicsControl')} `,
-      courseId: 9,
+      courseId: 109,
       title: 'selectedTopicsControl',
     },
     style: ElectricityStyle,
@@ -192,7 +192,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electromagnetics1')} `,
-      courseId: 9,
+      courseId: 71,
       title: 'electromagnetics1',
     },
     style: ElectricityStyle,
@@ -203,7 +203,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electromagnetics2')} `,
-      courseId: 9,
+      courseId: 72,
       title: 'electromagnetics2',
     },
     style: ElectricityStyle,
@@ -214,7 +214,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('communications1')} `,
-      courseId: 9,
+      courseId: 95,
       title: 'communications1',
     },
     style: ElectricityStyle,
@@ -225,7 +225,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('antennasWavePropagation')} `,
-      courseId: 9,
+      courseId: 106,
       title: 'antennasWavePropagation',
     },
     style: ElectricityStyle,
@@ -237,7 +237,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('communicationSystems')} `,
-      courseId: 9,
+      courseId: 105,
       title: 'communicationSystems',
     },
     style: ElectricityStyle,
@@ -248,8 +248,8 @@ export const initialNodesEE: Node[] = [
     position: { x: 450, y: -50 },
     type: 'custom',
     data: {
-      label: `${EEMap.get('physics1')} `,
-      courseId: 1,
+      label: `${EEMap.get('physicsLab1')} `,
+      courseId: 12,
       title: 'physics',
     },
     style: It_Sciences,
@@ -260,7 +260,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('physics2')} `,
-      courseId: 1,
+      courseId: 13,
       title: 'physics2',
     },
     style: It_Sciences,
@@ -271,7 +271,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('physicsLab2')} `,
-      courseId: 1,
+      courseId: 15,
       title: 'physicsLab2',
     },
     style: It_Sciences,
@@ -282,7 +282,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricCircuits1')} `,
-      courseId: 1,
+      courseId: 68,
       title: 'electricCircuits1',
     },
     style: ElectricityStyle,
@@ -294,7 +294,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electronics1')} `,
-      courseId: 1,
+      courseId: 73,
       title: 'electronics1',
     },
     style: ElectricityStyle,
@@ -305,7 +305,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('signalsAndSystems')} `,
-      courseId: 1,
+      courseId: 94,
       title: 'signalsAndSystems',
     },
     style: ElectricityStyle,
@@ -316,7 +316,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricCircuits2')} `,
-      courseId: 1,
+      courseId: 69,
       title: 'electricCircuits2',
     },
     style: ElectricityStyle,
@@ -328,7 +328,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electronics2')} `,
-      courseId: 1,
+      courseId: 74,
       title: 'electronics2',
     },
     style: ElectricityStyle,
@@ -339,7 +339,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('engineeringEthics')} `,
-      courseId: 1,
+      courseId: 67,
       title: 'engineeringEthics',
     },
     style: ElectricityStyle,
@@ -350,7 +350,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electronicsLab')} `,
-      courseId: 1,
+      courseId: 75,
       title: 'electronicsLab',
     },
     style: ElectricityStyle,
@@ -361,7 +361,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('digitalElectronics')} `,
-      courseId: 1,
+      courseId: 77,
       title: 'digitalElectronics',
     },
     style: ElectricityStyle,
@@ -373,7 +373,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('integratedCircuits')} `,
-      courseId: 1,
+      courseId: 78,
       title: 'integratedCircuits',
     },
     style: ElectricityStyle,
@@ -385,7 +385,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('advancedElectronicsLab')} `,
-      courseId: 1,
+      courseId: 76,
       title: 'advancedElectronicsLab',
     },
     style: ElectricityStyle,
@@ -396,7 +396,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('biomedicalElectronics')} `,
-      courseId: 1,
+      courseId: 79,
       title: 'biomedicalElectronics',
     },
     style: ElectricityStyle,
@@ -407,7 +407,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('signalsAndSystems')} `,
-      courseId: 1,
+      courseId: 94,
       title: 'signalsAndSystems',
     },
     style: ElectricityStyle,
@@ -418,7 +418,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('powerElectronics')} `,
-      courseId: 1,
+      courseId: 80,
       title: 'powerElectronics',
     },
     style: ElectricityStyle,
@@ -429,7 +429,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricDrives')} `,
-      courseId: 1,
+      courseId: 84,
       title: 'electricDrives',
     },
     style: ElectricityStyle,
@@ -441,7 +441,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('engineeringProbability')} `,
-      courseId: 1,
+      courseId: 62,
       title: 'engineeringProbability',
     },
     style: ElectricityStyle,
@@ -452,7 +452,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('communications1')} `,
-      courseId: 1,
+      courseId: 95,
       title: 'communications1',
     },
     style: ElectricityStyle,
@@ -463,7 +463,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('digitalElectronics')} `,
-      courseId: 1,
+      courseId: 77,
       title: 'digitalElectronics',
     },
     style: ElectricityStyle,
@@ -475,7 +475,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('communications2')} `,
-      courseId: 1,
+      courseId: 96,
       title: 'communications2',
     },
     style: ElectricityStyle,
@@ -486,7 +486,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('communicationNetworks')} `,
-      courseId: 1,
+      courseId: 98,
       title: 'communicationNetworks',
     },
     style: ElectricityStyle,
@@ -497,7 +497,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('digitalSignalProcessing')} `,
-      courseId: 1,
+      courseId: 99,
       title: 'digitalSignalProcessing',
     },
     style: ElectricityStyle,
@@ -508,7 +508,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('opticalCommunications')} `,
-      courseId: 1,
+      courseId: 100,
       title: 'opticalCommunications',
     },
     style: ElectricityStyle,
@@ -519,7 +519,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('selectedTopicsControl')} `,
-      courseId: 1,
+      courseId: 109,
       title: 'selectedTopicsControl',
     },
     style: ElectricityStyle,
@@ -532,7 +532,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('mobileCommunications')} `,
-      courseId: 1,
+      courseId: 102,
       title: 'mobileCommunications',
     },
     style: ElectricityStyle,
@@ -543,7 +543,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('communicationsLab')} `,
-      courseId: 1,
+      courseId: 103,
       title: 'communicationsLab',
     },
     style: ElectricityStyle,
@@ -555,7 +555,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('multimediaStreaming')} `,
-      courseId: 1,
+      courseId: 107,
       title: 'multimediaStreaming',
     },
     style: ElectricityStyle,
@@ -566,7 +566,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('advancedCommunicationsLab')} `,
-      courseId: 1,
+      courseId: 104,
       title: 'advancedCommunicationsLab',
     },
     style: ElectricityStyle,
@@ -579,7 +579,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricCircuitsLab')} `,
-      courseId: 1,
+      courseId: 70,
       title: 'electricCircuitsLab',
     },
     style: ElectricityStyle,
@@ -590,7 +590,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricalMachines1')} `,
-      courseId: 1,
+      courseId: 81,
       title: 'electricalMachines1',
     },
     style: ElectricityStyle,
@@ -602,7 +602,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricalMachines2')} `,
-      courseId: 1,
+      courseId: 82,
       title: 'electricalMachines2',
     },
     style: ElectricityStyle,
@@ -613,7 +613,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('powerSystemAnalysis')} `,
-      courseId: 1,
+      courseId: 85,
       title: 'powerSystemAnalysis',
     },
     style: ElectricityStyle,
@@ -625,7 +625,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('electricalMachinesLab')} `,
-      courseId: 1,
+      courseId: 83,
       title: 'electricalMachinesLab',
     },
     style: ElectricityStyle,
@@ -638,7 +638,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('powerSystemProtection')} `,
-      courseId: 1,
+      courseId: 86,
       title: 'powerSystemProtection',
     },
     style: ElectricityStyle,
@@ -649,7 +649,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('selectedTopicsPower')} `,
-      courseId: 1,
+      courseId: 87,
       title: 'selectedTopicsPower',
     },
     style: ElectricityStyle,
@@ -660,7 +660,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('highVoltageEngineering')} `,
-      courseId: 1,
+      courseId: 88,
       title: 'highVoltageEngineering',
     },
     style: ElectricityStyle,
@@ -671,7 +671,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('powerSystemOperations')} `,
-      courseId: 1,
+      courseId: 89,
       title: 'powerSystemOperations',
     },
     style: ElectricityStyle,
@@ -682,7 +682,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('powerSystemPlanning')} `,
-      courseId: 1,
+      courseId: 90,
       title: 'powerSystemPlanning',
     },
     style: ElectricityStyle,
@@ -693,7 +693,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('renewableEnergyAndQuality')} `,
-      courseId: 1,
+      courseId: 91,
       title: 'renewableEnergyAndQuality',
     },
     style: ElectricityStyle,
@@ -706,7 +706,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('powerLab')} `,
-      courseId: 1,
+      courseId: 92,
       title: 'powerLab',
     },
     style: ElectricityStyle,
@@ -717,7 +717,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('advancedPowerLab')} `,
-      courseId: 1,
+      courseId: 93,
       title: 'advancedPowerLab',
     },
     style: ElectricityStyle,
@@ -729,7 +729,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('csSkills')} `,
-      courseId: 3,
+      courseId: 22,
       title: 'csSkills',
     },
     style: computerStyle,
@@ -740,7 +740,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('digitalLogic')} `,
-      courseId: 3,
+      courseId: 23,
       title: 'digitalLogic',
     },
     style: computerStyle,
@@ -751,7 +751,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('digitalLogicLab')} `,
-      courseId: 3,
+      courseId: 40,
       title: 'digitalLogicLab',
     },
     style: computerStyle,
@@ -762,7 +762,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('microprocessors')} `,
-      courseId: 3,
+      courseId: 112,
       title: 'microprocessors',
     },
     style: ElectricityStyle,
@@ -773,7 +773,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('microcontrollerApplications')} `,
-      courseId: 3,
+      courseId: 113,
       title: 'microcontrollerApplications',
     },
     style: ElectricityStyle,
@@ -784,7 +784,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('microcontrollerApplicationsLab')} `,
-      courseId: 3,
+      courseId: 114,
       title: 'microcontrollerApplicationsLab',
     },
     style: ElectricityStyle,
@@ -795,7 +795,7 @@ export const initialNodesEE: Node[] = [
     type: 'custom',
     data: {
       label: `${EEMap.get('computerApplications')} `,
-      courseId: 3,
+      courseId: 115,
       title: 'computerApplications',
     },
     style: ElectricityStyle,

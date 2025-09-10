@@ -17,6 +17,7 @@ public class ResourceMapper {
         resource.setVideos(dto.videos());
         resource.setCourse(course);
         resource.setUser(userId);
+        resource.setName(dto.name());
         return resource;
 
     }
@@ -31,7 +32,9 @@ public class ResourceMapper {
             resource.getExams(),
             resource.getVideos(),
             resource.getCourse().getId(),
-            resource.getUser().getId()
+            resource.getUser().getId(),
+            resource.getName()
+            
         );
     }
 

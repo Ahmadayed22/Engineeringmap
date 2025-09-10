@@ -14,12 +14,12 @@ const baseNodeStyle = {
 
 const RootStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#828282',
+  backgroundColor: '#87032f',
 };
 
 const nodeStyle = {
   ...baseNodeStyle,
-  backgroundColor: '#828282',
+  backgroundColor: '#87032f',
 };
 
 const ItStyle = {

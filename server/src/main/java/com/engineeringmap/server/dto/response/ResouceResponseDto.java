@@ -9,7 +9,8 @@ public record ResouceResponseDto(
     String exams,
     String videos,
     Long courseId,
-    Long userId
-    ) {
+    Long userId,
+    String name
+       ) {
     
 }

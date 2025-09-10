@@ -28,6 +28,9 @@ public class Resource {
     @Column(length = 1000)
     private String videos;
 
+    @Column(length = 200)
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
@@ -121,5 +124,12 @@ public class Resource {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

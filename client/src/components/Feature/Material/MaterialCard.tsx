@@ -26,7 +26,7 @@ const MaterialCard = ({
 }: MaterialCardProps) => {
   const [openModal, setOpenModal] = useState(false);
   const { userInfo, isAdmin } = useAuth();
-
+  console.log(data);
   const truncateUrl = (url: string): string => {
     const baseUrl = url.split('?')[0];
 
@@ -77,7 +77,9 @@ const MaterialCard = ({
                 rel="noopener noreferrer"
                 className="text-sm text-blue-500 hover:text-blue-600"
               >
-                {truncateUrl(material[item.key] as string)}{' '}
+                {/* {truncateUrl(material[item.key] as string)}{' '} */}
+                {material.name ||
+                  truncateUrl(material[item.key] as string)}{' '}
                 {/* Display truncated URL */}
               </a>
               {userId && (material.userId === userId || isAdmin) && (
