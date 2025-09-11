@@ -2,8 +2,6 @@ package com.engineeringmap.server.repo;
 
 import com.engineeringmap.server.entity.Course;
 
-import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 import java.util.Optional;
 

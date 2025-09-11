@@ -1,10 +1,12 @@
 package com.engineeringmap.server.service;
 
+
 import com.engineeringmap.server.entity.DrEmail;
 import com.engineeringmap.server.repo.DrEmailRepo;
 import com.engineeringmap.server.util.DrEmailSpecification;
 
 import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,7 +32,7 @@ public class DrEmailService {
         return drEmailRepository.findAll(DrEmailSpecification.filter(search, department), pageable);
     }
 
-
+    // Additional methods for CRUD if needed
     public DrEmail createDrEmail(DrEmail drEmail) {
         return drEmailRepository.save(drEmail);
     }
