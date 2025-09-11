@@ -147,11 +147,11 @@ const Header = () => {
         </li>
         <li>
           <Link
-            to="/schedule"
+            to="/dremail"
             className="block py-2 px-3 text-white hover:bg-gray-700 rounded md:hover:bg-transparent md:hover:text-gray-300 md:p-0"
             onClick={closeMenu}
           >
-            Doctors&apos; Schedule
+            DrEmail
           </Link>
         </li>
         <li>

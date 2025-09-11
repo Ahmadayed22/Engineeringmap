@@ -10,6 +10,7 @@ const SignUp = lazy(() => import('@pages/Register/SignUp'));
 const Login = lazy(() => import('@pages/Login/Login'));
 const GPACalculator = lazy(() => import('@pages/GPA/GPACalculator'));
 const Sehedule = lazy(() => import('@pages/schedule/Schedule'));
+const DrEmail = lazy(() => import('@pages/DrEmail/DrEmail'));
 const About = lazy(() => import('@pages/about/About'));
 const CpeFlow = lazy(() => import('@pages/computerEngineering/CpeFlow'));
 const EeFlow = lazy(() => import('@pages/electricalEngineering/EeFlow'));
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'schedule',
         element: <Sehedule />,
+      },
+      {
+        path: 'dremail',
+        element: <DrEmail />,
       },
       {
         path: 'about',
