@@ -91,7 +91,9 @@ public CorsConfigurationSource corsConfigurationSource() {
     configuration.setAllowedOrigins(List.of(
         "http://localhost:5173", // React frontend
             "http://localhost:8080" ,// Docker / backend access
-        "https://engineeringmap.onrender.com"
+        "https://engineeringmap.onrender.com",
+        "https://engmaps.com",                // root domain
+        "https://www.engmaps.com"             // www domain
     ));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
