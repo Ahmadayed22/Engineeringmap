@@ -26,7 +26,7 @@ const MaterialCard = ({
 }: MaterialCardProps) => {
   const [openModal, setOpenModal] = useState(false);
   const { userInfo, isAdmin } = useAuth();
-  console.log(data);
+  // console.log(data);
   const truncateUrl = (url: string): string => {
     const baseUrl = url.split('?')[0];
 

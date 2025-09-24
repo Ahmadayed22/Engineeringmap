@@ -42,9 +42,7 @@ type CommentCardContent = {
 } & CommentCardContentProps;
 
 function CommentCardContent({ comment, openEdit }: CommentCardContent) {
-  return (
-    <>{!openEdit && <p className="flex justify-end">{comment.content}</p>}</>
-  );
+  return <>{!openEdit && <p className="flex text-end">{comment.content}</p>}</>;
 }
 type CommentCardButtons = {
   setOpenEdit: (value: boolean) => void;

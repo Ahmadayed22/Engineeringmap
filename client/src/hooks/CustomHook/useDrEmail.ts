@@ -28,13 +28,13 @@ const useDrEmail = () => {
   // Debounce search to avoid too many API calls
   const debouncedSearch = useDebounce(search, 500);
 
-  console.log('Current state:', {
-    page,
-    size,
-    search,
-    debouncedSearch,
-    department,
-  });
+  // console.log('Current state:', {
+  //   page,
+  //   size,
+  //   search,
+  //   debouncedSearch,
+  //   department,
+  // });
 
   const fetchDrEmails = async (
     page: number,
@@ -42,11 +42,11 @@ const useDrEmail = () => {
     search: string,
     department: string
   ) => {
-    console.log('API call with params:', { page, size, search, department });
+    // console.log('API call with params:', { page, size, search, department });
     const response = await axios.get('/api/dremails', {
       params: { page, size, search, department },
     });
-    console.log('API response:', response.data);
+    // console.log('API response:', response.data);
     return response.data;
   };
 

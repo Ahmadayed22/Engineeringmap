@@ -11,7 +11,7 @@ export function useInitialNodes() {
       data: {
         ...node.data,
         onClose: (id: string) => {
-          console.log('Closing node with courseId:', id);
+          // console.log('Closing node with courseId:', id);
           setNodes((nds) =>
             nds.map((n) =>
               n.data.courseId === id
