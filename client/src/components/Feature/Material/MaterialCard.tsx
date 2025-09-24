@@ -47,8 +47,8 @@ const MaterialCard = ({
           />
         )}
 
-        <span className="font-semibold">{item.label}</span>
-        <SlBookOpen className="text-lg" />
+        <span className="font-semibold text-white">{item.label}</span>
+        <SlBookOpen className="text-lg text-white" />
       </div>
       <MaterialModal
         openModal={openModal}
@@ -58,7 +58,9 @@ const MaterialCard = ({
       {isLoading ? (
         <span className="text-sm text-end text-gray-500">Loading...</span>
       ) : isError ? (
-        <span className="text-sm text-end text-red-500">خطأ في جلب المواد</span>
+        <span className="text-sm text-end text-red-500">
+          خطأ في جلب المواد{' '}
+        </span>
       ) : !data || data.length === 0 ? (
         <span className="text-sm text-end text-gray-400">
           لا توجد مواد متاحة

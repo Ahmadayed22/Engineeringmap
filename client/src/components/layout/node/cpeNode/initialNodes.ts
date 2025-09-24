@@ -27,6 +27,7 @@ const initialNodes: Node[] = [
       fontSize: 30,
       padding: 15,
       borderRadius: 15,
+      color: 'white',
     },
   },
 

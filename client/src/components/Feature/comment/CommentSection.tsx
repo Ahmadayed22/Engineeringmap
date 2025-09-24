@@ -18,7 +18,7 @@ const CommentSection = () => {
   if (commentsError) return <div>Error: {commentsError.message}</div>;
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold">Comments ({commentCount})</h3>
+      <h3 className="font-semibold text-white">Comments ({commentCount})</h3>
 
       <CommentList comments={comments ?? []} isLoading={isCommentsLoading} />
     </div>

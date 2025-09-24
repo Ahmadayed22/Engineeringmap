@@ -4,7 +4,7 @@ const MaterialSection = () => {
   return (
     <div className="flex flex-col ">
       <div className="flex flex-row items-center justify-end mb-4 gap-2">
-        <h2 className="text-xl font-semibold mb-4 text-end">
+        <h2 className="text-xl font-semibold mb-4 text-end text-white">
           المواد التعليمية
         </h2>
       </div>
