@@ -2,7 +2,7 @@ import { type Edge } from '@xyflow/react';
 
 import {
   style,
-  // BlackStyle,
+  WhiteStyle,
   // RedStyle,
   ElectricityStyle,
   SciencesStyle,
@@ -307,7 +307,7 @@ const initialEdges: Edge[] = [
     target: 'digitalImageProcessing',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -320,7 +320,7 @@ const initialEdges: Edge[] = [
     target: 'aiAndMachineLearning',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -390,7 +390,7 @@ const initialEdges: Edge[] = [
     target: 'computerArchitecture',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -425,7 +425,7 @@ const initialEdges: Edge[] = [
     target: 'computerOrganizationLab',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -444,7 +444,7 @@ const initialEdges: Edge[] = [
     target: 'optimizedCompilers',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -456,7 +456,7 @@ const initialEdges: Edge[] = [
     target: 'embeddedSystems',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -483,7 +483,7 @@ const initialEdges: Edge[] = [
     target: 'internetOfThings',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -502,7 +502,7 @@ const initialEdges: Edge[] = [
     target: 'controlSystems',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -522,7 +522,7 @@ const initialEdges: Edge[] = [
     target: 'computerNetworks2',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -585,7 +585,7 @@ const initialEdges: Edge[] = [
     target: 'selectedTopicsInCE',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },
@@ -603,7 +603,7 @@ const initialEdges: Edge[] = [
     target: 'networkProtocolsProgramming',
     type: 'smoothstep',
     style: {
-      ...style,
+      ...WhiteStyle,
 
       strokeDasharray: '5,5', // Creates dashed line
     },

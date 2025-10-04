@@ -387,7 +387,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'biomedicalElectronics',
-    position: { x: -250, y: 700 },
+    position: { x: -265, y: 700 },
     type: 'custom',
     data: {
       label: `${EEMap.get('biomedicalElectronics')} `,
@@ -510,7 +510,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'selectedTopicsControl_',
-    position: { x: -2175, y: 700 },
+    position: { x: -2195, y: 700 },
     type: 'custom',
     data: {
       label: `${EEMap.get('selectedTopicsControl')} `,
@@ -557,7 +557,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'advancedCommunicationsLab',
-    position: { x: -1650, y: 900 },
+    position: { x: -1685, y: 900 },
     type: 'custom',
     data: {
       label: `${EEMap.get('advancedCommunicationsLab')} `,
@@ -640,7 +640,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'selectedTopicsPower',
-    position: { x: 668, y: 900 },
+    position: { x: 655, y: 900 },
     type: 'custom',
     data: {
       label: `${EEMap.get('selectedTopicsPower')} `,
@@ -651,7 +651,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'highVoltageEngineering',
-    position: { x: 425, y: 900 },
+    position: { x: 410, y: 900 },
     type: 'custom',
     data: {
       label: `${EEMap.get('highVoltageEngineering')} `,
@@ -662,7 +662,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'powerSystemOperations',
-    position: { x: 150, y: 900 },
+    position: { x: 115, y: 900 },
     type: 'custom',
     data: {
       label: `${EEMap.get('powerSystemOperations')} `,
@@ -673,7 +673,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'powerSystemPlanning',
-    position: { x: -100, y: 900 },
+    position: { x: -115, y: 900 },
     type: 'custom',
     data: {
       label: `${EEMap.get('powerSystemPlanning')} `,
@@ -684,7 +684,7 @@ export const initialNodesEE: Node[] = [
   },
   {
     id: 'renewableEnergyAndQuality',
-    position: { x: -450, y: 900 },
+    position: { x: -465, y: 900 },
     type: 'custom',
     data: {
       label: `${EEMap.get('renewableEnergyAndQuality')} `,

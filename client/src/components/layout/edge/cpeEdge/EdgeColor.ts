@@ -2,9 +2,9 @@ const style = {
   strokeWidth: 4,
   stroke: '#87032f',
 };
-const BlackStyle = {
+const WhiteStyle = {
   strokeWidth: 4,
-  stroke: '#87032f',
+  stroke: '#FFFFFF',
 };
 
 const RedStyle = {
@@ -33,7 +33,7 @@ const MechatronicsStyle = {
 
 export {
   style,
-  BlackStyle,
+  WhiteStyle,
   RedStyle,
   ElectricityStyle,
   SciencesStyle,

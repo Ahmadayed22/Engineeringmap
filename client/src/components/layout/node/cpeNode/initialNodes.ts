@@ -417,7 +417,7 @@ const initialNodes: Node[] = [
   {
     id: 'parallelProcessorsLab',
     type: 'custom',
-    position: { x: -590, y: 1000 },
+    position: { x: -592, y: 1000 },
     data: {
       label: CPEMap.get('parallelProcessorsLab'),
       courseId: 33,
@@ -452,7 +452,7 @@ const initialNodes: Node[] = [
   {
     id: 'digitalImageProcessing',
     type: 'custom',
-    position: { x: -251, y: 410 },
+    position: { x: -228, y: 410 },
     data: {
       label: CPEMap.get('digitalImageProcessing'),
       courseId: 34,
@@ -579,7 +579,7 @@ const initialNodes: Node[] = [
   {
     id: 'advancedDigitalDesign',
     type: 'custom',
-    position: { x: 115, y: 450 },
+    position: { x: 175, y: 450 },
     data: {
       label: CPEMap.get('advancedDigitalDesign'),
       courseId: 42,
@@ -637,7 +637,7 @@ const initialNodes: Node[] = [
   {
     id: 'optimizedCompilers',
     type: 'custom',
-    position: { x: 632, y: 815 },
+    position: { x: 654, y: 815 },
     data: {
       label: CPEMap.get('optimizedCompilers'),
       courseId: 45,
@@ -718,7 +718,7 @@ const initialNodes: Node[] = [
   {
     id: 'mobileRobots',
     type: 'custom',
-    position: { x: 1093, y: 825 },
+    position: { x: 1100, y: 825 },
     data: {
       label: CPEMap.get('mobileRobots'),
       courseId: 51,
@@ -832,7 +832,7 @@ const initialNodes: Node[] = [
   {
     id: 'selectedTopicsInCE',
     type: 'custom',
-    position: { x: 533, y: 1225 }, // Position in advanced topics area
+    position: { x: 555, y: 1225 }, // Position in advanced topics area
     data: {
       label: CPEMap.get('selectedTopicsInCE'),
       courseId: 57,

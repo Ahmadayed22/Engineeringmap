@@ -17,9 +17,11 @@ const TreeFlowInner = memo(
   ({
     initialNodes,
     initialEdges,
+    flowType,
   }: {
     initialNodes: Node[];
     initialEdges: Edge[];
+    flowType: 'cpe' | 'ee';
   }) => {
     const { title } = useTreeFlowContext();
     const {
@@ -29,7 +31,6 @@ const TreeFlowInner = memo(
       onEdgesChange,
       onConnect,
       handleNodeClick,
-
       rootModalOpen,
       setRootModalOpen,
     } = useTreeFlow(initialNodes, initialEdges);
@@ -71,6 +72,7 @@ const TreeFlowInner = memo(
           <ModalRoot
             isOpen={rootModalOpen}
             onClose={() => setRootModalOpen(false)}
+            flowType={flowType}
           />
         )}
         {!rootModalOpen && title !== 'root' && <DrawerComp />}
@@ -86,7 +88,11 @@ export default function TreeFlow({ flowType }: TreeFlowProps) {
   const initialEdges = flowType === 'cpe' ? initialEdgesCPE : initialEdgesEE;
   return (
     <TreeFlowProvider>
-      <TreeFlowInner initialNodes={initialNodes} initialEdges={initialEdges} />
+      <TreeFlowInner
+        initialNodes={initialNodes}
+        initialEdges={initialEdges}
+        flowType={flowType}
+      />
     </TreeFlowProvider>
   );
 }

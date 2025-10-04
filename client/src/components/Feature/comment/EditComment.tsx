@@ -14,7 +14,7 @@ const EditComment = ({ comment, setOpenEdit }: EditCommentProps) => {
         <Textarea
           className="text-end"
           id="comment"
-          rows={2}
+          rows={Math.max(1, comment.content.split('\n').length)}
           defaultValue={comment.content}
           {...register('comment', { required: 'Comment is required' })}
         />

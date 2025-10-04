@@ -106,7 +106,7 @@ export default function GPACalculator() {
 
         {/* This Semester */}
         <div className="bg-[#1F2937] p-4 rounded shadow mt-4">
-          <h2 className="text-white font-bold text-lg">This Semester</h2>
+          <h2 className="text-white font-bold text-lg">Current Semester</h2>
           {semesterFields.map((field, i) => (
             <div key={field.id} className="grid grid-cols-3 gap-2 mt-2">
               <input
@@ -146,7 +146,15 @@ export default function GPACalculator() {
 
         {/* Repeated Courses */}
         <div className="bg-[#1F2937] p-4 rounded shadow mt-4">
-          <h2 className="text-white font-bold text-lg">Repeated Courses</h2>
+          <h2 className="text-white font-bold text-lg mb-2 text-center">
+            Repeated Courses
+          </h2>
+          <div className="grid grid-cols-4 gap-2">
+            <h2 className="text-white font-bold text-lg">Subject</h2>
+            <h2 className="text-white font-bold text-lg">Hours</h2>
+            <h2 className="text-white font-bold text-lg">New Grade</h2>
+            <h2 className="text-white font-bold text-lg">Old Grade</h2>
+          </div>
           {repeatedFields.map((field, i) => (
             <div key={field.id} className="grid grid-cols-4 gap-2 mt-2">
               <input

@@ -200,7 +200,7 @@
   position: absolute;
   top: 50%;
   left: 0;
-  height: 3px;
+  height: 6px;
   width: 0; 
   background: linear-gradient(90deg, red, red);
   transform: translateY(-50%);

@@ -1,11 +1,14 @@
-import { Modal, ModalBody, ModalFooter } from 'flowbite-react';
+import { Modal, ModalBody } from 'flowbite-react';
 
 import { HiX } from 'react-icons/hi';
+import ModaleeFooterContent from './ModaleeFooterContent';
+import ModalcpeFooterContent from './ModalcpeFooterContent';
 type ModalRootProps = {
   isOpen: boolean;
   onClose: () => void;
+  flowType: 'cpe' | 'ee';
 };
-function ModalRoot({ isOpen, onClose }: ModalRootProps) {
+function ModalRoot({ isOpen, onClose, flowType }: ModalRootProps) {
   return (
     <>
       <Modal show={isOpen} onClose={onClose}>
@@ -49,7 +52,7 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
               <br />
               <span>
                 {' '}
-                الخط الاسود المتقطع يدل على ان المادة تعتمد على ما قبلها
+                الخط الابيض المتقطع يدل على ان المادة تعتمد على ما قبلها
               </span>
               <br />
               <span>
@@ -64,29 +67,11 @@ function ModalRoot({ isOpen, onClose }: ModalRootProps) {
           </div>
         </ModalBody>
 
-        <ModalFooter className="flex flex-col items-end text-right space-y-1">
-          <span className="text-white mb-4">
-            : <>دلالة الوان الخطة</>
-          </span>
-          <p className="text-sm text-[#87032f] ">
-            <span className="text-gray-300">مواد هندسة الحاسوب</span> ■
-          </p>
-          <p className="text-sm text-[#631d3b]">
-            <span className="text-gray-300">مواد هندسة الميكاترونيكس</span> ■
-          </p>
-          <p className="text-sm text-[#166e25]">
-            <span className="text-gray-300">مواد هندسة الكهربائية</span> ■
-          </p>
-          <p className="text-sm text-[#a87716]">
-            <span className="text-gray-300">
-              مواد كلية تكنولوجيا المعلومات{' '}
-            </span>{' '}
-            ■
-          </p>
-          <p className="text-sm text-[#0f3460]">
-            <span className="text-gray-300">مواد كلية العلوم</span> ■
-          </p>
-        </ModalFooter>
+        {flowType === 'cpe' ? (
+          <ModalcpeFooterContent />
+        ) : (
+          <ModaleeFooterContent />
+        )}
       </Modal>
     </>
   );
