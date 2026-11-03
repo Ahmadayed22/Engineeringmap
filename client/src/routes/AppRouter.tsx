@@ -15,14 +15,21 @@ const About = lazy(() => import('@pages/about/About'));
 const CpeFlow = lazy(() => import('@pages/computerEngineering/CpeFlow'));
 const EeFlow = lazy(() => import('@pages/electricalEngineering/EeFlow'));
 import Error from '@pages/Error/Error';
-import { LottieHandler } from '@components/feedbaks';
+import { PageLoader } from '@components/feedbaks';
 import { scheduleToken } from '@util/scheduleToken';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
 import { Home } from '@pages/index';
 
-// import ParticlesBackground from '@components/common/Background/ParticlesBackground';
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Course data changes rarely; avoid refetching on every tab switch.
+      staleTime: 60 * 1000,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -66,6 +73,10 @@ const router = createBrowserRouter([
         path: 'about',
         element: <About />,
       },
+      {
+        path: '*',
+        element: <Error />,
+      },
     ],
   },
 ]);
@@ -80,12 +91,8 @@ const AppRouter = () => {
     }
   }, [accessToken, dispatch]);
   return (
-    <Suspense
-      fallback={<LottieHandler type="loading" message="Loading Pleas Wait" />}
-    >
+    <Suspense fallback={<PageLoader message="Loading, please wait…" />}>
       <QueryClientProvider client={queryClient}>
-        {/* <ParticlesBackground className="fixed inset-0 -z-10" /> */}
-        {/* <FireParticles /> */}
         <div className="bg-[#F0F2F5] fixed inset-0 -z-10"></div>
         <RouterProvider router={router} />
       </QueryClientProvider>

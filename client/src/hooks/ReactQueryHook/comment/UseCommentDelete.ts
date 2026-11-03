@@ -1,5 +1,4 @@
 import { ErrorToast, SuccessToast } from '@components/common';
-import { useAppSelector } from '@store/reduxHooks';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -9,16 +8,11 @@ import { CommentCardContentProps } from '@customTypes/CommentSection';
 const UseCommentDelete = ({ comment }: CommentCardContentProps) => {
   const [openModal, setOpenModal] = useState(false);
 
-  const { accessToken } = useAppSelector((state) => state.auth);
   const queryClient = useQueryClient();
 
   const DeleteComment = async () => {
     try {
-      const res = await axios.delete(`/api/comments/${comment.id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const res = await axios.delete(`/api/comments/${comment.id}`);
       return res;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {

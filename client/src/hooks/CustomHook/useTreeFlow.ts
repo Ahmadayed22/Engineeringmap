@@ -99,7 +99,12 @@ const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
       if (node.data.title === 'root') {
         setRootModalOpen(true);
       } else {
-        setTitle(node.data.title);
+        // Show the course's display name in the drawer, not its internal key ("digitalLogic").
+        setTitle(
+          typeof node.data.label === 'string'
+            ? node.data.label
+            : node.data.title
+        );
 
         setDrawerOpen(true);
       }

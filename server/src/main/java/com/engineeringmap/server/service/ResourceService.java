@@ -1,5 +1,6 @@
 package com.engineeringmap.server.service;
 
+import org.springframework.security.access.AccessDeniedException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -59,7 +60,7 @@ public ResouceResponseDto createResourceByCourseId(ResourceRequestDto dto, Long 
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
             
         if (!resource.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only edit your own resource");
+            throw new AccessDeniedException("You can only edit your own material");
         }
 
         ResourceMapper.updateEntity(resource, dto );
@@ -78,7 +79,7 @@ public ResouceResponseDto createResourceByCourseId(ResourceRequestDto dto, Long 
                 .anyMatch(role -> role.getName() == RoleType.ADMIN);
 
         if (!isAdmin && !resource.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only delete your own resource unless you are an admin");
+            throw new AccessDeniedException("You can only delete your own material");
         }
    
         resourceRepo.delete(resource);

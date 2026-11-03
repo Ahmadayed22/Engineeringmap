@@ -1,9 +1,10 @@
+import AuthCard from '@components/common/AuthCard/AuthCard';
 import InputForm from '@components/common/InputForm/InputForm';
 import { useLogin } from '@hooks/index';
 import { resetUI } from '@store/auth/authSlice';
-
 import { Alert, Button, Spinner } from 'flowbite-react';
 import { useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
 const Login = () => {
   const {
@@ -15,65 +16,84 @@ const Login = () => {
     loading,
     error,
     dispatch,
+    accessToken,
   } = useLogin();
 
   useEffect(() => {
     dispatch(resetUI());
   }, [dispatch]);
 
+  if (accessToken) return <Navigate to="/" replace />;
+
+  const isPending = loading === 'pending';
+
   return (
-    <div className="max-w-md mx-auto h-screen mt-[15%]">
-      <div className="mb-4">
-        {searchParams.get('message') === 'accountCreated' && (
-          <Alert className="text-green-500 text-center">
-            Account created successfully, please log in.
-          </Alert>
-        )}
-      </div>
+    <AuthCard
+      title="Welcome back"
+      subtitle="Sign in to track your courses, grades and comments."
+      footer={
+        <>
+          New here?{' '}
+          <Link
+            to="/signup"
+            className="font-medium text-blue-400 hover:underline"
+          >
+            Create an account
+          </Link>
+        </>
+      }
+    >
+      {searchParams.get('message') === 'accountCreated' && (
+        <Alert color="success" className="mb-4 text-center">
+          Account created. Please sign in.
+        </Alert>
+      )}
 
       <form
-        className="flex flex-col gap-4 mx-2"
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit(submitForm)}
+        noValidate
       >
-        {/* email */}
         <InputForm
           register={register}
-          label="Your Email"
-          id="email"
+          label="Email"
           name="email"
           type="email"
-          placeholder="aboayed22@gmail.com"
+          autoComplete="email"
+          placeholder="you@example.com"
           error={errors.email?.message}
         />
-
-        {/* password */}
         <InputForm
           register={register}
-          label="Your Password"
-          id="password"
+          label="Password"
           name="password"
           type="password"
-          placeholder="***********"
+          autoComplete="current-password"
+          placeholder="••••••••"
           error={errors.password?.message}
         />
 
-        <Button type="submit" className="cursor-pointer">
-          {loading === 'pending' ? (
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="mt-2 cursor-pointer"
+        >
+          {isPending ? (
             <>
-              <Spinner></Spinner>
-              <span className="ml-2">Logging ...</span>
+              <Spinner size="sm" className="me-2" aria-hidden="true" />
+              Signing in…
             </>
           ) : (
-            'Login'
+            'Sign in'
           )}
         </Button>
         {error && (
-          <Alert color="failure" className="text-red-500 text-center">
+          <Alert color="failure" role="alert" className="text-center">
             {error}
           </Alert>
         )}
       </form>
-    </div>
+    </AuthCard>
   );
 };
 

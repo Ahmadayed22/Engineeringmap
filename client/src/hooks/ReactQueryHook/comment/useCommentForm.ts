@@ -2,6 +2,8 @@ import { useAuth } from '@hooks/CustomHook/useAuth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { AxiosErrorHandler } from '@util/index';
 
 interface CommentInput {
   comment: string;
@@ -32,18 +34,10 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
   });
 
   const createComment = async ({ content, courseId }: CreateCommentProps) => {
-    const res = await axios.post(
-      '/api/comments',
-      {
-        courseId,
-        content,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const res = await axios.post('/api/comments', {
+      courseId,
+      content,
+    });
 
     return res.data;
   };
@@ -61,23 +55,27 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
       reset();
     },
     onError: (error) => {
-      console.error('Failed to create comment:', error);
+      toast.error(AxiosErrorHandler(error) || 'Could not post your comment.');
     },
   });
 
   const submitComment: SubmitHandler<CommentInput> = (data) => {
-    if (!accessToken) {
-      console.error('No access token available');
-      return;
-    }
+    if (!accessToken || mutation.isPending) return;
 
     mutation.mutate({
-      content: data.comment,
+      content: data.comment.trim(),
       courseId,
     });
   };
 
-  return { register, handleSubmit, errors, submitComment, accessToken };
+  return {
+    register,
+    handleSubmit,
+    errors,
+    submitComment,
+    accessToken,
+    isSubmitting: mutation.isPending,
+  };
 };
 
 export default useCommentForm;

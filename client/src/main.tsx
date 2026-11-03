@@ -5,7 +5,7 @@ import { store, presistor } from '@store/Store';
 import { Provider } from 'react-redux';
 import AppRouter from '@routes/AppRouter.tsx';
 import { PersistGate } from 'redux-persist/integration/react';
-import './service/axiois-global.js';
+import './service/apiClient';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>

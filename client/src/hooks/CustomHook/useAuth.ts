@@ -24,12 +24,14 @@ export const useAuth = () => {
 
   const isAuthenticated = !!(accessToken && userInfo);
 
+  // The access token's "roles" claim holds bare names ("ADMIN", "USER"), not "ROLE_ADMIN".
   const hasRole = (role: string): boolean => {
-    return userInfo?.roles?.includes(`ROLE_${role}`) || false;
+    const name = role.replace(/^ROLE_/, '');
+    return userInfo?.roles?.includes(name) ?? false;
   };
 
-  const isAdmin = userInfo?.roles.includes('ADMIN');
-  const isUser = userInfo?.roles.includes('USER');
+  const isAdmin = hasRole('ADMIN');
+  const isUser = hasRole('USER');
 
   return {
     // State

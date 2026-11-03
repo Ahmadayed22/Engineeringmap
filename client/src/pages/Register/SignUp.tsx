@@ -1,9 +1,10 @@
+import AuthCard from '@components/common/AuthCard/AuthCard';
 import InputForm from '@components/common/InputForm/InputForm';
 import { useSiginUp } from '@hooks/index';
 import { resetUI } from '@store/auth/authSlice';
-
 import { Alert, Button, Spinner } from 'flowbite-react';
 import { useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
 const SignUp = () => {
   const {
@@ -15,83 +16,95 @@ const SignUp = () => {
     loading,
     error,
     accessToken,
-    navigate,
   } = useSiginUp();
 
   useEffect(() => {
     dispatch(resetUI());
   }, [dispatch]);
 
-  if (accessToken) {
-    navigate('/');
-  }
+  // Was navigate('/') during render, which React warns about and can loop.
+  if (accessToken) return <Navigate to="/" replace />;
+
+  const isPending = loading === 'pending';
+
   return (
-    <div>
+    <AuthCard
+      title="Create your account"
+      subtitle="Save your progress on the study plan and join course discussions."
+      footer={
+        <>
+          Already have an account?{' '}
+          <Link
+            to="/login"
+            className="font-medium text-blue-400 hover:underline"
+          >
+            Sign in
+          </Link>
+        </>
+      }
+    >
       <form
-        className="flex max-w-md flex-col gap-4 mx-2 sm:mx-auto h-screen justify-center "
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit(submitForm)}
+        noValidate
       >
-        {/* username */}
         <InputForm
           register={register}
-          label="Your UserName"
-          id="username"
+          label="Username"
           name="username"
-          type="text"
-          placeholder="aboayed22"
+          autoComplete="username"
+          placeholder="e.g. ahmad22"
           error={errors.username?.message}
         />
-
-        {/* email */}
         <InputForm
           register={register}
-          label="Your Email"
-          id="email"
+          label="Email"
           name="email"
           type="email"
-          placeholder="aboayed22@gmail.com"
+          autoComplete="email"
+          placeholder="you@example.com"
           error={errors.email?.message}
         />
-
-        {/* password */}
         <InputForm
           register={register}
-          label="Your Password"
-          id="password"
+          label="Password"
           name="password"
           type="password"
-          placeholder="***********"
+          autoComplete="new-password"
+          placeholder="At least 6 characters"
           error={errors.password?.message}
         />
-
-        {/* Confirm password */}
         <InputForm
           register={register}
-          label="Confirm Password"
-          id="confirmPassword"
+          label="Confirm password"
           name="confirmPassword"
           type="password"
-          placeholder="***********"
+          autoComplete="new-password"
+          placeholder="Repeat your password"
           error={errors.confirmPassword?.message}
         />
 
-        <Button type="submit" className="cursor-pointer">
-          {loading === 'pending' ? (
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="mt-2 cursor-pointer"
+        >
+          {isPending ? (
             <>
-              <Spinner></Spinner>
-              <span className="ml-2">Logging ...</span>
+              <Spinner size="sm" className="me-2" aria-hidden="true" />
+              Creating account…
             </>
           ) : (
-            'Register new account'
+            'Create account'
           )}
         </Button>
         {error && (
-          <Alert color="failure" className="text-red-500 text-center">
+          <Alert color="failure" role="alert" className="text-center">
             {error}
           </Alert>
         )}
       </form>
-    </div>
+    </AuthCard>
   );
 };
 

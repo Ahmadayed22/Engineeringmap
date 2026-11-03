@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   Navbar,
   NavbarBrand,
@@ -12,22 +12,29 @@ import {
   DropdownItem,
 } from 'flowbite-react';
 import { useCallback, useRef } from 'react';
-import { useAppSelector } from '@store/reduxHooks';
-import { useDispatch } from 'react-redux';
-import { authLogout } from '@store/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
+import { thunkAuthLogout } from '@store/auth/authSlice';
 import { useQueryClient } from '@tanstack/react-query';
 import AboAyed from '../../assets/svg/AboAyed.svg';
 import './bgStyle.css';
+
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  `block rounded px-3 py-2 transition-colors md:p-0 ${
+    isActive
+      ? 'bg-white/10 font-semibold text-white md:bg-transparent md:underline md:decoration-2 md:underline-offset-8'
+      : 'text-white/80 hover:bg-gray-700 hover:text-white md:hover:bg-transparent'
+  }`;
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { userInfo, accessToken } = useAppSelector((state) => state.auth);
   const queryClient = useQueryClient();
 
   const navbarToggleRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleLogout = useCallback(() => {
-    dispatch(authLogout());
+  const handleLogout = useCallback(async () => {
+    // Previously only local state was cleared, so the refresh token stayed valid on the server.
+    await dispatch(thunkAuthLogout());
     queryClient.clear();
     navigate('/login');
   }, [dispatch, queryClient, navigate]);
@@ -100,11 +107,16 @@ const Header = () => {
       rounded={false}
       className=" shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8 custom-bg2"
     >
-      <NavbarBrand className="flex items-center space-x-3">
-        <span className="text-lg sm:text-xl font-semibold text-white whitespace-nowrap hover:opacity-80 transition-opacity duration-200">
-          <span className="hidden sm:inline">Engineering Map</span>
-          <span className="sm:hidden">Eng Map</span>
-        </span>
+      <NavbarBrand as="div" className="flex items-center space-x-3">
+        <Link
+          to="/"
+          className="rounded focus-visible:outline-2 focus-visible:outline-white"
+        >
+          <span className="text-lg sm:text-xl font-semibold text-white whitespace-nowrap hover:opacity-80 transition-opacity duration-200">
+            <span className="hidden sm:inline">Engineering Map</span>
+            <span className="sm:hidden">Eng Map</span>
+          </span>
+        </Link>
       </NavbarBrand>
 
       <div className="flex items-center space-x-3 md:order-2">
@@ -117,51 +129,55 @@ const Header = () => {
 
       <NavbarCollapse className="cursor-pointer  ">
         <li>
-          <Link
+          <NavLink
             to="/"
-            className="block py-2 px-3 text-white hover:bg-gray-700 rounded md:hover:bg-transparent md:hover:text-gray-300 md:p-0"
+            end={true}
+            className={navLinkClass}
             onClick={closeMenu}
           >
-            RoadMap
-          </Link>
+            Road Map
+          </NavLink>
         </li>
         <li>
-          <Link
+          <NavLink
             to="/gpa"
-            className="block py-2 px-3 text-white hover:bg-gray-700 rounded md:hover:bg-transparent md:hover:text-gray-300 md:p-0"
+            end={false}
+            className={navLinkClass}
             onClick={closeMenu}
           >
             GPA
-          </Link>
+          </NavLink>
         </li>
         <li>
           <a
             href="https://engzenon.com/library?filter=2"
             target="_blank"
             rel="noopener noreferrer"
-            className="block py-2 px-3 text-white hover:bg-gray-700 rounded md:hover:bg-transparent md:hover:text-gray-300 md:p-0"
+            className="block rounded px-3 py-2 text-white/80 transition-colors hover:bg-gray-700 hover:text-white md:p-0 md:hover:bg-transparent"
             onClick={closeMenu}
           >
-            BankZenon
+            BankZenon<span className="sr-only"> (opens in a new tab)</span>
           </a>
         </li>
         <li>
-          <Link
+          <NavLink
             to="/dremail"
-            className="block py-2 px-3 text-white hover:bg-gray-700 rounded md:hover:bg-transparent md:hover:text-gray-300 md:p-0"
+            end={false}
+            className={navLinkClass}
             onClick={closeMenu}
           >
-            DrEmail
-          </Link>
+            Faculty Emails
+          </NavLink>
         </li>
         <li>
-          <Link
+          <NavLink
             to="/about"
-            className="block py-2 px-3 text-white hover:bg-gray-700 rounded md:hover:bg-transparent md:hover:text-gray-300 md:p-0"
+            end={false}
+            className={navLinkClass}
             onClick={closeMenu}
           >
             About
-          </Link>
+          </NavLink>
         </li>
       </NavbarCollapse>
     </Navbar>

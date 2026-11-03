@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { TrackingRequest } from '@customTypes/Tracking';
-import { useAppSelector } from '@store/reduxHooks';
 
 type CourseResponseDto = {
   id: number;
@@ -11,8 +10,6 @@ type CourseResponseDto = {
 };
 
 const useGetCourses = () => {
-  const { accessToken } = useAppSelector((state) => state.auth);
-
   const completeCourse = async ({
     courseId,
     completed,
@@ -23,51 +20,30 @@ const useGetCourses = () => {
     const payload: TrackingRequest = { completed };
     const response = await axios.post(
       `/api/courses/${courseId}/complete`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
+      payload
     );
     return response.data;
   };
 
   const getCompletedCourses = async (): Promise<number[]> => {
-    const response = await axios.get('/api/courses/user/completed', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get('/api/courses/user/completed');
     return response.data;
   };
 
   const getMarkCourses = async (): Promise<number[]> => {
-    const response = await axios.get('/api/courses/user/mark', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get('/api/courses/user/mark');
     return response.data;
   };
 
   const getAllCourses = async (): Promise<CourseResponseDto[]> => {
-    const response = await axios.get('/api/courses', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get('/api/courses');
     return response.data;
   };
 
   const getCourseById = async (
     courseId: number
   ): Promise<CourseResponseDto> => {
-    const response = await axios.get(`/api/courses/${courseId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get(`/api/courses/${courseId}`);
     return response.data;
   };
 
