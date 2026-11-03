@@ -1,30 +1,48 @@
-import Lottie from 'lottie-react';
-import notFound from '@assets/lottie/notFound.json';
-import error from '@assets/lottie/error.json';
-import empty from '@assets/lottie/empty.json';
-import loading from '@assets/lottie/SandyLoading.json';
-import success from '@assets/lottie/success.json';
-import working from '@assets/lottie/working.json';
-const lottieFiles = {
-  notFound: notFound,
-  error: error,
-  empty: empty,
-  loading: loading,
-  success,
-  working,
+import { lazy, Suspense, useEffect, useState } from 'react';
+
+// Each animation is loaded on demand, and so is the Lottie player itself. Before, all
+// ~260 kB of animation JSON plus the player sat in the entry bundle.
+const animations = {
+  notFound: () => import('@assets/lottie/notFound.json'),
+  error: () => import('@assets/lottie/error.json'),
+  empty: () => import('@assets/lottie/empty.json'),
+  loading: () => import('@assets/lottie/SandyLoading.json'),
+  success: () => import('@assets/lottie/success.json'),
+  working: () => import('@assets/lottie/working.json'),
 };
 
+const Lottie = lazy(() => import('lottie-react'));
+
 type LottieHandlerProps = {
-  type: keyof typeof lottieFiles;
+  type: keyof typeof animations;
   message?: string;
 };
 
 const LottieHandler = ({ type, message }: LottieHandlerProps) => {
-  const loottie = lottieFiles[type];
+  const [animationData, setAnimationData] = useState<unknown>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    animations[type]().then((mod) => {
+      if (!cancelled) setAnimationData(mod.default);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [type]);
+
   return (
-    <div className="flex flex-col items-center mt-[15%]">
-      <Lottie className="w-80" animationData={loottie} />
-      {message && <h3 className="text-[20px] text-white">{message}</h3>}
+    <div className="mt-[15%] flex flex-col items-center px-4 text-center">
+      <div className="h-80 w-80 max-w-full" aria-hidden="true">
+        {animationData ? (
+          <Suspense fallback={null}>
+            <Lottie className="h-full w-full" animationData={animationData} />
+          </Suspense>
+        ) : null}
+      </div>
+      {message && (
+        <h2 className="text-xl font-semibold text-white">{message}</h2>
+      )}
     </div>
   );
 };

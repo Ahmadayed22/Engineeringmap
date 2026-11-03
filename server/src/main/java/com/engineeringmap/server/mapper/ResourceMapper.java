@@ -45,6 +45,8 @@ public class ResourceMapper {
         resource.setLabs(dto.labs());
         resource.setExams(dto.exams());
         resource.setVideos(dto.videos());
-      
+        if (dto.name() != null) {
+            resource.setName(dto.name());
+        }
     }
 }

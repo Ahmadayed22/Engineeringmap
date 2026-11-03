@@ -5,11 +5,7 @@ import axios from 'axios';
 const useGetMark = () => {
   const { accessToken } = useAuth();
   const getMarkCourses = async (): Promise<number[]> => {
-    const response = await axios.get('/api/courses/user/mark', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get('/api/courses/user/mark');
     return response.data;
   };
 

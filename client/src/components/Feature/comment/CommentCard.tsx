@@ -14,7 +14,7 @@ const CommentCard = ({ comment }: CommentCardProps) => {
   const { username } = useGetUserName({ comment });
   const [openEdit, setOpenEdit] = useState(false);
   return (
-    <div className="space-y-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4 dark:border-neutral-800 dark:bg-neutral-900 ">
+    <article className="space-y-3 rounded-xl border border-neutral-800 bg-neutral-900/80 p-4 shadow-sm">
       <CommentCardHeader username={username} comment={comment} />
       <CommentCardContent comment={comment} openEdit={openEdit} />
       <CommentCardButtons
@@ -22,18 +22,35 @@ const CommentCard = ({ comment }: CommentCardProps) => {
         openEdit={openEdit}
         setOpenEdit={setOpenEdit}
       />
-    </div>
+    </article>
   );
 };
 
 function CommentCardHeader({ username, comment }: CommentCardHeaderProps) {
   return (
-    <div className="flex items-center gap-2">
-      <div>{username}</div>
-      <time className="text-sm text-neutral-500">
-        {new Date(comment.createdAt).toLocaleDateString()}
-      </time>
-    </div>
+    <header className="flex items-center gap-3">
+      <span
+        aria-hidden="true"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-sm font-semibold uppercase text-blue-300"
+      >
+        {username?.charAt(0) ?? '?'}
+      </span>
+      <div className="flex min-w-0 flex-col">
+        <span className="truncate text-sm font-semibold text-neutral-100">
+          {username ?? 'Student'}
+        </span>
+        <time dateTime={comment.createdAt} className="text-xs text-neutral-500">
+          {new Date(comment.createdAt).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+          {comment.updatedAt && comment.updatedAt !== comment.createdAt
+            ? ' · edited'
+            : ''}
+        </time>
+      </div>
+    </header>
   );
 }
 
@@ -45,7 +62,10 @@ function CommentCardContent({ comment, openEdit }: CommentCardContent) {
   return (
     <>
       {!openEdit && (
-        <p className="flex text-end whitespace-pre-line break-words">
+        <p
+          dir="auto"
+          className="whitespace-pre-line break-words text-sm leading-relaxed text-neutral-200"
+        >
           {comment.content}
         </p>
       )}
@@ -69,13 +89,19 @@ function CommentCardButtons({
   return (
     <div className="flex justify-start">
       {!openEdit && (isOwnComment || isAdmin) && (
-        <div className="flex justify-end">
-          <button className="cursor-pointer" onClick={() => setOpenEdit(true)}>
-            Edit
-          </button>
+        <div className="flex items-center gap-1">
+          {isOwnComment && (
+            <button
+              type="button"
+              className="cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium text-neutral-300 transition-colors hover:bg-neutral-800 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-500"
+              onClick={() => setOpenEdit(true)}
+            >
+              Edit
+            </button>
+          )}
           <button
-            className="text-red-800 cursor-pointer 
-        p-4"
+            type="button"
+            className="cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-950/60 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-red-500"
             onClick={() => setOpenModal(true)}
           >
             Delete

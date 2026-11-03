@@ -1,5 +1,6 @@
 package com.engineeringmap.server.service;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +68,7 @@ public class CommentService {
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + commentId));
 
         if (!comment.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only edit your own comments");
+            throw new AccessDeniedException("You can only edit your own comments");
         }
 
         comment.setContent(newContent);
@@ -86,7 +87,7 @@ public class CommentService {
                 .anyMatch(role -> role.getName() == RoleType.ADMIN);
 
         if (!isAdmin && !comment.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only delete your own comments unless you are an admin");
+            throw new AccessDeniedException("You can only delete your own comments");
         }
 
         commentRepository.delete(comment);

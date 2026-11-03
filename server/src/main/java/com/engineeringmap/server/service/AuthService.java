@@ -1,7 +1,5 @@
 package com.engineeringmap.server.service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,10 +44,10 @@ public class AuthService {
     @Transactional
     public UserResponse createUser(SignInRequest signInRequest) {
         if (userRepo.existsByEmail(signInRequest.email())) {
-            throw new RuntimeException("Email already exists!");
+            throw new IllegalArgumentException("An account with this email already exists.");
         }
         if (userRepo.existsByUsername(signInRequest.username())) {
-            throw new RuntimeException("Username already exists!");
+            throw new IllegalArgumentException("This username is already taken.");
         }
 
         // Convert SignInRequest to User entity and save it
@@ -67,16 +65,13 @@ public class AuthService {
 // It checks if the user exists by email, verifies the password, and returns a response
 public LoginResponse login(LoginRequest loginRequest) {
     Optional<User> optionalUser = userRepo.findByEmail(loginRequest.email());
-    if (optionalUser.isEmpty()) {
-        throw new RuntimeException("User not found.");
+    // One message for both cases so the endpoint can't be used to discover registered emails.
+    if (optionalUser.isEmpty()
+            || !PasswordEncoderUtil.matches(loginRequest.password(), optionalUser.get().getPassword())) {
+        throw new IllegalArgumentException("Invalid email or password.");
     }
 
     User user = optionalUser.get();
-    boolean passwordMatches = PasswordEncoderUtil.matches(loginRequest.password(), user.getPassword());
-
-    if (!passwordMatches) {
-        throw new RuntimeException("Invalid password.");
-    }
     String token = jwtUtil.generateToken(user);
     RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
     UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());

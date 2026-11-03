@@ -1,11 +1,7 @@
-// utils/scheduleTokenLogout.ts
 import { jwtDecode } from 'jwt-decode';
 import { AppDispatch } from '@store/Store';
-import {
-  authLogout,
-  updateTokens,
-  thunkAuthRefresh,
-} from '@store/auth/authSlice';
+import { authLogout } from '@store/auth/authSlice';
+import { refreshAccessToken } from '../service/apiClient';
 
 type DecodedToken = {
   exp: number; // in seconds
@@ -27,13 +23,9 @@ export function scheduleToken(token: string, dispatch: AppDispatch) {
 
     if (logoutTimer) clearTimeout(logoutTimer);
 
-    if (exp <= now) {
-      // Already expired — logout
-      dispatch(authLogout());
-      return;
-    }
-
-    if (timeUntilRefresh <= 0) {
+    // Expired or about to expire: use the refresh token (valid for days) instead of
+    // signing the user out every time they come back after the 15-minute access window.
+    if (exp <= now || timeUntilRefresh <= 0) {
       // Token is expiring soon, refresh immediately
       triggerRefresh(dispatch);
     } else {
@@ -50,11 +42,9 @@ export function scheduleToken(token: string, dispatch: AppDispatch) {
 
 async function triggerRefresh(dispatch: AppDispatch) {
   try {
-    const result = await dispatch(thunkAuthRefresh()).unwrap();
-    dispatch(updateTokens(result));
-
-    // Reschedule logout/refresh for new token
-    scheduleToken(result.accessToken, dispatch);
+    // Shared with the 401 interceptor, so simultaneous triggers make one request.
+    // The new token lands in the store, and AppRouter reschedules from there.
+    await refreshAccessToken();
   } catch (error) {
     console.error('Token refresh failed:', error);
     dispatch(authLogout());

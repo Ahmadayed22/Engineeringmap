@@ -9,16 +9,11 @@ const useDeleteMaterial = () => {
   const { courseId } = useTreeFlowContext();
   const queryClient = useQueryClient();
   const { data, isLoading, isError } = useGetMaterial();
-  const { accessToken, userInfo } = useAppSelector((state) => state.auth);
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   const deleteMaterial = useMutation({
     mutationFn: (materialId: number) =>
-      axios.delete(`/api/resource/${materialId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }),
+      axios.delete(`/api/resource/${materialId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['resource', courseId] });
       toast.success('Material deleted successfully');

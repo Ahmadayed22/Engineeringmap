@@ -12,11 +12,14 @@ const useGetUserName = ({ comment }: CommentCardProps) => {
       throw new Error(`User Not Found , ${error}`);
     }
   };
-  const { data: username } = useQuery({
+  // The comment already carries the author's name; only look it up when it's missing.
+  const { data: fetchedName } = useQuery({
     queryKey: ['userName', comment.userId],
     queryFn: getUserName,
+    enabled: !comment.username,
+    staleTime: 30 * 60 * 1000,
   });
-  return { username };
+  return { username: comment.username ?? fetchedName };
 };
 
 export default useGetUserName;

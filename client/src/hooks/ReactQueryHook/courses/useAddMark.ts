@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useAuth } from '@hooks/CustomHook/useAuth';
 import toast from 'react-hot-toast';
 
 type FormData = {
@@ -15,7 +14,6 @@ interface UseAddMarkProps {
 }
 
 const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
-  const { accessToken } = useAuth();
   const queryClient = useQueryClient();
 
   const form = useForm<FormData>({
@@ -29,11 +27,7 @@ const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
       throw new Error('Course ID is required');
     }
 
-    await axios.post(`/api/courses/${courseId}/mark`, data, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    await axios.post(`/api/courses/${courseId}/mark`, data);
   };
 
   const mutation = useMutation<void, Error, FormData>({

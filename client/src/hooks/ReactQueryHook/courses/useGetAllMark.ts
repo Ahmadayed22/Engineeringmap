@@ -6,11 +6,7 @@ const useGetAllMark = () => {
   const { accessToken } = useAuth();
 
   const getAllMarks = async (): Promise<Record<number, string>> => {
-    const response = await axios.get('/api/courses/user/marks/batch', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get('/api/courses/user/marks/batch');
     return response.data;
   };
 

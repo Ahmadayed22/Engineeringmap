@@ -2,6 +2,7 @@ package com.engineeringmap.server.controller;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.http.HttpStatus;
@@ -80,14 +81,15 @@ public class CommentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateComment(
-            @Valid
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody UpdateCommentRequest request) {
+            @Valid @RequestBody UpdateCommentRequest request) {
         try {
             Long userId = userDetails.getId();
             CommentResponseDTO updatedComment = commentService.updateComment(id, userId, request.content());
             return ResponseEntity.ok(updatedComment);
+        } catch (AccessDeniedException e) {
+            throw e; // handled as 403 by GlobalExceptionHandler
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
@@ -100,6 +102,8 @@ public class CommentController {
             Long userId = userDetails.getId(); // Get user ID from JWT
             commentService.deleteComment(id, userId);
             return ResponseEntity.ok(new SuccessResponse("Comment deleted successfully"));
+        } catch (AccessDeniedException e) {
+            throw e; // handled as 403 by GlobalExceptionHandler
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }

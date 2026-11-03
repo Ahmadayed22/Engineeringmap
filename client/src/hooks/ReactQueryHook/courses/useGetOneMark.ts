@@ -8,11 +8,7 @@ const useGetOneMark = (courseId: number | null) => {
   const getMarkCourses = async (): Promise<string> => {
     if (!courseId) throw new Error('No course ID provided');
 
-    const response = await axios.get(`/api/courses/${courseId}/mark`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get(`/api/courses/${courseId}/mark`);
     return response.data;
   };
 
