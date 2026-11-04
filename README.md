@@ -1,383 +1,228 @@
 # 🗺️ Engineering Map
 
-A comprehensive web application designed to help engineering students navigate their academic journey through an interactive course mapping system with advanced visualization and management features.
+A web app that helps engineering students plan and get through their degree: an interactive map of every course and its prerequisites, progress tracking, a semester planner, a weekly timetable, exam countdowns, past exams and shared course materials.
 
-## 📋 Table of Contents
+The interface is in **Arabic by default (right-to-left)**, with an English switch in the header.
 
-- [Overview](#overview)
+Live: [engmaps.com](https://engmaps.com)
+
+## Contents
+
 - [Features](#features)
-- [Architecture](#architecture)
-- [Technology Stack](#technology-stack)
-- [Getting Started](#getting-started)
-- [Client-Side Application](#client-side-application)
-- [Server-Side Application](#server-side-application)
-- [API Documentation](#api-documentation)
-- [Development](#development)
+- [Tech stack](#tech-stack)
+- [Project structure](#project-structure)
+- [Running it locally](#running-it-locally)
+- [Configuration](#configuration)
+- [Tests and checks](#tests-and-checks)
+- [Load testing](#load-testing)
+- [Deployment](#deployment)
+- [API overview](#api-overview)
+- [More documentation](#more-documentation)
 
+## Features
 
-## 🚀 Overview
+### For students
+- **Roadmaps (study plans).** One interactive map per program (Computer Engineering, Electrical Engineering, and any roadmap an admin adds). Solid lines are prerequisites, dashed lines co-requisites.
+- **Progress.** Mark courses as completed and save grades. Courses you can take now are outlined in green; locked ones are dimmed and show what's missing.
+- **Automatic GPA.** Weighted by credit hours from your saved grades, plus a what-if GPA calculator.
+- **Course search.** Arabic-aware (ignores أ/إ/ا, ة/ه, ى/ي and diacritics).
+- **Semester planner** (`/planner`). Up to 12 semesters per roadmap, with warnings for missing prerequisites and co-requisites and semesters over 18 hours.
+- **Weekly timetable** (`/schedule`). Add a class on several days at once. Clashes are listed and drawn side by side. Print it, or save it as a calendar file (`.ics`) that repeats weekly for 16 weeks.
+- **Exam countdown** (`/exams`). Your own exam dates with a live countdown, and reminders in the notification bell 3 days before and again on the last day.
+- **Past exam bank** (course drawer → "امتحانات سابقة"). Old exam papers per course (PDF or photo, up to 10 MB) with kind, semester, year, doctor and "includes the solution".
+- **Course materials.** Links to books, summaries, slides, labs, exams and videos, with helpful/not-helpful votes and a report button.
+- **Comments.** Per course, with one level of replies. The original author gets a notification.
+- **Course ratings.** Community difficulty and workload (1–5).
+- **Share progress** (`/share`). An opt-in, revocable link that shows your username and completed courses.
+- **Faculty email directory** and a link to the BankZenon exam library.
+- **Installable and works offline.** The app and the study plans are cached by a service worker (API calls are never cached).
+- **Signed in on several devices** at the same time.
 
-Engineering Map is a full-stack web application that provides engineering students with a visual and interactive platform to:
+### For admins (`/admin`)
+- **Approval queue.** New past exams and material links from students stay hidden until an admin approves them. Rejecting deletes the upload, and the student is notified either way. Admin uploads are public at once.
+- **Reported materials.** Dismiss the report or delete the material.
+- **Faculty emails.** Add, edit and remove.
+- **Roadmaps** (home page → Settings). Create a roadmap (copy of another or blank), rename, show/hide, reorder, upload a card picture, or remove it.
+- **Map editor.** Edit a roadmap's map visually; changes stay a draft until published, with version history and restore.
 
-- Map out their academic course progression
-- Visualize course dependencies and relationships
-- Manage course materials and resources
-- Calculate and track GPA
-- Collaborate through comments and discussions
-- Plan their engineering curriculum effectively
+## Tech stack
 
-The application features a modern, responsive design with advanced tree-flow visualization systems that make complex course relationships easy to understand and navigate.
+| Part | Technology |
+|---|---|
+| Client | React 19, TypeScript, Vite 6, Tailwind CSS 4, Flowbite React, React Flow (`@xyflow/react`), Redux Toolkit, TanStack Query, Axios, Vitest |
+| Server | Java 21, Spring Boot 3.5 (Web, Data JPA, Security, Validation), JWT (jjwt), Flyway |
+| Database | PostgreSQL 16 (production and local), H2 in PostgreSQL mode for tests |
+| Hosting | One Docker image (Spring Boot serves the built React app) on Render |
 
-## ✨ Features
-
-### 🎯 Core Features
-- **Interactive Course Mapping**: Visual tree-flow representation of engineering courses and their prerequisites
-- **Course Management**: Add, edit, and organize courses with detailed information
-- **Material Management**: Upload and manage course-related documents and resources
-- **GPA Calculator**: Calculate and track academic performance across semesters
-- **Comment System**: Collaborate with peers through course-specific discussions
-- **User Authentication**: Secure user registration, login, and profile management
-
-### 🔧 Advanced Features
-- **Tree-Flow Visualization**: Dynamic node-based course relationship mapping
-- **Responsive UI Components**: Modern, mobile-friendly interface
-- **Real-time State Management**: Efficient data synchronization
-- **Secure API Architecture**: RESTful APIs with comprehensive security measures
-- **Data Management Hooks**: Custom React hooks for efficient data handling
-
-## 🏗️ Architecture
-
-The application follows a modern full-stack architecture pattern:
+## Project structure
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Client-Side (Frontend)                   │
-│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ │
-│  │ Tree-Flow       │ │ UI Components   │ │ State           │ │
-│  │ Visualization   │ │ & Interface     │ │ Management      │ │
-│  └─────────────────┘ └─────────────────┘ └─────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
-                               │
-                          API Calls
-                               │
-┌─────────────────────────────────────────────────────────────┐
-│                    Server-Side (Backend)                    │
-│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ │
-│  │ API Controllers │ │ Security System │ │ Business        │ │
-│  │ & Routes        │ │ & Auth          │ │ Services        │ │
-│  └─────────────────┘ └─────────────────┘ └─────────────────┘ │
-│  ┌─────────────────┐ ┌─────────────────┐                   │
-│  │ Data Models     │ │ Database        │                   │
-│  │ & Schema        │ │ Integration     │                   │
-│  └─────────────────┘ └─────────────────┘                   │
-└─────────────────────────────────────────────────────────────┘
+Engineeringmap/
+├── client/                         React app
+│   └── src/
+│       ├── components/             shared UI (drawer, materials, comments, modals)
+│       ├── features/
+│       │   ├── map/                roadmaps, map format, map editor
+│       │   ├── progress/           prerequisites, GPA, planner, search
+│       │   ├── community/          ratings, notification bell
+│       │   └── study/              timetable, exam countdown, past exam bank
+│       ├── pages/                  one folder per route
+│       ├── i18n/                   strings.ts (Arabic + English), serverMessages.ts
+│       ├── service/apiClient.ts    base URL, token, refresh on 401
+│       └── store/                  Redux auth state
+├── server/                         Spring Boot API
+│   └── src/
+│       ├── main/java/com/engineeringmap/server/
+│       │   ├── controller/  service/  repo/  entity/  dto/
+│       │   ├── security/           SecurityConfig, JWT filter
+│       │   └── exception/          one JSON error shape
+│       ├── main/resources/db/migration/   Flyway scripts (V1…V8)
+│       └── test/                   MockMvc tests on H2 (+ demo data)
+├── tools/loadtest/                 load test and its cleanup script
+├── docs/PRODUCTION_AUDIT.md        audit, decisions and change log
+├── Dockerfile                      builds client + server into one image
+└── docker-compose.yml
 ```
 
-### Architecture Components
-
-#### Client-Side Architecture
-- **Tree-Flow Visualization System**: Interactive node-based course mapping
-- **Component-Based UI**: Modular React components for scalability
-- **State Management**: Centralized state handling for consistent data flow
-- **Data Management Hooks**: Custom hooks for API integration and data handling
-
-#### Server-Side Architecture
-- **RESTful API Controllers**: Structured endpoints for all application features
-- **Security Layer**: Comprehensive authentication and authorization
-- **Business Logic Services**: Modular services for course, user, and content management
-- **Data Models**: Well-defined schemas for database interactions
-
-## 🛠️ Technology Stack
-
-### Frontend
-- **Framework**: React.js with modern hooks and functional components
-- **State Management**: Context API / Redux for global state
-- **Visualization**: Custom tree-flow visualization library
-- **Styling**: CSS3 with responsive design principles
-- **Build Tool**: Modern build pipeline with optimization
-
-### Backend
-- **Framework**: Java Spring Boot with Spring MVC
-- **Database**: PostgreSQL with Spring Data JPA
-- **Authentication**: JWT-based security system with Spring Security
-- **API Architecture**: RESTful services with comprehensive validation
-- **Security**: Industry-standard security practices and Spring Security middleware
-
-### Development Tools
-- **Version Control**: Git with structured branching strategy
-- **Testing**: Comprehensive testing suite
-- **Documentation**: API documentation and code comments
-- **Deployment**: Production-ready deployment configuration
-
-## 🚦 Getting Started
+## Running it locally
 
 ### Prerequisites
-- Java 11 or higher
-- Maven 3.6+ for dependency management
-- PostgreSQL 12 or higher
-- Node.js (version 14 or higher) for frontend
-- npm or yarn package manager
-- Git for version control
+- Java 21 (the Maven wrapper `server/mvnw` is included)
+- Node.js 20+
+- Docker (for PostgreSQL), or a local PostgreSQL 16
 
-### Installation
+### 1. Start PostgreSQL
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Ahmadayed22/Engineeringmap.git
-   cd Engineeringmap
-   ```
-
-2. **Install dependencies**
-   ```bash
-   # Install backend dependencies
-   mvn clean install
-   
-   # Install frontend dependencies
-   cd client
-   npm install
-   cd ..
-   ```
-
-3. **Environment Configuration**
-   ```bash
-   # Copy application properties template
-   cp src/main/resources/application.properties.example src/main/resources/application.properties
-   
-   # Edit the application.properties file with your PostgreSQL configuration
-   nano src/main/resources/application.properties
-   ```
-
-4. **Database Setup**
-   ```bash
-   # Create PostgreSQL database
-   createdb engineeringmap
-   
-   # Run Spring Boot application: Flyway creates the tables and the USER/ADMIN roles
-   # (scripts in server/src/main/resources/db/migration)
-   mvn spring-boot:run
-   
-   # Course rows are not seeded; insert them before using the map
-   ```
-
-5. **Start the Development Server**
-   ```bash
-   # Start backend server (Spring Boot)
-   mvn spring-boot:run
-   
-   # In a new terminal, start frontend
-   cd client
-   npm run dev
-   cd ..
-   ```
-
-6. **Access the Application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8080
-   - API Documentation: http://localhost:8080/swagger-ui.html
-
-## 🎨 Client-Side Application
-
-### Tree-Flow Visualization System
-The heart of the application is the interactive tree-flow visualization that displays:
-- Course nodes with detailed information
-- Prerequisite relationships and dependencies
-- Interactive navigation and zoom capabilities
-- Dynamic filtering and search functionality
-
-### Node System
-- **Course Nodes**: Individual course representations with metadata
-- **Connection Lines**: Visual prerequisite relationships
-- **Interactive Elements**: Click, hover, and selection capabilities
-- **Responsive Layout**: Adaptive positioning for different screen sizes
-
-### User Interface Components
-- **Navigation Bar**: Main application navigation
-- **Course Cards**: Detailed course information displays
-- **Modal Dialogs**: Course editing and creation interfaces
-- **Form Components**: Input validation and user feedback
-- **Responsive Grid**: Mobile-friendly layout system
-
-### State Management
-- **Global State**: Application-wide data management
-- **Local Component State**: Component-specific data handling
-- **API Integration**: Seamless backend synchronization
-- **Error Handling**: Comprehensive error management system
-
-## 🖥️ Server-Side Application
-
-### API Controllers
-The backend provides RESTful APIs for:
-- **Course Management**: CRUD operations for course data
-- **User Management**: Account creation, authentication, and profiles
-- **Material Management**: File uploads and document handling
-- **Comment System**: Discussion and collaboration features
-
-
-### Security System
-- **Authentication**: JWT-based user authentication with Spring Security
-- **Authorization**: Role-based access control using Spring Security
-- **Input Validation**: Bean validation with Spring Boot validation annotations
-- **Security Configuration**: Spring Security configuration for API endpoints
-- **Password Encryption**: BCrypt password hashing
-- **CORS Configuration**: Cross-origin resource sharing setup
-
-### Data Models
-Well-structured JPA entity models for:
-- **User Entity**: User accounts and profiles with JPA annotations
-- **Course Entity**: Course information and metadata
-- **Material Entity**: Document and resource management
-- **Comment Entity**: Discussion and collaboration data with relationships
-- **GPA Entity**: Academic performance tracking with calculated fields
-
-### Business Services
-Spring Service layer components handling:
-- **Course Service**: Course CRUD operations with business logic
-- **User Service**: User management with Spring Security integration
-- **Material Service**: File handling and storage operations
-- **Comment Service**: Discussion threading and moderation
-
-
-## 📚 API Documentation
-
-### Authentication Endpoints
-```
-POST /api/auth/register    - User registration
-POST /api/auth/login       - User login
-POST /api/auth/logout      - User logout
-GET  /api/auth/profile     - Get user profile
-PUT  /api/auth/profile     - Update user profile
-```
-
-### Course Management Endpoints
-```
-GET    /api/courses        - Get all courses
-GET    /api/courses/:id    - Get specific course
-POST   /api/courses        - Create new course
-PUT    /api/courses/:id    - Update course
-DELETE /api/courses/:id    - Delete course
-```
-
-### Material Management Endpoints
-```
-GET    /api/materials         - Get course materials
-POST   /api/materials         - Upload new material
-GET    /api/materials/:id     - Download material
-DELETE /api/materials/:id     - Delete material
-```
-
-### Comment System Endpoints
-```
-GET    /api/comments/:courseId  - Get course comments
-POST   /api/comments            - Create new comment
-PUT    /api/comments/:id        - Update comment
-DELETE /api/comments/:id        - Delete comment
-```
-
-
-
-## 🔧 Development
-
-### Development Setup
-1. Follow the installation instructions above
-2. Set up your development environment variables
-3. Install recommended VS Code extensions
-4. Configure your database for development
-
-### Code Structure
-```
-engineeringmap/
-├── client/                    # Frontend React application
-│   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   ├── pages/            # Page components
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── utils/            # Utility functions
-│   │   └── styles/           # CSS and styling files
-│   └── public/               # Static assets
-├── src/main/java/            # Backend Spring Boot application
-│   ├── controller/           # REST controllers
-│   ├── entity/              # JPA entity models
-│   ├── repository/          # Spring Data JPA repositories
-│   ├── service/             # Business logic services
-│   ├── config/              # Spring configuration classes
-│   ├── security/            # Security configuration and JWT utilities
-│   └── dto/                 # Data Transfer Objects
-├── src/main/resources/       # Application resources
-│   ├── application.properties # Spring Boot configuration
-│   └── data.sql             # Initial data (optional)
-├── docs/                    # Project documentation
-└── src/test/                # Test suites
-```
-
-### Testing
 ```bash
-# Run all tests
-mvn test
-
-# Run tests with coverage
-mvn test jacoco:report
-
-# Run frontend tests
-cd client
-npm test
-cd ..
-
-# Run integration tests
-mvn verify
+docker run -d --name engmap-db -e POSTGRES_PASSWORD=change-me -e POSTGRES_DB=engineeringmap -p 55432:5432 postgres:16-alpine
 ```
 
-### Building for Production
+### 2. Start the API
+
+The server reads its settings from environment variables (see [Configuration](#configuration)). For example, in Git Bash:
+
 ```bash
-# Build backend (creates JAR file)
-mvn clean package
-
-# Build frontend
-cd client
-npm run build
-cd ..
-
-# Run the production JAR
-java -jar target/engineeringmap-1.0.0.jar
+cd server
+export DATABASE_URL=jdbc:postgresql://localhost:55432/engineeringmap
+export DB_USERNAME=postgres
+export DB_PASSWORD=change-me
+export JWT_SECRET=$(openssl rand -base64 48)
+export PORT=8090
+./mvnw spring-boot:run
 ```
 
-## 🤝 Contributing
+On first start Flyway creates every table and the `USER`/`ADMIN` roles. Course rows are not seeded, so insert your courses before using the maps.
 
-We welcome contributions to the Engineering Map project! Please follow these guidelines:
+**No PostgreSQL?** Run the API on an in-memory H2 database with demo courses (test classpath only):
 
-### How to Contribute
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+```bash
+cd server
+./mvnw spring-boot:run -Dspring-boot.run.useTestClasspath=true -Dspring-boot.run.profiles=local
+```
 
-### Development Guidelines
-- Follow the existing code style and conventions
-- Write clear, descriptive commit messages
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting
+### 3. Start the client
 
-### Code Style
-- Use ESLint and Prettier for code formatting
-- Follow React best practices for frontend development
-- Use meaningful variable and function names
-- Add comments for complex logic
-- Keep functions small and focused
+```bash
+cd client
+npm install
+VITE_API_URL=http://localhost:8090 npm run dev
+```
 
+Open http://localhost:5173. If you change the API port, also add the client's address to `APP_CORS_ALLOWED_ORIGINS` (see below).
 
-## 👥 Authors
+### 4. Make yourself an admin
 
-- **Ahmad Ayed** - *Initial work* - [@Ahmadayed22](https://github.com/Ahmadayed22)
+There is no UI for granting the admin role. Sign up, then in the database:
 
-## 🙏 Acknowledgments
+```sql
+INSERT INTO user_roles (user_id, role_id)
+SELECT u.id, r.id FROM users u, roles r
+WHERE u.username = 'your-username' AND r.name = 'ADMIN';
+```
 
-- Engineering education community for inspiration
-- Open source libraries and frameworks used
-- Contributors and testers who helped improve the application
-- Academic advisors and educators who provided guidance
+Roles are read from the access token, so sign out and in again (or wait up to 15 minutes) for the change to apply.
 
+## Configuration
 
+### Server (environment variables)
 
----
+| Variable | Required | Meaning |
+|---|---|---|
+| `DATABASE_URL` | yes | JDBC URL, e.g. `jdbc:postgresql://host:5432/engineeringmap` |
+| `DB_USERNAME`, `DB_PASSWORD` | yes | Database credentials |
+| `JWT_SECRET` | yes | Base64 signing key, at least 32 random bytes. Never commit it. |
+| `PORT` | no | HTTP port (default `8080`) |
+| `JWT_ACCESS_EXPIRATION` | no | Access token lifetime in ms (default 15 min) |
+| `JWT_REFRESH_EXPIRATION` | no | Refresh token lifetime in ms (default 7 days) |
+| `APP_CORS_ALLOWED_ORIGINS` | no | Comma-separated client origins (defaults cover localhost:5173 and the production domains) |
 
+The schema is owned by Flyway; Hibernate only validates it (`ddl-auto=validate`). Change the schema with a new `server/src/main/resources/db/migration/V<n>__*.sql` file. Don't set `SPRING_JPA_HIBERNATE_DDL_AUTO`.
+
+Uploads: past exam files up to 10 MB (multipart limit 11 MB), roadmap pictures up to 2 MB. Both are stored in PostgreSQL.
+
+### Client
+
+| Variable | Meaning |
+|---|---|
+| `VITE_API_URL` | API base URL. Empty string when Spring Boot serves the React build (same origin). Unset falls back to the Render URL. |
+
+## Tests and checks
+
+```bash
+# Server: MockMvc + Flyway on H2, no PostgreSQL needed
+cd server
+./mvnw test
+
+# Client
+cd client
+npm test          # Vitest
+npx tsc -b        # type check
+npm run lint      # ESLint
+npm run build     # production build
+```
+
+Every interface string lives in `client/src/i18n/strings.ts`. The Arabic table is typed against the English one, so a missing translation fails the type check.
+
+## Load testing
+
+`tools/loadtest/loadtest.mjs` needs only Node 18+. It runs anonymous reads, sign-up, a sign-in burst, signed-in students (with and without pauses) and 2 MB uploads. **Only point it at a local or staging server you own.**
+
+```bash
+node tools/loadtest/loadtest.mjs all --base=http://localhost:8090 --users=300
+docker exec -i engmap-db psql -U postgres -d engineeringmap < tools/loadtest/cleanup.sql
+```
+
+The second command removes the `lt_<n>` test users. On a development PC the API served 1,000 signed-in students with no errors. The full results are in section 15 of the audit doc.
+
+## Deployment
+
+The `Dockerfile` builds the React app, copies it into Spring Boot's static folder and produces one runnable JAR (port 8080). On Render, set the server environment variables above. Flyway applies new migrations automatically on start-up; databases created before Flyway are baselined at version 1.
+
+## API overview
+
+All endpoints are under `/api`. Errors are always `{"message": "..."}`. Reads of maps, courses, comments, materials, ratings and approved past exams are public. Everything else needs a signed-in user (`Authorization: Bearer <accessToken>`), and `/api/admin/**` needs the admin role.
+
+| Area | Endpoints |
+|---|---|
+| Auth | `POST /auth/signup`, `/auth/signin`, `/auth/refresh`, `/auth/logout` |
+| Roadmaps & maps | `GET /plans`, `GET /maps/{plan}`, `GET /plans/{slug}/image`; admin: `POST/PUT/DELETE /admin/plans…`, `PUT /admin/maps/{plan}`, versions and restore |
+| Courses & progress | `GET /courses`, `/courses/{id}`, `/courses/search`; `POST /courses/{id}/complete`, `/courses/{id}/mark`; `GET /courses/user/completed`, `/courses/user/marks/batch` |
+| Comments | `GET /comments/course/{courseId}`; `POST /comments` (with optional `parentId`); `PUT/DELETE /comments/{id}` |
+| Materials | `GET /resource/course/{courseId}`; `POST /resource/course/{courseId}`; `PUT/DELETE /resource/{id}`; `POST /resource/{id}/vote`, `/resource/{id}/report` |
+| Past exams | `GET /past-exams/course/{courseId}`, `GET /past-exams/{id}/file`; `POST /past-exams/course/{courseId}` (multipart); `DELETE /past-exams/{id}` |
+| Timetable | `GET/PUT /timetable` |
+| Exam dates | `GET/POST /exam-dates`, `PUT/DELETE /exam-dates/{id}` |
+| Planner | `GET/PUT /planner?plan={slug}` |
+| Ratings | `GET /courses/{id}/ratings`, `PUT /courses/{id}/rating` |
+| Notifications | `GET /notifications`, `/notifications/unread-count`; `POST /notifications/read-all`, `/notifications/{id}/read` |
+| Sharing | `GET/POST/DELETE /users/me/share`, `GET /share/{token}` |
+| Faculty emails | `GET /dremails`; admin: `POST/PUT/DELETE /dremails…` |
+| Admin review | `GET /admin/materials/pending`, `/admin/past-exams/pending`; `POST /admin/{materials\|past-exams}/{id}/approve\|reject`; `GET /admin/reports`, `POST /admin/reports/{id}/resolve` |
+
+## More documentation
+
+[`docs/PRODUCTION_AUDIT.md`](docs/PRODUCTION_AUDIT.md) holds the security audit, the decisions behind each feature, what was verified, and the open backlog (rate limiting on sign-in, httpOnly refresh cookie, removing unused dependencies, password reset by email).
+
+## Author
+
+**Ahmad Ayed** ([@Ahmadayed22](https://github.com/Ahmadayed22))
