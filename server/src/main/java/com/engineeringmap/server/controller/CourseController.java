@@ -13,7 +13,6 @@ import com.engineeringmap.server.dto.request.CourseRequestDto;
 import com.engineeringmap.server.dto.request.MarkRequest;
 import com.engineeringmap.server.dto.request.TrackingRequest;
 import com.engineeringmap.server.dto.response.CourseResponseDto;
-import com.engineeringmap.server.dto.response.ErrorResponse;
 import com.engineeringmap.server.dto.response.SuccessResponse;
 import com.engineeringmap.server.security.UserDetailsImpl;
 import com.engineeringmap.server.service.CourseService;
@@ -45,34 +44,23 @@ public class CourseController {
                     .orElse(ResponseEntity.notFound().build());
     }
 
+    // Errors are answered by GlobalExceptionHandler, which never echoes internal (e.g. SQL) messages.
     @PostMapping
     public ResponseEntity<?> createCourse(@Valid @RequestBody CourseRequestDto course) {
-        try {
-            CourseResponseDto createdCourse = courseService.createCourse(course);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-        }
+        CourseResponseDto createdCourse = courseService.createCourse(course);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCourse(@PathVariable Long id, @Valid @RequestBody CourseRequestDto courseDetails) {
-        try {
-            CourseResponseDto updatedCourse = courseService.updateCourse(id, courseDetails);
-            return ResponseEntity.ok(updatedCourse);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-        }
+        CourseResponseDto updatedCourse = courseService.updateCourse(id, courseDetails);
+        return ResponseEntity.ok(updatedCourse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCourse(@PathVariable Long id) {
-        try {
-            courseService.deleteCourse(id);
-            return ResponseEntity.ok(new SuccessResponse("Course deleted successfully"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-        }
+        courseService.deleteCourse(id);
+        return ResponseEntity.ok(new SuccessResponse("Course deleted successfully"));
     }
 
     @GetMapping("/search")
@@ -84,13 +72,9 @@ public class CourseController {
     @PostMapping("/{courseId}/complete")
     public ResponseEntity<?> completeCourse(@PathVariable Long courseId, @RequestBody TrackingRequest trackingRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            Long userId = userDetails.getId();
-            courseService.completeCourse(courseId, userId, trackingRequest.completed());
-            return ResponseEntity.ok(new SuccessResponse("Course completion status updated successfully"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-        }
+        Long userId = userDetails.getId();
+        courseService.completeCourse(courseId, userId, trackingRequest.completed());
+        return ResponseEntity.ok(new SuccessResponse("Course completion status updated successfully"));
     }
     
     @GetMapping("/user/completed")
@@ -103,14 +87,9 @@ public class CourseController {
     @PostMapping("/{courseId}/mark") 
     public ResponseEntity<?> courseMark(@PathVariable Long courseId,@Valid @RequestBody MarkRequest markRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            long userId = userDetails.getId();
-            courseService.createMark(courseId, userId, markRequest.mark());
-            return ResponseEntity.ok(new SuccessResponse("Mark have been Add"));
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-        }
+        long userId = userDetails.getId();
+        courseService.createMark(courseId, userId, markRequest.mark());
+        return ResponseEntity.ok(new SuccessResponse("Mark have been Add"));
     }
 
     @GetMapping("/user/mark")

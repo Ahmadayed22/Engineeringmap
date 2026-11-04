@@ -28,11 +28,36 @@ const ar: Record<string, string> = {
     'لقد أبلغت عن هذه المادة مسبقاً، وسيراجعها أحد المشرفين.',
   'Thanks. An admin will review this material.':
     'شكراً لك. سيراجع أحد المشرفين هذه المادة.',
+  // Study map editor
+  'The map was changed by someone else. Reload it and try again.':
+    'عدّل شخص آخر الخريطة. أعد تحميلها وحاول مرة أخرى.',
+  'Study map not found': 'الخريطة غير موجودة',
+  'Course not found': 'المادة غير موجودة',
+  'Mark not found': 'العلامة غير موجودة',
+  'The map needs exactly one title banner':
+    'يجب أن تحتوي الخريطة على عنوان واحد فقط',
+  "The title banner can't be a course": 'لا يمكن أن يكون عنوان الخريطة مادة',
+  'Nothing can point to the title banner':
+    'لا يمكن أن يشير أي سهم إلى عنوان الخريطة',
   // Client-side fallbacks from AxiosErrorHandler
   'An unexpected error occurred.': 'حدث خطأ غير متوقع.',
   'Cannot reach the server. Check your connection and try again.':
     'تعذّر الوصول إلى الخادم. تحقق من اتصالك وحاول مرة أخرى.',
   'Request failed.': 'فشل الطلب.',
+};
+
+/** Messages of the form "Prefix: detail" (the detail, e.g. a course name, is kept). */
+const arPrefixes: Record<string, string> = {
+  'Two boxes on the map have the same id': 'يوجد مربعان بنفس المعرّف في الخريطة',
+  'Box is placed too far away': 'المربع بعيد جداً',
+  'Box has no course': 'مربع غير مرتبط بمادة',
+  'Unknown course id': 'رقم مادة غير معروف',
+  'Two arrows on the map have the same id': 'يوجد سهمان بنفس المعرّف في الخريطة',
+  "Arrow points to a box that doesn't exist": 'سهم يشير إلى مربع غير موجود',
+  "A course can't require itself": 'لا يمكن أن تكون المادة متطلباً لنفسها',
+  'The same arrow is drawn twice': 'السهم نفسه مرسوم مرتين',
+  'Prerequisites go in a circle': 'المتطلبات تدور في حلقة',
+  'Course name already exists': 'يوجد مادة بهذا الاسم مسبقاً',
 };
 
 let active: 'ar' | 'en' = 'ar';
@@ -42,5 +67,10 @@ export const setServerMessageLang = (lang: 'ar' | 'en') => {
   active = lang;
 };
 
-export const translateServerMessage = (message: string): string =>
-  active === 'ar' ? (ar[message] ?? message) : message;
+export const translateServerMessage = (message: string): string => {
+  if (active !== 'ar') return message;
+  if (ar[message]) return ar[message];
+  const cut = message.indexOf(': ');
+  const prefix = cut > 0 ? arPrefixes[message.slice(0, cut)] : undefined;
+  return prefix ? `${prefix}: ${message.slice(cut + 2)}` : message;
+};

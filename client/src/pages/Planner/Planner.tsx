@@ -5,9 +5,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import useCourseQueries from '@hooks/ReactQueryHook/courses/useCourseQueries';
 import {
-  PLANS,
+  PLAN_KEYS,
+  emptyPlan,
   readLastPlan,
   saveLastPlan,
+  usePlan,
   type PlanKey,
 } from '@features/progress/plans';
 import {
@@ -25,7 +27,12 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
 const Planner = () => {
   const [planKey, setPlanKey] = useState<PlanKey>(readLastPlan);
-  const plan = PLANS[planKey];
+  const { plan: loadedPlan, isError: mapError, refetch: reloadMap } =
+    usePlan(planKey);
+  const plan = useMemo(
+    () => loadedPlan ?? emptyPlan(planKey),
+    [loadedPlan, planKey]
+  );
   const queryClient = useQueryClient();
   const { t, dir } = useI18n();
   const { useCompletedCoursesQuery, useCoursesQuery } = useCourseQueries();
@@ -167,7 +174,7 @@ const Planner = () => {
             aria-label={t('planner.plan')}
             className="inline-flex rounded-lg border border-white/10 bg-neutral-950/70 p-1"
           >
-            {(Object.keys(PLANS) as PlanKey[]).map((k) => (
+            {PLAN_KEYS.map((k) => (
               <button
                 key={k}
                 role="tab"
@@ -212,7 +219,17 @@ const Planner = () => {
         ))}
       </section>
 
-      {isLoading ? (
+      {mapError ? (
+        <p className="text-white/60">
+          {t('map.loadFailed')}{' '}
+          <button
+            onClick={() => void reloadMap()}
+            className="cursor-pointer underline"
+          >
+            {t('common.tryAgain')}
+          </button>
+        </p>
+      ) : isLoading || !loadedPlan ? (
         <p className="text-white/60">{t('planner.loading')}</p>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">

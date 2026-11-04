@@ -2,7 +2,12 @@ import axios from 'axios';
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { PLANS, type PlanKey } from '@features/progress/plans';
+import {
+  PLAN_KEYS,
+  emptyPlan,
+  usePlans,
+  type PlanKey,
+} from '@features/progress/plans';
 import ReadOnlyPlanMap from '@features/progress/ReadOnlyPlanMap';
 import { LottieHandler, PageLoader } from '@components/feedbaks';
 import { useI18n } from '@i18n/context';
@@ -24,17 +29,25 @@ const SharedProgress = () => {
     () => new Set(data?.completedCourseIds ?? []),
     [data]
   );
+  const { plans, isLoading: mapsLoading, isError: mapsError } = usePlans();
   // Open the plan where they've completed the most courses.
   const best = useMemo<PlanKey>(() => {
+    if (!plans) return 'cpe';
     const count = (k: PlanKey) =>
-      [...completedAll].filter((id) => PLANS[k].graph.courses.has(id)).length;
+      [...completedAll].filter((id) => plans[k].graph.courses.has(id)).length;
     return count('ee') > count('cpe') ? 'ee' : 'cpe';
-  }, [completedAll]);
+  }, [completedAll, plans]);
   const [chosen, setChosen] = useState<PlanKey | null>(null);
   const planKey = chosen ?? best;
-  const plan = PLANS[planKey];
+  const plan = plans?.[planKey] ?? emptyPlan(planKey);
 
-  if (isLoading) return <PageLoader message={t('loader.shared')} />;
+  if (isLoading || (mapsLoading && !plans))
+    return <PageLoader message={t('loader.shared')} />;
+  if (!plans && mapsError) {
+    return (
+      <p className="py-16 text-center text-white/70">{t('map.loadFailed')}</p>
+    );
+  }
   if (isError || !data) {
     return (
       <div className="flex flex-col items-center pb-16">
@@ -83,7 +96,7 @@ const SharedProgress = () => {
           aria-label={t('planner.plan')}
           className="inline-flex rounded-lg border border-white/10 bg-neutral-950/70 p-1"
         >
-          {(Object.keys(PLANS) as PlanKey[]).map((k) => (
+          {PLAN_KEYS.map((k) => (
             <button
               key={k}
               role="tab"
