@@ -12,7 +12,7 @@ import type { MessageKey } from '@i18n/strings';
 import type { PlanKey } from '../useStudyMap';
 import {
   COREQ_COLOR,
-  PALETTES,
+  paletteFor,
   edgeColor,
   isCoreq,
   isRootNode,
@@ -142,7 +142,7 @@ const EditorPanel = ({
   const { t } = useI18n();
   const { useCoursesQuery } = useCourseQueries();
   const { data: courses } = useCoursesQuery();
-  const palette = PALETTES[plan];
+  const palette = paletteFor(plan);
   const labelOf = (id: string) =>
     String(nodes.find((n) => n.id === id)?.data?.label ?? id);
 

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import useCourseQueries from '@hooks/ReactQueryHook/courses/useCourseQueries';
+import { roadmapName, useRoadmaps } from '@features/map/useRoadmaps';
 import {
-  PLAN_KEYS,
   emptyPlan,
   readLastPlan,
   saveLastPlan,
@@ -26,7 +26,10 @@ const MAX_SEMESTERS = 12;
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
 const Planner = () => {
-  const [planKey, setPlanKey] = useState<PlanKey>(readLastPlan);
+  const { roadmaps } = useRoadmaps();
+  const [planKey, setPlanKey] = useState<PlanKey>(
+    () => readLastPlan(roadmaps.map((r) => r.slug)) ?? roadmaps[0]?.slug ?? 'cpe'
+  );
   const { plan: loadedPlan, isError: mapError, refetch: reloadMap } =
     usePlan(planKey);
   const plan = useMemo(
@@ -34,7 +37,9 @@ const Planner = () => {
     [loadedPlan, planKey]
   );
   const queryClient = useQueryClient();
-  const { t, dir } = useI18n();
+  const { t, dir, lang } = useI18n();
+  const current = roadmaps.find((r) => r.slug === planKey);
+  const currentName = current ? roadmapName(current, lang) : planKey;
   const { useCompletedCoursesQuery, useCoursesQuery } = useCourseQueries();
   const { data: completedList = [] } = useCompletedCoursesQuery();
   const { data: courses } = useCoursesQuery();
@@ -172,21 +177,21 @@ const Planner = () => {
           <div
             role="tablist"
             aria-label={t('planner.plan')}
-            className="inline-flex rounded-lg border border-white/10 bg-neutral-950/70 p-1"
+            className="inline-flex flex-wrap rounded-lg border border-white/10 bg-neutral-950/70 p-1"
           >
-            {PLAN_KEYS.map((k) => (
+            {roadmaps.map((r) => (
               <button
-                key={k}
+                key={r.slug}
                 role="tab"
-                aria-selected={k === planKey}
-                onClick={() => switchPlan(k)}
+                aria-selected={r.slug === planKey}
+                onClick={() => switchPlan(r.slug)}
                 className={`cursor-pointer rounded-md px-3 py-1.5 text-sm ${
-                  k === planKey
+                  r.slug === planKey
                     ? 'bg-white/15 font-semibold text-white'
                     : 'text-white/60 hover:text-white'
                 }`}
               >
-                {t(`plan.${k}`)}
+                {roadmapName(r, lang)}
               </button>
             ))}
           </div>
@@ -398,7 +403,7 @@ const Planner = () => {
           to={plan.path}
           className="rounded-lg px-4 py-2 text-sm text-blue-400 hover:underline"
         >
-          {t('planner.openMap', { plan: t(`plan.${planKey}`) })}
+          {t('planner.openMap', { plan: currentName })}
         </Link>
       </div>
       <p className="mt-4 text-xs text-white/40">{t('planner.footnote')}</p>

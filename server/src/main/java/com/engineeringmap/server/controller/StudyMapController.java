@@ -18,6 +18,7 @@ import com.engineeringmap.server.dto.StudyMapDto.PublishRequest;
 import com.engineeringmap.server.dto.StudyMapDto.VersionInfo;
 import com.engineeringmap.server.security.UserDetailsImpl;
 import com.engineeringmap.server.service.StudyMapService;
+import com.engineeringmap.server.service.StudyPlanService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -32,30 +33,38 @@ import jakarta.validation.constraints.Pattern;
 public class StudyMapController {
 
     private final StudyMapService mapService;
+    private final StudyPlanService planService;
 
-    public StudyMapController(StudyMapService mapService) {
+    public StudyMapController(StudyMapService mapService, StudyPlanService planService) {
         this.mapService = mapService;
+        this.planService = planService;
     }
 
     @GetMapping("/maps/{plan}")
-    public MapResponse current(@PathVariable @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan) {
+    public MapResponse current(@PathVariable @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan,
+            @AuthenticationPrincipal UserDetailsImpl user) {
+        // Hidden roadmaps (still being built) are only readable by admins.
+        planService.requireReadable(plan, StudyPlanController.isAdmin(user));
         return mapService.current(plan);
     }
 
     @PutMapping("/admin/maps/{plan}")
     public MapResponse publish(@PathVariable @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan,
             @Valid @RequestBody PublishRequest request, @AuthenticationPrincipal UserDetailsImpl admin) {
+        planService.requireExists(plan);
         return mapService.publish(plan, request.baseVersion(), request.content(), admin.getId());
     }
 
     @GetMapping("/admin/maps/{plan}/versions")
     public List<VersionInfo> versions(@PathVariable @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan) {
+        planService.requireExists(plan);
         return mapService.versions(plan);
     }
 
     @PostMapping("/admin/maps/{plan}/versions/{version}/restore")
     public MapResponse restore(@PathVariable @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan,
             @PathVariable int version, @AuthenticationPrincipal UserDetailsImpl admin) {
+        planService.requireExists(plan);
         return mapService.restore(plan, version, admin.getId());
     }
 }

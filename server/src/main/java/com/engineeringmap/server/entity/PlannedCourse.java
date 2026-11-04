@@ -30,8 +30,8 @@ public class PlannedCourse {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
-    /** Which study plan this belongs to ("cpe" or "ee"). */
-    @Column(nullable = false, length = 10)
+    /** Which roadmap this belongs to (StudyPlan slug, e.g. "cpe"). */
+    @Column(nullable = false, length = 40)
     private String plan;
 
     @Column(nullable = false)

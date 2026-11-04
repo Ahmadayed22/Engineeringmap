@@ -1,5 +1,7 @@
 package com.engineeringmap.server.controller;
 
+import com.engineeringmap.server.service.StudyPlanService;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -38,9 +40,12 @@ public class CommunityController {
     private final PlannerService plannerService;
     private final ShareService shareService;
     private final AdminService adminService;
+    private final StudyPlanService planService;
 
     public CommunityController(CourseRatingService ratingService, NotificationService notificationService,
-            PlannerService plannerService, ShareService shareService, AdminService adminService) {
+            PlannerService plannerService, ShareService shareService, AdminService adminService,
+            StudyPlanService planService) {
+        this.planService = planService;
         this.ratingService = ratingService;
         this.notificationService = notificationService;
         this.plannerService = plannerService;
@@ -91,12 +96,14 @@ public class CommunityController {
     @GetMapping("/planner")
     public List<PlanItem> plan(@RequestParam @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan,
             @AuthenticationPrincipal UserDetailsImpl user) {
+        planService.requireReadable(plan, StudyPlanController.isAdmin(user));
         return plannerService.get(user.getId(), plan);
     }
 
     @PutMapping("/planner")
     public List<PlanItem> savePlan(@RequestParam @Pattern(regexp = CommunityDto.PLAN_PATTERN) String plan,
             @Valid @RequestBody CommunityDto.PlanRequest request, @AuthenticationPrincipal UserDetailsImpl user) {
+        planService.requireReadable(plan, StudyPlanController.isAdmin(user));
         return plannerService.replace(user.getId(), plan, request.items());
     }
 

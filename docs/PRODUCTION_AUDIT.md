@@ -251,3 +251,33 @@ Published maps are checked on the server: exactly one title banner, unique box a
 - Drawing an arrow *from a copy* of a course (a course shown twice) also makes the copy's parent a requirement, as on the 2022 maps. Draw from the course's main box for a plain prerequisite.
 - Credit hours and new courses are saved immediately (they are course data); everything else waits for **Publish**.
 - `Home` still shows the two plan pictures (`assets/EngPlan/*.webp`); they don't change when a map is edited.
+
+## 11. New roadmaps (2026-11-04)
+
+Admins can create roadmaps besides CPE and EE: a new major, or a new version of an existing plan.
+
+**Decisions (agreed before building):** any kind of roadmap (one general feature); the admin starts from a copy of an existing roadmap or from an empty map; a new roadmap stays hidden from students until an admin shows it, and hiding never deletes anything.
+
+**Database.** `V5__study_plans.sql` adds `study_plans` (slug, Arabic and English name, visible, order) seeded with `cpe` and `ee`; widens `study_maps.plan` and `planned_courses.plan` to 40 characters and links both to `study_plans.slug` with foreign keys. A roadmap's slug is made from its English name (`Computer Engineering 2026` → `computer-engineering-2026`, then `-2`, `-3` if taken) and never changes.
+
+**API**
+| Endpoint | Who | What |
+|---|---|---|
+| `GET /api/plans` | anyone | visible roadmaps in order; admins also get hidden ones |
+| `POST /api/admin/plans` | ADMIN | `{nameAr, nameEn, copyFrom?}`: creates it hidden, with map version 1 copied from `copyFrom` (title renamed) or containing only the title |
+| `PUT /api/admin/plans/{slug}` | ADMIN | rename, show/hide, reorder (any field may be left out) |
+
+Hidden roadmaps answer 404 to students for their map and the planner. The roadmap id in URLs is no longer a fixed list (`cpe|ee`): a well-formed but unknown id is 404, a malformed one 400.
+
+**Client**
+- The home page lists roadmaps from the API. CPE and EE keep their pictures; new roadmaps get a plain card. Admins see a **New roadmap** card, a **Settings** button on every card (names, visible, order) and a "Hidden" badge.
+- Creating a roadmap opens its map straight in the editor (`?edit=1`).
+- New roadmaps live at `/plan/<slug>`; CPE and EE keep `/computerEngineer` and `/electricalEngineer`, so old links and notifications still work.
+- The planner, shared progress page and `/course/:id` work with any number of roadmaps (the shared page only uses visible ones).
+- The editor offers new roadmaps every colour preset of both original maps.
+- The last roadmap list is cached in the browser (visible ones only) for offline use.
+- Admin controls on a map (Edit map, "Hidden from students") sit in a bar above the map instead of floating over it, so they no longer cover the course search or the progress panel on narrow screens.
+
+**Tests.** Server 23 (`StudyPlanTest`: listing, copy and blank creation, hidden roadmaps invisible to students for map and planner, showing, renaming and reordering, id generation and duplicates, admin-only access, bad input). Client 37 (roadmap paths, names, colour presets for new roadmaps, remembering the planner's last roadmap).
+
+**Verified in the browser** (local PostgreSQL 16): V5 ran on the existing database; as admin, created "هندسة الحاسوب 2026" as a copy of CPE: it opened in the editor at `/plan/computer-engineering-2026` with the copied map and its own title, showed "Hidden" to the admin, and was absent (404) for visitors; made it visible from its settings: it then appeared for visitors, on the home page (plain card) and as a planner tab.

@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import type { StudyMapDoc } from './mapFormat';
 
-export type PlanKey = 'cpe' | 'ee';
-export const PLAN_KEYS: PlanKey[] = ['cpe', 'ee'];
+/** A roadmap's id (its slug), e.g. "cpe". Roadmaps come from GET /api/plans. */
+export type PlanKey = string;
 
 /** GET /api/maps/{plan} (server: StudyMapDto.MapResponse). */
 export type StudyMapResponse = {
