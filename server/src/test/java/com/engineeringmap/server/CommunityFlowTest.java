@@ -40,6 +40,11 @@ class CommunityFlowTest {
         mvc.perform(post("/api/auth/signup").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\":\"" + name + "\",\"email\":\"" + name + "@example.com\",\"password\":\"secret123\"}"))
                 .andExpect(status().isOk());
+        return login(name);
+    }
+
+    /** Roles live in the access token, so a promoted user needs a fresh one. */
+    private String login(String name) throws Exception {
         String body = mvc.perform(post("/api/auth/signin").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"" + name + "@example.com\",\"password\":\"secret123\"}"))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -113,6 +118,7 @@ class CommunityFlowTest {
         noraUser.setRoles(Set.of(roleRepo.findByName(RoleType.USER).orElseThrow(),
                 roleRepo.findByName(RoleType.ADMIN).orElseThrow()));
         userRepo.save(noraUser);
+        nora = login("nora");
         JsonNode pendingMaterials = body(auth(get("/api/admin/materials/pending"), nora));
         assertThat(pendingMaterials.get(0).get("category").asText()).isEqualTo("summaries");
         assertThat(pendingMaterials.get(0).get("uploader").asText()).isEqualTo("sam");
@@ -146,6 +152,7 @@ class CommunityFlowTest {
         linaUser.setRoles(Set.of(roleRepo.findByName(RoleType.USER).orElseThrow(),
                 roleRepo.findByName(RoleType.ADMIN).orElseThrow()));
         userRepo.save(linaUser);
+        lina = login("lina");
         JsonNode reports = body(auth(get("/api/admin/reports"), lina));
         assertThat(reports.get(0).get("reason").asText()).isEqualTo("Broken link");
         body(auth(post("/api/admin/reports/" + reports.get(0).get("id").asLong() + "/resolve"), lina));

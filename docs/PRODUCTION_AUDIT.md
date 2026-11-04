@@ -351,3 +351,22 @@ Three student tools, plus admin approval for everything students upload. Choices
 **Not verified:** the `.ics` file imported into a real calendar app; printing; opening a waiting file in a new tab (the browser pane doesn't show pop-ups; the request itself returned 200); the bell's wording for the new types was not clicked through in the UI (the API returns the types; the wording is a direct lookup); the reminder job firing on its own schedule (covered by calling it in the test).
 
 **Worth knowing:** files live in PostgreSQL, so the database grows with every upload (10 MB each at most). If it gets large, move `past_exam_files` to object storage (S3/R2) later; nothing else depends on where the bytes are.
+
+## 15. Load test and token-only authentication (2026-11-05)
+
+**Load test.** `tools/loadtest/loadtest.mjs` (Node 18+, no dependencies) runs anonymous reads, sign-up, a sign-in burst, signed-in students (with 1–3 s between clicks, then with no pauses), and 2 MB uploads. Its `lt_<n>` users are removed with `tools/loadtest/cleanup.sql`. Only run it against a local or staging server. Results on the development PC (the API, PostgreSQL in Docker and the test tool all on one machine; Render will be slower):
+
+| Scenario | Result |
+|---|---|
+| 500 anonymous visitors at once, no pauses | ~1,300 req/s, p95 0.7 s, 0 errors |
+| 1,000 signed-in students, a click every 1–3 s | p50 10 ms, p95 0.8 s, 0 errors |
+| 1,000 students signing in in the same second | all succeed, slowest ~11 s (BCrypt, ~90 sign-ins/s) |
+| 20 uploads of 2 MB at once | all succeed, ~0.5 s |
+
+No endpoint stood out; the limit was CPU. The main cost per signed-in request was loading the user (and roles) from the database in `JwtAuthenticationFilter`.
+
+**Change.** The filter now builds the signed-in user from the access token's signed claims (`sub`, `userId`, `roles`), parsing the token once, with no database read. A token without `userId` falls back to loading the user. Signed-in throughput with no pauses: 300 students 862 → 1,212 req/s (p50 345 → 243 ms); 1,000 students 824 → 1,015 req/s.
+
+**Trade-off.** A role change (granting or removing ADMIN) applies from the user's next access token: their next sign-in or refresh, at most `jwt.access.expiration` (15 minutes) later. The same holds for a deleted account until its access token expires (there is no account deletion in the app today). Refresh still checks the database.
+
+**Tests.** Server 40: new `TokenAuthTest` (promotion only works with a new token, demotion likewise; a token signed with another key claiming ADMIN gets 401; an expired one gets 401; a token without `userId` still works). Tests that promote a user to admin now sign in again afterwards.
