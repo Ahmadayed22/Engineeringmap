@@ -6,7 +6,14 @@ import toast from 'react-hot-toast';
 import { AxiosErrorHandler } from '@util/index';
 import { useI18n } from '@i18n/context';
 import Dialog from './Dialog';
-import { roadmapName, roadmapPath, type Roadmap } from './useRoadmaps';
+import {
+  roadmapName,
+  roadmapPath,
+  roadmapPicture,
+  type Roadmap,
+} from './useRoadmaps';
+import { studyMapKey } from './useStudyMap';
+import { shrinkImage } from './shrinkImage';
 
 const input =
   'w-full rounded-lg border border-white/15 bg-neutral-950 px-3 py-2 text-white';
@@ -125,12 +132,200 @@ export const CreateRoadmapDialog = ({
   );
 };
 
-/** Admin: rename, reorder, show or hide a roadmap. */
+const secondary =
+  'cursor-pointer rounded-lg bg-white/15 px-3 py-1.5 text-sm text-white hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-40';
+
+/** The card picture: upload (shrunk in the browser first) or remove. Saved right away. */
+const PictureSection = ({ roadmap }: { roadmap: Roadmap }) => {
+  const { t, lang } = useI18n();
+  const queryClient = useQueryClient();
+  const picture = roadmapPicture(roadmap);
+  const slug = encodeURIComponent(roadmap.slug);
+  const done = () => {
+    void queryClient.invalidateQueries({ queryKey: ['roadmaps'] });
+    toast.success(t('roadmaps.pictureSaved'));
+  };
+
+  const upload = useMutation({
+    mutationFn: async (file: File) => {
+      let blob: Blob;
+      try {
+        blob = await shrinkImage(file);
+      } catch {
+        throw new Error('unreadable');
+      }
+      const form = new FormData();
+      form.append(
+        'file',
+        blob,
+        blob.type === 'image/webp' ? 'card.webp' : 'card.jpg'
+      );
+      return axios.put(`/api/admin/plans/${slug}/image`, form);
+    },
+    onSuccess: done,
+    onError: (e) =>
+      toast.error(
+        e instanceof Error && e.message === 'unreadable'
+          ? t('roadmaps.pictureUnreadable')
+          : AxiosErrorHandler(e)
+      ),
+  });
+
+  const remove = useMutation({
+    mutationFn: () => axios.delete(`/api/admin/plans/${slug}/image`),
+    onSuccess: done,
+    onError: (e) => toast.error(AxiosErrorHandler(e)),
+  });
+
+  const busy = upload.isPending || remove.isPending;
+  return (
+    <section className="space-y-2 border-t border-white/10 pt-4">
+      <h3 className="text-sm font-semibold">{t('roadmaps.picture')}</h3>
+      {picture ? (
+        <img
+          src={picture}
+          alt={t('home.planAlt', { plan: roadmapName(roadmap, lang) })}
+          className="aspect-[3/2] w-full rounded-lg border border-white/10 object-cover object-top"
+        />
+      ) : (
+        <p className="text-xs text-white/50">{t('roadmaps.noPicture')}</p>
+      )}
+      <div className="flex flex-wrap items-center gap-2">
+        <label
+          className={`${secondary} ${busy ? 'pointer-events-none opacity-40' : ''}`}
+        >
+          {upload.isPending
+            ? t('roadmaps.uploading')
+            : t('roadmaps.uploadPicture')}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="sr-only"
+            disabled={busy}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (file) upload.mutate(file);
+            }}
+          />
+        </label>
+        {roadmap.imageVersion ? (
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => remove.mutate()}
+            className={secondary}
+          >
+            {t('roadmaps.removePicture')}
+          </button>
+        ) : null}
+      </div>
+      <p className="text-xs text-white/50">{t('roadmaps.pictureHint')}</p>
+    </section>
+  );
+};
+
+/** Removing a roadmap: the admin types its name first. Courses and their data stay. */
+const RemoveSection = ({
+  roadmap,
+  canRemove,
+  onRemoved,
+}: {
+  roadmap: Roadmap;
+  canRemove: boolean;
+  onRemoved: () => void;
+}) => {
+  const { t, lang } = useI18n();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [typed, setTyped] = useState('');
+  const name = roadmapName(roadmap, lang);
+  const matches = typed.trim() === name.trim();
+
+  const remove = useMutation({
+    mutationFn: () =>
+      axios.delete(`/api/admin/plans/${encodeURIComponent(roadmap.slug)}`),
+    onSuccess: () => {
+      // Forget what this browser kept about it.
+      try {
+        localStorage.removeItem(`engmap.map.${roadmap.slug}`);
+        localStorage.removeItem(`engmap.mapDraft.${roadmap.slug}`);
+      } catch {
+        // ignore
+      }
+      queryClient.removeQueries({ queryKey: studyMapKey(roadmap.slug) });
+      void queryClient.invalidateQueries({ queryKey: ['roadmaps'] });
+      toast.success(t('roadmaps.removed', { name }));
+      onRemoved();
+      navigate('/');
+    },
+    onError: (e) => toast.error(AxiosErrorHandler(e)),
+  });
+
+  if (!canRemove) {
+    return (
+      <section className="border-t border-white/10 pt-4 text-xs text-white/50">
+        {t('roadmaps.cantRemoveLast')}
+      </section>
+    );
+  }
+
+  return (
+    <section className="space-y-2 border-t border-red-500/30 pt-4">
+      <h3 className="text-sm font-semibold text-red-300">
+        {t('roadmaps.remove')}
+      </h3>
+      <p className="text-xs text-white/60">{t('roadmaps.removeExplain')}</p>
+      {!open ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="cursor-pointer rounded-lg border border-red-500/60 px-3 py-1.5 text-sm text-red-300 hover:bg-red-500/10"
+        >
+          {t('roadmaps.remove')}
+        </button>
+      ) : (
+        <form
+          className="space-y-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (matches && !remove.isPending) remove.mutate();
+          }}
+        >
+          <label className="block space-y-1">
+            <span className="text-xs text-white/70">
+              {t('roadmaps.typeToConfirm', { name })}
+            </span>
+            <input
+              autoFocus
+              value={typed}
+              onChange={(e) => setTyped(e.target.value)}
+              className={input}
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={!matches || remove.isPending}
+            className="cursor-pointer rounded-lg bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {t('roadmaps.removeForever')}
+          </button>
+        </form>
+      )}
+    </section>
+  );
+};
+
+/** Admin: rename, reorder, show or hide a roadmap; its card picture; removing it. */
 export const RoadmapSettingsDialog = ({
   roadmap,
+  canRemove,
   onClose,
 }: {
   roadmap: Roadmap;
+  /** False for the last remaining roadmap. */
+  canRemove: boolean;
   onClose: () => void;
 }) => {
   const { t, lang } = useI18n();
@@ -199,6 +394,14 @@ export const RoadmapSettingsDialog = ({
           {t('common.save')}
         </button>
       </form>
+      <div className="mt-5 space-y-5">
+        <PictureSection roadmap={roadmap} />
+        <RemoveSection
+          roadmap={roadmap}
+          canRemove={canRemove}
+          onRemoved={onClose}
+        />
+      </div>
     </Dialog>
   );
 };

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import cpe from '@assets/EngPlan/cpe.webp';
-import EE from '@assets/EngPlan/EE.webp';
 import {
   roadmapName,
   roadmapPath,
+  roadmapPicture,
   useRoadmaps,
   type Roadmap,
 } from '@features/map/useRoadmaps';
@@ -14,13 +13,6 @@ import {
   RoadmapSettingsDialog,
 } from '@features/map/RoadmapDialogs';
 import { useI18n } from '../../i18n/context';
-
-/** Pictures of the two original 2022 trees; other roadmaps get a plain card. */
-const PICTURES: Record<string, { src: string; width: number; height: number }> =
-  {
-    cpe: { src: cpe, width: 1600, height: 1067 },
-    ee: { src: EE, width: 1280, height: 777 },
-  };
 
 const Home = () => {
   const { t, dir, lang } = useI18n();
@@ -42,7 +34,7 @@ const Home = () => {
       <ul className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 md:gap-10">
         {roadmaps.map((plan) => {
           const name = roadmapName(plan, lang);
-          const picture = PICTURES[plan.slug];
+          const picture = roadmapPicture(plan);
           return (
             <li key={plan.slug} className="relative">
               <Link
@@ -51,10 +43,10 @@ const Home = () => {
               >
                 {picture ? (
                   <img
-                    src={picture.src}
+                    src={picture}
                     alt={t('home.planAlt', { plan: name })}
-                    width={picture.width}
-                    height={picture.height}
+                    width={1600}
+                    height={1067}
                     decoding="async"
                     className="aspect-[3/2] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"
                   />
@@ -127,7 +119,10 @@ const Home = () => {
       {editing && (
         <RoadmapSettingsDialog
           key={editing.slug}
-          roadmap={editing}
+          roadmap={
+            roadmaps.find((r) => r.slug === editing.slug) ?? editing
+          }
+          canRemove={roadmaps.length > 1}
           onClose={() => setEditing(null)}
         />
       )}

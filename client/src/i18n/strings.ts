@@ -473,6 +473,22 @@ export const en = {
   'roadmaps.orderHint': 'Lower numbers come first.',
   'roadmaps.notFound': "This roadmap doesn't exist or isn't available yet.",
   'roadmaps.backHome': 'Back to the roadmaps',
+
+  // ---- Roadmap pictures and removal ----
+  'roadmaps.picture': 'Card picture',
+  'roadmaps.noPicture': 'No picture yet: the card shows the roadmap name.',
+  'roadmaps.uploadPicture': 'Upload picture',
+  'roadmaps.uploading': 'Uploading…',
+  'roadmaps.removePicture': 'Remove picture',
+  'roadmaps.pictureHint': 'JPG, PNG or WebP. Saved right away; large pictures are made smaller automatically.',
+  'roadmaps.pictureSaved': 'Picture updated',
+  'roadmaps.pictureUnreadable': "That file couldn't be read as a picture.",
+  'roadmaps.remove': 'Remove roadmap',
+  'roadmaps.removeExplain': "Deletes this roadmap, its map history and students' semester plans for it. Courses with their comments, materials, grades and ratings are kept.",
+  'roadmaps.typeToConfirm': 'Type "{name}" to confirm',
+  'roadmaps.removeForever': 'Remove permanently',
+  'roadmaps.removed': '{name} was removed',
+  'roadmaps.cantRemoveLast': "This is the only roadmap, so it can't be removed.",
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -920,4 +936,20 @@ export const ar: Record<MessageKey, string> = {
   'roadmaps.orderHint': 'الأرقام الأصغر تظهر أولاً.',
   'roadmaps.notFound': 'هذه الخريطة غير موجودة أو غير متاحة بعد.',
   'roadmaps.backHome': 'العودة إلى الخرائط',
+
+  // ---- Roadmap pictures and removal ----
+  'roadmaps.picture': 'صورة البطاقة',
+  'roadmaps.noPicture': 'لا توجد صورة بعد: تعرض البطاقة اسم الخريطة.',
+  'roadmaps.uploadPicture': 'رفع صورة',
+  'roadmaps.uploading': 'جارٍ الرفع…',
+  'roadmaps.removePicture': 'إزالة الصورة',
+  'roadmaps.pictureHint': 'JPG أو PNG أو WebP. تُحفظ فوراً، والصور الكبيرة تُصغَّر تلقائياً.',
+  'roadmaps.pictureSaved': 'تم تحديث الصورة',
+  'roadmaps.pictureUnreadable': 'تعذّرت قراءة هذا الملف كصورة.',
+  'roadmaps.remove': 'حذف الخريطة',
+  'roadmaps.removeExplain': 'يحذف هذه الخريطة وسجل نسخها وخطط الفصول التي وضعها الطلاب عليها. تبقى المواد بتعليقاتها وملفاتها وعلاماتها وتقييماتها.',
+  'roadmaps.typeToConfirm': 'اكتب «{name}» للتأكيد',
+  'roadmaps.removeForever': 'حذف نهائي',
+  'roadmaps.removed': 'تم حذف {name}',
+  'roadmaps.cantRemoveLast': 'هذه هي الخريطة الوحيدة، لذلك لا يمكن حذفها.',
 };

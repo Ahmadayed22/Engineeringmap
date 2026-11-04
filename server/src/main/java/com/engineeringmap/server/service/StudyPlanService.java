@@ -13,25 +13,43 @@ import com.engineeringmap.server.dto.StudyPlanDto.CreateRequest;
 import com.engineeringmap.server.dto.StudyPlanDto.PlanInfo;
 import com.engineeringmap.server.dto.StudyPlanDto.UpdateRequest;
 import com.engineeringmap.server.entity.StudyPlan;
+import com.engineeringmap.server.entity.StudyPlanImage;
 import com.engineeringmap.server.exception.ResourceNotFoundException;
+import com.engineeringmap.server.repo.PlannedCourseRepo;
+import com.engineeringmap.server.repo.StudyMapRepo;
+import com.engineeringmap.server.repo.StudyPlanImageRepo;
 import com.engineeringmap.server.repo.StudyPlanRepo;
 
 /**
- * Roadmaps: listing, creating (hidden, from a copy or empty), renaming, reordering and
- * showing/hiding. Nothing is ever deleted; hiding keeps every comment, grade and plan.
+ * Roadmaps: listing, creating (hidden, from a copy or empty), renaming, reordering,
+ * showing/hiding, card pictures and removal. Removing a roadmap deletes its map history and
+ * the planner entries made on it; courses and their comments, materials, grades and ratings
+ * stay, because they belong to courses (which other roadmaps may use).
  */
 @Service
 public class StudyPlanService {
 
     public static final String PLAN_NOT_FOUND = "Study plan not found";
+    public static final String LAST_PLAN = "You can't remove the last roadmap";
+    public static final String BAD_IMAGE = "Upload a JPG, PNG or WebP image";
+    public static final String IMAGE_TOO_LARGE = "The image is too large (2 MB at most)";
+    public static final String NO_IMAGE = "This roadmap has no picture";
+    static final int MAX_IMAGE_BYTES = 2 * 1024 * 1024;
     static final String DEFAULT_BANNER_COLOR = "#87032f";
 
     private final StudyPlanRepo planRepo;
     private final StudyMapService mapService;
+    private final StudyMapRepo mapRepo;
+    private final PlannedCourseRepo plannedRepo;
+    private final StudyPlanImageRepo imageRepo;
 
-    public StudyPlanService(StudyPlanRepo planRepo, StudyMapService mapService) {
+    public StudyPlanService(StudyPlanRepo planRepo, StudyMapService mapService, StudyMapRepo mapRepo,
+            PlannedCourseRepo plannedRepo, StudyPlanImageRepo imageRepo) {
         this.planRepo = planRepo;
         this.mapService = mapService;
+        this.mapRepo = mapRepo;
+        this.plannedRepo = plannedRepo;
+        this.imageRepo = imageRepo;
     }
 
     /** Visible roadmaps; admins also get the hidden ones. */
@@ -108,6 +126,71 @@ public class StudyPlanService {
         return toInfo(planRepo.save(plan));
     }
 
+    /** Removes a roadmap with its map history, card picture and planner entries. */
+    @Transactional
+    public void delete(String slug) {
+        StudyPlan plan = find(slug);
+        if (planRepo.count() <= 1) {
+            throw new IllegalArgumentException(LAST_PLAN);
+        }
+        plannedRepo.deleteByPlan(slug);
+        mapRepo.deleteByPlan(slug);
+        imageRepo.findById(slug).ifPresent(imageRepo::delete);
+        planRepo.delete(plan);
+    }
+
+    /** Sets the card picture. The content decides the type, never the file name or header. */
+    @Transactional
+    public PlanInfo setImage(String slug, byte[] data) {
+        StudyPlan plan = find(slug);
+        if (data == null || data.length == 0) {
+            throw new IllegalArgumentException(BAD_IMAGE);
+        }
+        if (data.length > MAX_IMAGE_BYTES) {
+            throw new IllegalArgumentException(IMAGE_TOO_LARGE);
+        }
+        String type = imageType(data);
+        if (type == null) {
+            throw new IllegalArgumentException(BAD_IMAGE);
+        }
+        imageRepo.save(new StudyPlanImage(slug, type, data));
+        plan.setImageVersion(System.currentTimeMillis());
+        return toInfo(planRepo.save(plan));
+    }
+
+    @Transactional
+    public PlanInfo removeImage(String slug) {
+        StudyPlan plan = find(slug);
+        imageRepo.findById(slug).ifPresent(imageRepo::delete);
+        plan.setImageVersion(null);
+        return toInfo(planRepo.save(plan));
+    }
+
+    @Transactional(readOnly = true)
+    public StudyPlanImage image(String slug) {
+        return imageRepo.findById(slug).orElseThrow(() -> new ResourceNotFoundException(NO_IMAGE));
+    }
+
+    /** JPEG, PNG or WebP by their first bytes; anything else (SVG, HTML, ...) is refused. */
+    static String imageType(byte[] d) {
+        if (d.length >= 3 && (d[0] & 0xFF) == 0xFF && (d[1] & 0xFF) == 0xD8 && (d[2] & 0xFF) == 0xFF) {
+            return "image/jpeg";
+        }
+        if (d.length >= 8 && (d[0] & 0xFF) == 0x89 && d[1] == 'P' && d[2] == 'N' && d[3] == 'G'
+                && d[4] == 0x0D && d[5] == 0x0A && d[6] == 0x1A && d[7] == 0x0A) {
+            return "image/png";
+        }
+        if (d.length >= 12 && d[0] == 'R' && d[1] == 'I' && d[2] == 'F' && d[3] == 'F'
+                && d[8] == 'W' && d[9] == 'E' && d[10] == 'B' && d[11] == 'P') {
+            return "image/webp";
+        }
+        return null;
+    }
+
+    private StudyPlan find(String slug) {
+        return planRepo.findBySlug(slug).orElseThrow(() -> new ResourceNotFoundException(PLAN_NOT_FOUND));
+    }
+
     private static String requireText(String value) {
         String v = value.strip();
         if (v.isEmpty()) {
@@ -136,6 +219,7 @@ public class StudyPlanService {
     }
 
     private static PlanInfo toInfo(StudyPlan p) {
-        return new PlanInfo(p.getSlug(), p.getNameAr(), p.getNameEn(), p.isVisible(), p.getSortOrder());
+        return new PlanInfo(p.getSlug(), p.getNameAr(), p.getNameEn(), p.isVisible(), p.getSortOrder(),
+                p.getImageVersion());
     }
 }
