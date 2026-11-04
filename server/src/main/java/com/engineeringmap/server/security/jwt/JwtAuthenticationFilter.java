@@ -17,6 +17,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.engineeringmap.server.security.UserDetailsImpl;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -45,10 +50,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // An expired or tampered token must not break the request: we simply leave it
             // unauthenticated, so public endpoints still work and protected ones answer 401
             // (which lets the client refresh its token).
-            if (jwtUtil.isTokenValid(token)) {
+            jwtUtil.parse(token).ifPresent(claims -> {
                 try {
-                    String username = jwtUtil.extractUsername(token);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    UserDetails userDetails = fromClaims(claims);
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -56,9 +60,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 } catch (UsernameNotFoundException e) {
                     log.debug("Token refers to a user that no longer exists");
                 }
-            }
+            });
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * The signed access token already says who the user is and which roles they have, so the
+     * database isn't read on every request. The trade-off: a role change applies when the user's
+     * access token is next renewed (at most jwt.access.expiration, 15 minutes by default).
+     * Tokens without a userId claim fall back to loading the user.
+     */
+    private UserDetails fromClaims(JwtUtil.TokenUser claims) {
+        if (claims.id() == null || claims.username() == null) {
+            return userDetailsService.loadUserByUsername(claims.username());
+        }
+        List<SimpleGrantedAuthority> authorities = claims.roles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .toList();
+        return new UserDetailsImpl(claims.id(), claims.username(), null, authorities);
     }
 }

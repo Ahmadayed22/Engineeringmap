@@ -50,6 +50,10 @@ class StudyToolsTest {
         mvc.perform(post("/api/auth/signup").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\":\"" + name + "\",\"email\":\"" + name + "@example.com\",\"password\":\"secret123\"}"))
                 .andExpect(status().isOk());
+        return login(name);
+    }
+
+    private String login(String name) throws Exception {
         String body = mvc.perform(post("/api/auth/signin").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"" + name + "@example.com\",\"password\":\"secret123\"}"))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -117,8 +121,9 @@ class StudyToolsTest {
     void studentExamsWaitForAnAdmin() throws Exception {
         String yara = signUpAndLogin("yara");
         String karim = signUpAndLogin("karim");
-        String boss = signUpAndLogin("boss");
+        signUpAndLogin("boss");
         makeAdmin("boss");
+        String boss = login("boss");
 
         // Only PDFs and images are accepted, and only from signed-in users.
         mvc.perform(upload(11, yara, "notes.html", "<script>alert(1)</script>".getBytes()))
