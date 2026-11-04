@@ -1,6 +1,7 @@
 package com.engineeringmap.server.repo;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.*;
@@ -15,14 +16,23 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface RefreshTokenRepo extends JpaRepository<RefreshToken, Long> {
     Optional<RefreshToken> findByToken(String token);
-    Optional<RefreshToken> findByUser(User user);
-    
+
+    /** The user's tokens, newest first (all tokens have the same lifetime). */
+    List<RefreshToken> findByUserOrderByExpiryDateDescIdDesc(User user);
+
     @Modifying
     @Transactional
-    void deleteByUser(User user);
-    
+    @Query("DELETE FROM RefreshToken rt WHERE rt.user = :user AND rt.expiryDate <= :now")
+    int deleteExpiredByUser(@Param("user") User user, @Param("now") Instant now);
+
+    /** Revokes one sign-in; the user check stops anyone revoking another user's token. */
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RefreshToken rt WHERE rt.token = :token AND rt.user.id = :userId")
+    int deleteByTokenAndUserId(@Param("token") String token, @Param("userId") Long userId);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM RefreshToken rt WHERE rt.expiryDate <= :now")
-    int deleteAllExpiredTokens(@Param("now") Instant now); 
+    int deleteAllExpiredTokens(@Param("now") Instant now);
 }
