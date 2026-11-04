@@ -13,4 +13,6 @@ export type Material = {
   score?: number;
   /** The viewer's own vote: -1, 0 or 1. */
   myVote?: number;
+  /** False while it waits for an admin (only its author sees it then). */
+  approved?: boolean;
 };

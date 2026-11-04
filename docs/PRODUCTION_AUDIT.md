@@ -322,3 +322,32 @@ Signing in on a second device used to sign the first one out at its next token r
 **Tests.** Server 35 after merging section 12 (`AuthSessionsTest`: two sign-ins both refresh; logging out one leaves the other working; logout can't revoke another user's token; logout without a body revokes nothing; an expired token is rejected and deleted; an unknown token is rejected; sign-in removes expired tokens and caps sign-ins at 10). `MigrationsTest` expects V1–V7. Client 39, `tsc -b` and `eslint .` clean (0 errors).
 
 **Not verified:** not tried in two real browsers against the local PostgreSQL stack (V7 was not applied to the shared local database); the HTTP flows above run through MockMvc on H2.
+
+## 14. Timetable, past exam bank, exam countdown, approvals (2026-11-04)
+
+Three student tools, plus admin approval for everything students upload. Choices made with the owner: exam files are uploaded and stored in the database; admin uploads are public at once, student uploads (past exams and material links) stay hidden until an admin approves them; exam dates are private to each student; the timetable is saved per account.
+
+| Feature | Where | Notes |
+|---|---|---|
+| **Weekly timetable** | `/schedule` (signed in; header link "جدولي") | Add a class once for several days; course names suggested from the catalogue and from next semester in the planner. Clashes are listed and drawn side by side (allowed, so two section options can be compared). Auto-saved. Print view, and a `.ics` calendar file that repeats weekly for 16 weeks. Sunday–Thursday, plus Saturday/Friday only when used. |
+| **Past exam bank** | Course drawer, new "امتحانات سابقة" tab | PDF, JPG, PNG or WebP up to 10 MB, with kind (first/second/midterm/final/quiz/other), semester, year, doctor and "includes the solution". Approved files open in a new tab or download; the uploader sees their own waiting uploads with a "waiting for review" badge and can delete them. |
+| **Exam countdown** | `/exams` (signed in; header link "امتحاناتي") | Private exam dates with a live countdown; next exam highlighted, finished ones folded away. Reminders in the notification bell 3 days before and again within the last day (a moved exam gets them again). |
+| **Approvals** | `/admin`, new "بانتظار الموافقة" section | New materials and past exams from students, with approve / reject. Reject deletes the upload. The student is notified either way. |
+
+**Server**
+- `V8__timetable_exams_and_approval.sql`: `resource.approved` (default true, so every existing material stays visible), `timetable_entries`, `past_exams` + `past_exam_files` (the bytes in their own table so lists never load them), `exam_dates`.
+- `StudyToolsController`: `GET/PUT /api/timetable`; `GET/POST /api/exam-dates`, `PUT/DELETE /api/exam-dates/{id}`; `GET /api/past-exams/course/{id}` and `GET /api/past-exams/{id}/file` (public reads), `POST /api/past-exams/course/{id}` (multipart), `DELETE /api/past-exams/{id}`; `/api/admin/past-exams/pending|{id}/approve|{id}/reject` and the same for `/api/admin/materials`.
+- File type is checked by content (`%PDF-` or the image signatures), not by name or browser type; the stored name is cleaned. Files are served with `Content-Security-Policy: sandbox` and `nosniff`; approved ones are cached for 30 days, waiting ones `no-store` and only for their uploader and admins (others get 404). A student can have at most 20 uploads waiting.
+- Materials: students' new links start unapproved; a student who edits a link sends it back for review; votes and reports only work on approved materials; `GET /api/resource/{id}` hides waiting ones from others.
+- Upload limit raised to 11 MB (`spring.servlet.multipart.*`); the too-large message is now the generic file one.
+- Notifications: new types `MATERIAL_APPROVED/REJECTED`, `EXAM_APPROVED/REJECTED`, `EXAM_SOON`, `EXAM_TOMORROW`. Their `message` is only the name; the client words it in the UI language. Reminders come from a `@Scheduled` job every 15 minutes.
+
+**Client:** `pages/schedule/Schedule.tsx` (was a placeholder), `pages/Exams/MyExams.tsx`, `features/study/` (`timetable.ts` and `exams.ts` hold the tested logic: clashes, lanes, hour range, `.ics`, countdown), drawer tab, admin review list, pending badge on materials, bell wording. 120 new strings in both languages; server messages translated.
+
+**Tests.** Server 38 (`StudyToolsTest`: timetable per student and validation; student exam hidden until approved, served with the sandbox header, delete rules, admin upload public at once, reject notifies; exam dates private, reminders sent once each and again after the exam moves. `CommunityFlowTest` now approves the material before voting and checks it was hidden before). Client 49, `tsc -b` clean, `eslint` 0 errors.
+
+**Verified in the browser** (local PostgreSQL 16; V7 and V8 applied to the shared local database): as a student, added a Sun/Tue/Thu class and a clashing Sunday lab (warning shown, blocks side by side, saved across reload); added two exams (countdown shown); uploaded a PDF in a course's past exams tab (waiting badge, "sent for review" toast, file fetched with the token). As the test admin: saw it in the review list and approved it (student got `EXAM_APPROVED`, file then public); a student material link stayed hidden from anonymous visitors, showed in the review list, and rejecting it removed it and notified the student. Phone width (375 px) has no horizontal scroll; English and Arabic both checked.
+
+**Not verified:** the `.ics` file imported into a real calendar app; printing; opening a waiting file in a new tab (the browser pane doesn't show pop-ups; the request itself returned 200); the bell's wording for the new types was not clicked through in the UI (the API returns the types; the wording is a direct lookup); the reminder job firing on its own schedule (covered by calling it in the test).
+
+**Worth knowing:** files live in PostgreSQL, so the database grows with every upload (10 MB each at most). If it gets large, move `past_exam_files` to object storage (S3/R2) later; nothing else depends on where the bytes are.

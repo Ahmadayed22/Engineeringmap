@@ -28,17 +28,19 @@ const useMaterial = ({ setOpenModal }: MaterialModalProps) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Object.entries(data).filter(([_, value]) => value !== '')
       );
-      await axios.post(`/api/resource/course/${courseId}`, {
-        ...payload,
-        courseId,
-      });
+      const res = await axios.post<{ approved?: boolean }>(
+        `/api/resource/course/${courseId}`,
+        { ...payload, courseId }
+      );
 
       await queryClient.invalidateQueries({
         queryKey: ['resource', courseId],
       });
       setOpenModal(false);
       reset();
-      toast.success(t('mat.added'));
+      toast.success(
+        res.data.approved === false ? t('mat.sentForReview') : t('mat.added')
+      );
     } catch (error) {
       console.error('Error submitting material:', error);
       toast.error(t('mat.addFailed'));

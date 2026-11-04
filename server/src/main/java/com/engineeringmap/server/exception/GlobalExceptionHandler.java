@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
     public ResponseEntity<ErrorResponse> handleTooLarge(Exception e) {
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
-                .body(new ErrorResponse(com.engineeringmap.server.service.StudyPlanService.IMAGE_TOO_LARGE));
+                .body(new ErrorResponse(com.engineeringmap.server.service.PastExamService.FILE_TOO_LARGE));
     }
 
     @ExceptionHandler(ConflictException.class)

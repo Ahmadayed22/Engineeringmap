@@ -39,7 +39,8 @@ public class ResourceMapper {
             resource.getUser().getId(),
             resource.getName(),
             score,
-            myVote
+            myVote,
+            resource.isApproved()
         );
     }
 

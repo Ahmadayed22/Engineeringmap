@@ -42,6 +42,17 @@ const NotificationBell = () => {
   const { t, locale } = useI18n();
   // The server phrases reply notifications in English; show them in the UI language.
   const describe = (n: NotificationItem) => {
+    // Newer types carry only a name; the wording is chosen here.
+    const byType = {
+      MATERIAL_APPROVED: 'notif.materialApproved',
+      MATERIAL_REJECTED: 'notif.materialRejected',
+      EXAM_APPROVED: 'notif.examApproved',
+      EXAM_REJECTED: 'notif.examRejected',
+      EXAM_SOON: 'notif.examSoon',
+      EXAM_TOMORROW: 'notif.examTomorrow',
+    } as const;
+    if (n.type in byType)
+      return t(byType[n.type as keyof typeof byType], { name: n.message });
     const m = /^(.*) replied to your comment$/.exec(n.message);
     return n.type === 'COMMENT_REPLY' && m
       ? t('notif.reply', { name: m[1] })
@@ -98,7 +109,9 @@ const NotificationBell = () => {
   const openItem = (n: NotificationItem) => {
     if (!n.read) readOne.mutate(n.id);
     setOpen(false);
-    if (n.courseId) navigate(`/course/${n.courseId}`);
+    if (n.type === 'EXAM_SOON' || n.type === 'EXAM_TOMORROW')
+      navigate('/exams');
+    else if (n.courseId) navigate(`/course/${n.courseId}`);
   };
 
   return (

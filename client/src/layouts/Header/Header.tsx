@@ -95,6 +95,12 @@ const Header = () => {
       <DropdownItem as={Link} to="/planner">
         {t('header.planner')}
       </DropdownItem>
+      <DropdownItem as={Link} to="/schedule">
+        {t('nav.timetable')}
+      </DropdownItem>
+      <DropdownItem as={Link} to="/exams">
+        {t('nav.exams')}
+      </DropdownItem>
       <DropdownItem as={Link} to="/share">
         {t('header.share')}
       </DropdownItem>
@@ -120,7 +126,7 @@ const Header = () => {
     <Navbar
       fluid
       rounded={false}
-      className=" shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8 custom-bg2"
+      className=" shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8 custom-bg2 print:hidden"
     >
       <NavbarBrand as="div" className="flex items-center space-x-3">
         <Link
@@ -192,6 +198,24 @@ const Header = () => {
             <span className="sr-only"> {t('nav.newTab')}</span>
           </a>
         </li>
+        {accessToken && userInfo && (
+          <>
+            <li>
+              <NavLink
+                to="/schedule"
+                className={navLinkClass}
+                onClick={closeMenu}
+              >
+                {t('nav.timetable')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/exams" className={navLinkClass} onClick={closeMenu}>
+                {t('nav.exams')}
+              </NavLink>
+            </li>
+          </>
+        )}
         <li>
           <NavLink
             to="/dremail"

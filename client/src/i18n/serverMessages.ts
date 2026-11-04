@@ -28,6 +28,18 @@ const ar: Record<string, string> = {
     'لقد أبلغت عن هذه المادة مسبقاً، وسيراجعها أحد المشرفين.',
   'Thanks. An admin will review this material.':
     'شكراً لك. سيراجع أحد المشرفين هذه المادة.',
+  // Timetable, exam dates, past exam bank
+  'A class must end after it starts': 'يجب أن تنتهي المحاضرة بعد أن تبدأ',
+  'Unknown course in timetable': 'توجد مادة غير معروفة في الجدول',
+  'Upload a PDF, JPG, PNG or WebP file': 'ارفع ملف PDF أو JPG أو PNG أو WebP',
+  'The file is too large (10 MB at most)':
+    'الملف كبير جداً (10 ميغابايت كحد أقصى)',
+  'You have too many uploads waiting for review. Try again after an admin reviews them.':
+    'لديك ملفات كثيرة بانتظار المراجعة. حاول مرة أخرى بعد أن يراجعها أحد المشرفين.',
+  'Exam not found': 'الامتحان غير موجود',
+  'You can only delete your own uploads': 'يمكنك حذف ما رفعته فقط',
+  'You can keep up to 60 exams. Delete old ones first.':
+    'يمكنك حفظ 60 امتحاناً كحد أقصى. احذف القديمة أولاً.',
   // Study map editor
   'The map was changed by someone else. Reload it and try again.':
     'عدّل شخص آخر الخريطة. أعد تحميلها وحاول مرة أخرى.',
@@ -35,7 +47,8 @@ const ar: Record<string, string> = {
   'Study plan not found': 'الخطة الدراسية غير موجودة',
   "You can't remove the last roadmap": 'لا يمكن حذف آخر خريطة',
   'Upload a JPG, PNG or WebP image': 'ارفع صورة بصيغة JPG أو PNG أو WebP',
-  'The image is too large (2 MB at most)': 'الصورة كبيرة جداً (2 ميغابايت كحد أقصى)',
+  'The image is too large (2 MB at most)':
+    'الصورة كبيرة جداً (2 ميغابايت كحد أقصى)',
   'This roadmap has no picture': 'لا توجد صورة لهذه الخريطة',
   "Roadmap name can't be empty": 'اسم الخريطة لا يمكن أن يكون فارغاً',
   'Course not found': 'المادة غير موجودة',
@@ -54,11 +67,13 @@ const ar: Record<string, string> = {
 
 /** Messages of the form "Prefix: detail" (the detail, e.g. a course name, is kept). */
 const arPrefixes: Record<string, string> = {
-  'Two boxes on the map have the same id': 'يوجد مربعان بنفس المعرّف في الخريطة',
+  'Two boxes on the map have the same id':
+    'يوجد مربعان بنفس المعرّف في الخريطة',
   'Box is placed too far away': 'المربع بعيد جداً',
   'Box has no course': 'مربع غير مرتبط بمادة',
   'Unknown course id': 'رقم مادة غير معروف',
-  'Two arrows on the map have the same id': 'يوجد سهمان بنفس المعرّف في الخريطة',
+  'Two arrows on the map have the same id':
+    'يوجد سهمان بنفس المعرّف في الخريطة',
   "Arrow points to a box that doesn't exist": 'سهم يشير إلى مربع غير موجود',
   "A course can't require itself": 'لا يمكن أن تكون المادة متطلباً لنفسها',
   'The same arrow is drawn twice': 'السهم نفسه مرسوم مرتين',
