@@ -9,12 +9,14 @@ import { useTreeFlowContext } from '@context/TreeFlowContext';
 import CourseRequirements from '@features/progress/CourseRequirements';
 import CourseRatings from '@features/community/CourseRatings';
 import { useI18n } from '@i18n/context';
+import PastExamsTab from '@features/study/PastExamsTab';
 
-type Tab = 'comments' | 'materials';
+type Tab = 'comments' | 'materials' | 'pastExams';
 
 const TABS = [
   { id: 'comments', labelKey: 'drawer.comments' },
   { id: 'materials', labelKey: 'drawer.materials' },
+  { id: 'pastExams', labelKey: 'drawer.pastExams' },
 ] as const;
 
 function DrawerComp() {
@@ -57,7 +59,7 @@ function DrawerComp() {
                     aria-selected={selected}
                     aria-controls={`panel-${tab.id}`}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`cursor-pointer rounded-md px-4 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-blue-500 ${
+                    className={`cursor-pointer rounded-md px-3 py-1.5 text-sm sm:px-4 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-blue-500 ${
                       selected
                         ? 'bg-neutral-700 text-white shadow-sm'
                         : 'text-neutral-400 hover:text-neutral-100'
@@ -89,8 +91,10 @@ function DrawerComp() {
           >
             {activeTab === 'comments' ? (
               <CommentSection />
-            ) : (
+            ) : activeTab === 'materials' ? (
               <MaterialSection />
+            ) : (
+              <PastExamsTab />
             )}
           </DrawerItems>
 

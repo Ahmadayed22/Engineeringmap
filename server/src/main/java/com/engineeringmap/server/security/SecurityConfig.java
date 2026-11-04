@@ -76,6 +76,8 @@ public class SecurityConfig {
             "/api/maps/*",
             "/api/plans",
             "/api/plans/*/image",
+            "/api/past-exams/course/*",
+            "/api/past-exams/{id:\\d+}/file",
     };
 
     @Bean

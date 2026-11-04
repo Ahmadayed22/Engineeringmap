@@ -113,13 +113,14 @@ const MaterialCard = ({
             const url = material[key] as string;
             const href = safeHref(url);
             const canDelete = userId && (material.userId === userId || isAdmin);
+            const pending = material.approved === false;
             return (
               <li
                 key={`${item.key}-${material.id}`}
                 className="flex flex-col gap-1"
               >
                 <div className="flex flex-row items-center justify-start gap-1">
-                  {userInfo && (
+                  {userInfo && !pending && (
                     <button
                       type="button"
                       className={iconBtn}
@@ -146,48 +147,54 @@ const MaterialCard = ({
                       <MdDeleteOutline className="text-xl" />
                     </button>
                   )}
-                  <div
-                    className="flex items-center gap-0.5 rounded-md bg-white/5 px-1"
-                    aria-label={t('mat.votes')}
-                  >
-                    <button
-                      type="button"
-                      className={iconBtn}
-                      disabled={!userInfo}
-                      onClick={() => castVote(material, 1)}
-                      aria-pressed={material.myVote === 1}
-                      aria-label={t('mat.helpful')}
-                      title={
-                        userInfo ? t('mat.helpful') : t('mat.signInToVote')
-                      }
-                    >
-                      {material.myVote === 1 ? (
-                        <BiSolidUpvote className="text-green-400" />
-                      ) : (
-                        <BiUpvote />
-                      )}
-                    </button>
-                    <span className="min-w-5 text-center text-xs tabular-nums text-white/80">
-                      {material.score ?? 0}
+                  {pending ? (
+                    <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[11px] text-amber-200">
+                      {t('mat.pending')}
                     </span>
-                    <button
-                      type="button"
-                      className={iconBtn}
-                      disabled={!userInfo}
-                      onClick={() => castVote(material, -1)}
-                      aria-pressed={material.myVote === -1}
-                      aria-label={t('mat.notHelpful')}
-                      title={
-                        userInfo ? t('mat.notHelpful') : t('mat.signInToVote')
-                      }
+                  ) : (
+                    <div
+                      className="flex items-center gap-0.5 rounded-md bg-white/5 px-1"
+                      aria-label={t('mat.votes')}
                     >
-                      {material.myVote === -1 ? (
-                        <BiSolidDownvote className="text-red-400" />
-                      ) : (
-                        <BiDownvote />
-                      )}
-                    </button>
-                  </div>
+                      <button
+                        type="button"
+                        className={iconBtn}
+                        disabled={!userInfo}
+                        onClick={() => castVote(material, 1)}
+                        aria-pressed={material.myVote === 1}
+                        aria-label={t('mat.helpful')}
+                        title={
+                          userInfo ? t('mat.helpful') : t('mat.signInToVote')
+                        }
+                      >
+                        {material.myVote === 1 ? (
+                          <BiSolidUpvote className="text-green-400" />
+                        ) : (
+                          <BiUpvote />
+                        )}
+                      </button>
+                      <span className="min-w-5 text-center text-xs tabular-nums text-white/80">
+                        {material.score ?? 0}
+                      </span>
+                      <button
+                        type="button"
+                        className={iconBtn}
+                        disabled={!userInfo}
+                        onClick={() => castVote(material, -1)}
+                        aria-pressed={material.myVote === -1}
+                        aria-label={t('mat.notHelpful')}
+                        title={
+                          userInfo ? t('mat.notHelpful') : t('mat.signInToVote')
+                        }
+                      >
+                        {material.myVote === -1 ? (
+                          <BiSolidDownvote className="text-red-400" />
+                        ) : (
+                          <BiDownvote />
+                        )}
+                      </button>
+                    </div>
+                  )}
                   {href ? (
                     <a
                       href={href}

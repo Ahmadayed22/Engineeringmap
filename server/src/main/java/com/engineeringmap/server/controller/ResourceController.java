@@ -36,8 +36,10 @@ public class ResourceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResouceResponseDto> getResourceById(@PathVariable Long id) {
-        ResouceResponseDto res = resourceService.getResourceById(id);
+    public ResponseEntity<ResouceResponseDto> getResourceById(@PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ResouceResponseDto res = resourceService.getResourceById(id,
+                userDetails == null ? null : userDetails.getId(), StudyPlanController.isAdmin(userDetails));
         return ResponseEntity.ok(res);
     }
 

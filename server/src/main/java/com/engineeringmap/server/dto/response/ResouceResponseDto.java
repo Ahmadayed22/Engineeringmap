@@ -14,6 +14,8 @@ public record ResouceResponseDto(
     /** Sum of up (+1) and down (-1) votes. */
     long score,
     /** The caller's own vote (-1, 0 or 1); 0 when signed out. */
-    int myVote
+    int myVote,
+    /** False while it waits for an admin; only its author and admins ever get such a row. */
+    boolean approved
 ) {
 }

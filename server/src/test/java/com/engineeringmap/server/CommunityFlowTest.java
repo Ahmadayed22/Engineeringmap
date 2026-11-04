@@ -99,6 +99,28 @@ class CommunityFlowTest {
                 .content("{\"name\":\"Summary\",\"summaries\":\"https://example.com/s\",\"courseId\":7}"))
                 .get("id").asLong();
 
+        // A student's material waits for an admin: only its author sees it, nobody can vote on it.
+        assertThat(body(get("/api/resource/course/7")).size()).isZero();
+        assertThat(body(auth(get("/api/resource/course/7"), lina)).size()).isZero();
+        assertThat(body(auth(get("/api/resource/course/7"), sam)).get(0).get("approved").asBoolean()).isFalse();
+        mvc.perform(get("/api/resource/" + resourceId)).andExpect(status().isNotFound());
+        mvc.perform(auth(post("/api/resource/" + resourceId + "/vote"), lina).content("{\"value\":1}"))
+                .andExpect(status().isNotFound());
+        String nora = signUpAndLogin("nora");
+        mvc.perform(auth(post("/api/admin/materials/" + resourceId + "/approve"), nora))
+                .andExpect(status().isForbidden());
+        var noraUser = userRepo.findByUsername("nora").orElseThrow();
+        noraUser.setRoles(Set.of(roleRepo.findByName(RoleType.USER).orElseThrow(),
+                roleRepo.findByName(RoleType.ADMIN).orElseThrow()));
+        userRepo.save(noraUser);
+        JsonNode pendingMaterials = body(auth(get("/api/admin/materials/pending"), nora));
+        assertThat(pendingMaterials.get(0).get("category").asText()).isEqualTo("summaries");
+        assertThat(pendingMaterials.get(0).get("uploader").asText()).isEqualTo("sam");
+        body(auth(post("/api/admin/materials/" + resourceId + "/approve"), nora));
+        assertThat(body(get("/api/resource/course/7")).get(0).get("approved").asBoolean()).isTrue();
+        assertThat(body(auth(get("/api/notifications"), sam)).get(0).get("type").asText())
+                .isEqualTo("MATERIAL_APPROVED");
+
         assertThat(body(auth(post("/api/resource/" + resourceId + "/vote"), lina).content("{\"value\":1}"))
                 .get("score").asLong()).isEqualTo(1);
         assertThat(body(auth(post("/api/resource/" + resourceId + "/vote"), sam).content("{\"value\":1}"))

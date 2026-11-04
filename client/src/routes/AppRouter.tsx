@@ -20,6 +20,7 @@ const Planner = lazy(() => import('@pages/Planner/Planner'));
 const ShareProgress = lazy(() => import('@pages/Share/ShareProgress'));
 const SharedProgress = lazy(() => import('@pages/Share/SharedProgress'));
 const Admin = lazy(() => import('@pages/Admin/Admin'));
+const MyExams = lazy(() => import('@pages/Exams/MyExams'));
 import RequireAuth from '@components/common/RequireAuth/RequireAuth';
 import Error from '@pages/Error/Error';
 import { PageLoader } from '@components/feedbaks';
@@ -74,7 +75,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'schedule',
-        element: <Sehedule />,
+        element: (
+          <RequireAuth>
+            <Sehedule />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'exams',
+        element: (
+          <RequireAuth>
+            <MyExams />
+          </RequireAuth>
+        ),
       },
       {
         path: 'dremail',

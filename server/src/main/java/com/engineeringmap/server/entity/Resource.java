@@ -39,7 +39,19 @@ public class Resource {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /** Students' materials wait for an admin; until then only the student and admins see them. */
+    @Column(nullable = false)
+    private boolean approved = true;
+
     public Resource() {
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public Resource(Long id, String books, String summaries, String slides, String labs, String exams, String videos, Course course, User user) {

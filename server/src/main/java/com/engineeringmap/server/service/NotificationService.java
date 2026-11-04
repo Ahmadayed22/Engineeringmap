@@ -37,6 +37,20 @@ public class NotificationService {
         notificationRepo.save(n);
     }
 
+    /**
+     * A notification whose wording the client picks from {@code type}; {@code subject} is the
+     * name it fills in (a material, an exam, ...). See Notification for the types.
+     */
+    public void notify(User recipient, String type, String subject, Long courseId) {
+        Notification n = new Notification();
+        n.setRecipient(recipient);
+        n.setType(type);
+        String text = subject == null || subject.isBlank() ? "-" : subject.strip();
+        n.setMessage(text.length() > 300 ? text.substring(0, 300) : text);
+        n.setCourseId(courseId);
+        notificationRepo.save(n);
+    }
+
     @Transactional(readOnly = true)
     public List<NotificationResponse> latest(Long userId) {
         return notificationRepo.findByRecipientIdOrderByCreatedAtDesc(userId, PageRequest.of(0, PAGE_SIZE))

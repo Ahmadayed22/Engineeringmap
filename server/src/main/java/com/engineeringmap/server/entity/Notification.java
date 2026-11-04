@@ -19,6 +19,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Notification {
     public static final String COMMENT_REPLY = "COMMENT_REPLY";
+    // For the types below the message is only the name of the thing; the client words it.
+    public static final String MATERIAL_APPROVED = "MATERIAL_APPROVED";
+    public static final String MATERIAL_REJECTED = "MATERIAL_REJECTED";
+    public static final String EXAM_APPROVED = "EXAM_APPROVED";
+    public static final String EXAM_REJECTED = "EXAM_REJECTED";
+    /** An exam on the student's countdown is 3 days away. */
+    public static final String EXAM_SOON = "EXAM_SOON";
+    /** An exam on the student's countdown is within a day. */
+    public static final String EXAM_TOMORROW = "EXAM_TOMORROW";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
