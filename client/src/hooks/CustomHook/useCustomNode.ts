@@ -1,7 +1,9 @@
 import CustomNodeProps from '@customTypes/CustomeNode';
 import { useCallback } from 'react';
+import { useI18n } from '@i18n/context';
 
 const useCustomNode = ({ data, id }: CustomNodeProps) => {
+  const { t } = useI18n();
   const handleClose = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -32,30 +34,38 @@ const useCustomNode = ({ data, id }: CustomNodeProps) => {
   }, [data.isClosing, data.isStrikethrough]);
 
   const getAriaLabel = useCallback(() => {
-    return `Node: ${data.label}`;
-  }, [data.label]);
+    const name = String(data.label).trim();
+    if (data.status === 'available') return t('node.available', { name });
+    if (data.status === 'locked' && data.missingNames)
+      return t('node.locked', { name, names: data.missingNames });
+    return t('node.course', { name });
+  }, [data.label, data.status, data.missingNames, t]);
 
-  const getCloseButtonAriaLabel = useCallback(() => {
-    return data.isStrikethrough
-      ? `Really close ${data.label}`
-      : `Close ${data.label}`;
-  }, [data.isStrikethrough, data.label]);
+  const getStatusTitle = useCallback(() => {
+    if (data.status === 'available') return t('node.titleAvailable');
+    if (data.status === 'locked' && data.missingNames)
+      return t('node.titleNeeds', { names: data.missingNames });
+    return undefined;
+  }, [data.status, data.missingNames, t]);
 
-  const getCloseButtonTitle = useCallback(() => {
-    return data.isStrikethrough
-      ? 'Click to remove strikethrough'
-      : 'Click to add strikethrough';
-  }, [data.isStrikethrough]);
+  const getCloseButtonAriaLabel = useCallback(
+    () => t('node.toggleDone', { name: String(data.label).trim() }),
+    [data.label, t]
+  );
 
-  const getMarkAriaLabel = useCallback(() => {
-    return data.mark ? `Mark: ${data.mark}` : '';
-  }, [data.mark]);
+  const getCloseButtonTitle = useCallback(() => t('node.toggleTitle'), [t]);
+
+  const getMarkAriaLabel = useCallback(
+    () => (data.mark ? t('node.grade', { g: data.mark }) : ''),
+    [data.mark, t]
+  );
 
   return {
     handleClose,
     handleKeyDown,
     getClassName,
     getAriaLabel,
+    getStatusTitle,
     getCloseButtonAriaLabel,
     getCloseButtonTitle,
     getMarkAriaLabel,

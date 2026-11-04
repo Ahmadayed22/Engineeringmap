@@ -14,6 +14,12 @@ const DrEmail = lazy(() => import('@pages/DrEmail/DrEmail'));
 const About = lazy(() => import('@pages/about/About'));
 const CpeFlow = lazy(() => import('@pages/computerEngineering/CpeFlow'));
 const EeFlow = lazy(() => import('@pages/electricalEngineering/EeFlow'));
+const CourseRedirect = lazy(() => import('@features/community/CourseRedirect'));
+const Planner = lazy(() => import('@pages/Planner/Planner'));
+const ShareProgress = lazy(() => import('@pages/Share/ShareProgress'));
+const SharedProgress = lazy(() => import('@pages/Share/SharedProgress'));
+const Admin = lazy(() => import('@pages/Admin/Admin'));
+import RequireAuth from '@components/common/RequireAuth/RequireAuth';
 import Error from '@pages/Error/Error';
 import { PageLoader } from '@components/feedbaks';
 import { scheduleToken } from '@util/scheduleToken';
@@ -74,6 +80,38 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
+        path: 'course/:id',
+        element: <CourseRedirect />,
+      },
+      {
+        path: 'planner',
+        element: (
+          <RequireAuth>
+            <Planner />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'share',
+        element: (
+          <RequireAuth>
+            <ShareProgress />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'progress/:token',
+        element: <SharedProgress />,
+      },
+      {
+        path: 'admin',
+        element: (
+          <RequireAuth role="ADMIN">
+            <Admin />
+          </RequireAuth>
+        ),
+      },
+      {
         path: '*',
         element: <Error />,
       },
@@ -91,7 +129,7 @@ const AppRouter = () => {
     }
   }, [accessToken, dispatch]);
   return (
-    <Suspense fallback={<PageLoader message="Loading, please wait…" />}>
+    <Suspense fallback={<PageLoader />}>
       <QueryClientProvider client={queryClient}>
         <div className="bg-[#F0F2F5] fixed inset-0 -z-10"></div>
         <RouterProvider router={router} />

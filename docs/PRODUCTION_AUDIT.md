@@ -150,3 +150,38 @@ docker run -d --name engmap-test-db -e POSTGRES_PASSWORD=localtestpw -e POSTGRES
 ```
 
 Remove it with `docker rm -f engmap-test-db`.
+
+## 8. Second pass: new features (2026-11-04)
+
+Built from the feature suggestions in section 5.
+
+| Feature | Where | Notes |
+|---|---|---|
+| **What can I take next** | Map | Green outline + dot = all prerequisites done; dimmed = locked, hover shows what's missing. Dashed edges are co-requisites ("take together"). A course drawn twice in the map means its copy's parent is an extra requirement for what hangs below it (see `features/progress/prerequisites.ts`). |
+| **Progress panel + automatic GPA** | Map | Completed courses and credit hours, GPA weighted by credit hours from saved grades, clickable list of courses you can take now. Collapses on phones. |
+| **Course search** | Map | Arabic-aware (ignores أ/إ/ا, ة/ه, ى/ي, diacritics); keyboard friendly. |
+| **Course requirements + ratings** | Course drawer | Prerequisites marked done/missing; community difficulty and workload ratings (1–5). |
+| **What-if GPA** | GPA page | "Use my saved grades" fills the current average; the semester rows become a what-if; result and change shown on the page. |
+| **Semester planner** | `/planner` | Up to 12 semesters, per plan, auto-saved. Warns about prerequisites not completed or planned earlier, missing co-requisites and semesters over 18 hours. |
+| **Material votes + reports** | Materials tab | Up/down votes (best first), report with a reason. |
+| **Moderation** | `/admin` (ADMIN) | Open reports (dismiss / delete material) and faculty email directory management. |
+| **Comment replies + notifications** | Drawer, header bell | One-level threads; the author of the original comment is notified; the bell checks every minute and opens the course. |
+| **Share progress** | `/share`, `/progress/:token` | Opt-in, revocable link; shows username and completed courses only. |
+| **Offline / installable** | Whole app | Service worker caches the app (study plans work offline); API calls are never cached. |
+
+**Fixes found along the way**
+- Material links accepted `javascript:` URLs (stored XSS). The API now requires http(s); the client also refuses to render other schemes.
+- A network error or server cold start while refreshing the token signed the user out. Now only a rejected refresh token signs out; network errors retry.
+- Refreshing or sharing a deep link such as `/progress/…` or `/course/23` returned a server 404; the SPA fallback now covers nested paths.
+- The map was taller than the screen, hiding its bottom controls on phones.
+
+**Database:** six new tables (`resource_votes`, `resource_reports`, `course_ratings`, `notifications`, `planned_courses`, `share_links`) and one nullable column (`comments.parent_id`). With the current `ddl-auto=update` they are created automatically on deploy; verified against PostgreSQL 16.
+
+**Tests:** server 12 (security rules, full HTTP flows for replies/notifications, votes/reports/admin, ratings/planner/sharing, and XSS link rejection); client 22 (prerequisites on both real plans, GPA, search, planner, session handling). `npm test` runs the client tests.
+
+**Arabic / English interface**
+- Arabic is the default (right-to-left); a header button switches to English, and the choice is remembered per browser. Layout mirrors in RTL (drawer, panels, arrows, map controls).
+- All interface text lives in `client/src/i18n/strings.ts`, typed so a missing translation fails the type check; a test also checks both languages use the same placeholders. Known API messages are translated in `client/src/i18n/serverMessages.ts`.
+- Course names, user content and faculty-email data aren't translated. Flowbite's hidden "Open main menu" label on the mobile menu button stays English (it isn't configurable).
+
+**Decided not to build now:** password reset by email (needs an email service; skipped for now).

@@ -1,10 +1,14 @@
 import { isAxiosError } from 'axios';
+import { translateServerMessage } from '../i18n/serverMessages';
 
 /**
  * Turns any thrown value into a message that is safe to show to the user.
  * The API answers errors as {"message": "..."}; older endpoints sent plain strings.
  */
-const AxiosErrorHandler = (error: unknown): string => {
+const AxiosErrorHandler = (error: unknown): string =>
+  translateServerMessage(describe(error));
+
+const describe = (error: unknown): string => {
   if (!isAxiosError(error)) return 'An unexpected error occurred.';
 
   const data = error.response?.data as unknown;

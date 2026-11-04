@@ -1,6 +1,7 @@
 import useCommentForm from '@hooks/ReactQueryHook/comment/useCommentForm';
 import { Button, Spinner, Textarea } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import { useI18n } from '@i18n/context';
 
 interface CommentFormProps {
   courseId: number | unknown | null;
@@ -17,15 +18,16 @@ const CommentForm = ({ courseId }: CommentFormProps) => {
     accessToken,
     isSubmitting,
   } = useCommentForm({ courseId });
+  const { t } = useI18n();
 
   if (!accessToken) {
     return (
       <div className="w-full border-t border-neutral-800 p-4 text-center">
         <p className="mb-3 text-sm text-neutral-400">
-          Sign in to join the discussion about this course.
+          {t('comments.signInPrompt')}
         </p>
         <Button as={Link} to="/login" className="w-full cursor-pointer">
-          Sign in to comment
+          {t('comments.signInBtn')}
         </Button>
       </div>
     );
@@ -38,23 +40,23 @@ const CommentForm = ({ courseId }: CommentFormProps) => {
       noValidate
     >
       <label htmlFor="comment" className="sr-only">
-        Your comment
+        {t('comments.label')}
       </label>
       <Textarea
         id="comment"
         dir="auto"
-        placeholder="Share a tip, question or experience…"
+        placeholder={t('comments.placeholder')}
         rows={2}
         maxLength={MAX_LENGTH}
         aria-invalid={!!errors.comment}
         aria-describedby={errors.comment ? 'comment-error' : undefined}
         {...register('comment', {
-          required: 'Comment is required',
+          required: t('comments.required'),
           validate: (value) =>
-            value.trim().length >= 2 || 'Comment must be at least 2 characters',
+            value.trim().length >= 2 || t('comments.tooShort'),
           maxLength: {
             value: MAX_LENGTH,
-            message: `Comment cannot exceed ${MAX_LENGTH} characters`,
+            message: t('comments.tooLong', { n: MAX_LENGTH }),
           },
         })}
       />
@@ -75,10 +77,10 @@ const CommentForm = ({ courseId }: CommentFormProps) => {
         {isSubmitting ? (
           <>
             <Spinner size="sm" className="me-2" aria-hidden="true" />
-            Posting…
+            {t('comments.posting')}
           </>
         ) : (
-          'Post comment'
+          t('comments.post')
         )}
       </Button>
     </form>

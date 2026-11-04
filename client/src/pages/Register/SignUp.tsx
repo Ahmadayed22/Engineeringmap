@@ -5,6 +5,7 @@ import { resetUI } from '@store/auth/authSlice';
 import { Alert, Button, Spinner } from 'flowbite-react';
 import { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { useI18n } from '../../i18n/context';
 
 const SignUp = () => {
   const {
@@ -17,6 +18,7 @@ const SignUp = () => {
     error,
     accessToken,
   } = useSiginUp();
+  const { t, tMaybe } = useI18n();
 
   useEffect(() => {
     dispatch(resetUI());
@@ -29,16 +31,16 @@ const SignUp = () => {
 
   return (
     <AuthCard
-      title="Create your account"
-      subtitle="Save your progress on the study plan and join course discussions."
+      title={t('auth.signupTitle')}
+      subtitle={t('auth.signupSubtitle')}
       footer={
         <>
-          Already have an account?{' '}
+          {t('auth.haveAccount')}{' '}
           <Link
             to="/login"
             className="font-medium text-blue-400 hover:underline"
           >
-            Sign in
+            {t('common.signIn')}
           </Link>
         </>
       }
@@ -50,15 +52,15 @@ const SignUp = () => {
       >
         <InputForm
           register={register}
-          label="Username"
+          label={t('auth.username')}
           name="username"
           autoComplete="username"
-          placeholder="e.g. ahmad22"
+          placeholder={t('auth.usernamePh')}
           error={errors.username?.message}
         />
         <InputForm
           register={register}
-          label="Email"
+          label={t('auth.email')}
           name="email"
           type="email"
           autoComplete="email"
@@ -67,20 +69,20 @@ const SignUp = () => {
         />
         <InputForm
           register={register}
-          label="Password"
+          label={t('auth.password')}
           name="password"
           type="password"
           autoComplete="new-password"
-          placeholder="At least 6 characters"
+          placeholder={t('auth.passwordPh')}
           error={errors.password?.message}
         />
         <InputForm
           register={register}
-          label="Confirm password"
+          label={t('auth.confirmPassword')}
           name="confirmPassword"
           type="password"
           autoComplete="new-password"
-          placeholder="Repeat your password"
+          placeholder={t('auth.confirmPh')}
           error={errors.confirmPassword?.message}
         />
 
@@ -92,15 +94,15 @@ const SignUp = () => {
           {isPending ? (
             <>
               <Spinner size="sm" className="me-2" aria-hidden="true" />
-              Creating account…
+              {t('auth.creating')}
             </>
           ) : (
-            'Create account'
+            t('auth.createBtn')
           )}
         </Button>
         {error && (
           <Alert color="failure" role="alert" className="text-center">
-            {error}
+            {tMaybe(error)}
           </Alert>
         )}
       </form>

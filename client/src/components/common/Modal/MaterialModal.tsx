@@ -1,6 +1,7 @@
 import { Button, Modal, ModalBody, ModalHeader } from 'flowbite-react';
 import InputForm from '../InputForm/InputForm';
 import useMaterial from '@hooks/CustomHook/useMaterial';
+import { useI18n } from '@i18n/context';
 
 export type MaterialModalProps = {
   openModal?: boolean;
@@ -8,9 +9,17 @@ export type MaterialModalProps = {
   item?: { label: string; key: string };
 };
 
+/** Add a link (book, summary, slides, ...) to the course's materials. */
 function MaterialModal({ openModal, setOpenModal, item }: MaterialModalProps) {
   const { register, handleSubmit, errors, submitMaterial, onCloseModal } =
-    useMaterial({ setOpenModal });
+    useMaterial({
+      setOpenModal,
+    });
+  const { t } = useI18n();
+  const key = item?.key ?? '';
+  const urlError =
+    errors[key as keyof typeof errors]?.message ??
+    (errors as Record<string, { message?: string } | undefined>)._url?.message;
 
   return (
     <Modal
@@ -18,81 +27,44 @@ function MaterialModal({ openModal, setOpenModal, item }: MaterialModalProps) {
       size="md"
       onClose={onCloseModal}
       popup
-      className="z-150 "
+      className="z-150"
     >
-      <ModalHeader className="p-6 !bg-[#171717]">Add Material</ModalHeader>
+      <ModalHeader className="!bg-[#171717] p-6">
+        {t('mat.modalTitle')}
+        {item?.label ? ` · ${item.label}` : ''}
+      </ModalHeader>
       <ModalBody className="!bg-[#171717]">
-        <form className="space-y-6" onSubmit={handleSubmit(submitMaterial)}>
+        <form
+          className="space-y-6"
+          onSubmit={handleSubmit(submitMaterial)}
+          noValidate
+        >
           <InputForm
-            label={`  Name of ${item?.key ? item?.key.charAt(0).toUpperCase() + item.key.slice(1) : ''} `}
-            id="name"
+            label={t('mat.nameLabel')}
             name="name"
             register={register}
-            placeholder={`Enter ${item?.key} name`}
+            placeholder={t('mat.namePh')}
             error={errors.name?.message}
           />
           <InputForm
-            label={` ${item?.key ? item?.key.charAt(0).toUpperCase() + item.key.slice(1) : ''} URL Link `}
-            id={item?.key || ''}
-            name={item?.key || ''}
+            label={t('mat.urlLabel')}
+            id={`material-${key}`}
+            name={key}
+            type="url"
             register={register}
-            placeholder={`Enter ${item?.key} URL Link`}
-            error={
-              // show either the specific error or the general refine error
-              errors[item?.key as keyof typeof errors]?.message
-            }
+            placeholder={t('mat.urlPh')}
+            error={urlError}
           />
-          /*{' '}
-          {/* <InputForm
-            label="Summaries"
-            id="summaries"
-            name="summaries"
-            register={register}
-            placeholder="summaries URL Link"
-            error={errors.summaries?.message}
-          />
-          <InputForm
-            label="Slides"
-            id="slides"
-            name="slides"
-            register={register}
-            placeholder="slides URL Link"
-            error={errors.slides?.message}
-          />
-          <InputForm
-            label="Labs"
-            id="labs"
-            name="labs"
-            register={register}
-            placeholder="labs URL Link"
-            error={errors.labs?.message}
-          />
-          <InputForm
-            label="Exams"
-            id="exams"
-            name="exams"
-            register={register}
-            placeholder="exams URL Link"
-            error={errors.exams?.message}
-          />
-          <InputForm
-            label="Videos"
-            id="videos"
-            name="videos"
-            register={register}
-            placeholder="videos URL Link"
-            error={errors.videos?.message}
-          /> */}
-          <div className="flex gap-2  justify-end">
+          <div className="flex justify-end gap-2">
             <Button
               className="cursor-pointer"
               color="gray"
               onClick={onCloseModal}
             >
-              Close
+              {t('common.cancel')}
             </Button>
             <Button className="cursor-pointer" type="submit">
-              ADD
+              {t('common.add')}
             </Button>
           </div>
         </form>

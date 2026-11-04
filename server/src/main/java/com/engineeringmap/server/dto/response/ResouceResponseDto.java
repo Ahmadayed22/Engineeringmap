@@ -1,6 +1,6 @@
 package com.engineeringmap.server.dto.response;
 
-public record ResouceResponseDto(  
+public record ResouceResponseDto(
     Long id,
     String books,
     String summaries,
@@ -10,7 +10,10 @@ public record ResouceResponseDto(
     String videos,
     Long courseId,
     Long userId,
-    String name
-       ) {
-    
+    String name,
+    /** Sum of up (+1) and down (-1) votes. */
+    long score,
+    /** The caller's own vote (-1, 0 or 1); 0 when signed out. */
+    int myVote
+) {
 }

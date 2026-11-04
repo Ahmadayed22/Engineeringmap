@@ -1,22 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { GRADE_POINTS, GRADES } from '@features/progress/gpa';
 
-const gradePoints: Record<string, number> = {
-  A: 4.0,
-  'A-': 3.75,
-  'B+': 3.5,
-  B: 3.0,
-  'B-': 2.75,
-  'C+': 2.5,
-  C: 2.0,
-  'C-': 1.75,
-  'D+': 1.5,
-  D: 1.25,
-  'D-': 1.0,
-  F: 0.5,
-};
-
-const grades = Object.keys(gradePoints);
+// One grade scale for the whole app (also used for the GPA computed from saved marks).
+const gradePoints = GRADE_POINTS;
+const grades = GRADES;
 
 interface Course {
   subject: string;

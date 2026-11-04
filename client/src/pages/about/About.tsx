@@ -1,6 +1,8 @@
 import { Link } from 'react-router';
+import { useI18n } from '@i18n/context';
 
 const About = () => {
+  const { t } = useI18n();
   return (
     <>
       {/* Import Google Fonts (one for Arabic, one for English) */}
@@ -24,7 +26,7 @@ const About = () => {
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
           <h2 className="text-2xl font-semibold mb-6 text-[#3F3F3F]">
-            Follow Me
+            {t('about.follow')}
           </h2>
           <ul className="flex flex-wrap justify-center gap-6 text-lg">
             <li className="hover:text-blue-600 transition-colors duration-300 text-[#3F3F3F]">
@@ -61,7 +63,8 @@ const About = () => {
           className="mt-10 text-gray-300 text-lg"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
-          Developed By <span className="font-semibold">Ahmad Ayed</span>
+          {t('about.developedBy')}{' '}
+          <span className="font-semibold">Ahmad Ayed</span>
         </p>
       </div>
     </>

@@ -44,4 +44,5 @@ public interface CommentRepo extends JpaRepository<Comment,Long>{
     List<Comment> findByUserIdAndCourseIdOrderByCreatedAtDesc(Long userId, Long courseId);
      @Query("SELECT c FROM Comment c JOIN FETCH c.user WHERE c.course.id = :courseId ORDER BY c.createdAt ASC")
     List<Comment> findByCourseIdWithUserOrderByCreatedAtAsc(Long courseId);
-} 
+    List<Comment> findByParentId(Long parentId);
+}

@@ -25,11 +25,14 @@ public class CommentService {
     private final CommentRepo commentRepository;
     private final CourseRepo courseRepository;
     private final UserRepo userRepository;
+    private final NotificationService notificationService;
 
-    public CommentService(CommentRepo commentRepository, CourseRepo courseRepository, UserRepo userRepository) {
+    public CommentService(CommentRepo commentRepository, CourseRepo courseRepository, UserRepo userRepository,
+            NotificationService notificationService) {
         this.commentRepository = commentRepository;
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     public List<CommentResponseDTO> getCommentsByCourseId(Long courseId) {
@@ -54,12 +57,38 @@ public class CommentService {
     }
 
     public CommentResponseDTO createComment(Long courseId, Long userId, String content) {
+        return createComment(courseId, userId, content, null);
+    }
+
+    /** Creates a comment, or a reply when {@code parentId} is set (and notifies the parent's author). */
+    public CommentResponseDTO createComment(Long courseId, Long userId, String content, Long parentId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found: " + courseId));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found: " + userId));
-        Comment comment = new Comment(content, course, user);
+
+        Comment parent = null;
+        if (parentId != null) {
+            parent = commentRepository.findById(parentId)
+                    .orElseThrow(() -> new IllegalArgumentException("The comment you replied to no longer exists"));
+            if (!parent.getCourse().getId().equals(courseId)) {
+                throw new IllegalArgumentException("Reply must be on the same course");
+            }
+            // Keep threads one level deep: replying to a reply attaches to its thread.
+            if (parent.getParentId() != null) {
+                parent = commentRepository.findById(parent.getParentId()).orElse(parent);
+            }
+        }
+
+        Comment comment = new Comment(content.trim(), course, user);
+        if (parent != null) {
+            comment.setParentId(parent.getId());
+        }
         Comment savedComment = commentRepository.save(comment);
+
+        if (parent != null && !parent.getUser().getId().equals(userId)) {
+            notificationService.notifyReply(parent.getUser(), user.getUsername(), courseId, savedComment.getId());
+        }
         return CommentMapper.toResponseDto(savedComment);
     }
 
@@ -90,6 +119,14 @@ public class CommentService {
             throw new AccessDeniedException("You can only delete your own comments");
         }
 
+        // Deleting a top-level comment removes its replies too.
+        List<Comment> replies = comment.getParentId() == null
+                ? commentRepository.findByParentId(comment.getId())
+                : List.of();
+        List<Long> ids = new java.util.ArrayList<>(replies.stream().map(Comment::getId).toList());
+        ids.add(comment.getId());
+        notificationService.deleteForComments(ids);
+        commentRepository.deleteAll(replies);
         commentRepository.delete(comment);
     }
 

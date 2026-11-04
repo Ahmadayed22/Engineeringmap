@@ -57,8 +57,8 @@
   font-size: 17px;
   cursor: pointer;
   position: absolute;
-  top:  0px;       
-  right: 0px;     
+  top: 0px;
+  right: 0px;
   z-index: 10;
   width: 24px;
   height: 24px;
@@ -118,16 +118,17 @@
   }
 }
 
-
 .mark-container {
   position: absolute;
-  top: 0px;     
-  left: 0px;      
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
-  transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+  transition:
+    opacity var(--transition-smooth),
+    transform var(--transition-smooth);
   opacity: 0;
   transform: scale(0.8);
 }
@@ -168,23 +169,23 @@
 }
 
 @keyframes origamiFold {
-  0% { 
+  0% {
     transform: rotateX(0deg) rotateY(0deg);
     filter: brightness(1);
   }
-  25% { 
+  25% {
     transform: rotateX(15deg) rotateY(-10deg);
     filter: brightness(0.9);
   }
-  50% { 
+  50% {
     transform: rotateX(-10deg) rotateY(15deg);
     filter: brightness(1.1);
   }
-  75% { 
+  75% {
     transform: rotateX(5deg) rotateY(-5deg);
     filter: brightness(0.95);
   }
-  100% { 
+  100% {
     transform: rotateX(0deg) rotateY(0deg);
     filter: brightness(1);
   }
@@ -201,7 +202,7 @@
   top: 50%;
   left: 0;
   height: 6px;
-  width: 0; 
+  width: 0;
   background: linear-gradient(90deg, red, red);
   transform: translateY(-50%);
   filter: drop-shadow(0 1px 2px rgba(139, 69, 19, 0.3));
@@ -211,8 +212,12 @@
 }
 
 @keyframes paperTear {
-  0% { width: 0; }
-  100% { width: 100%; }
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 @keyframes drawStrikethrough {
@@ -241,7 +246,7 @@
   background: linear-gradient(to bottom, #ef4444, #dc2626);
   border-radius: 2px;
   z-index: 15;
-  box-shadow: 
+  box-shadow:
     0 0 8px rgba(239, 68, 68, 0.6),
     0 0 16px rgba(239, 68, 68, 0.4);
 }
@@ -312,8 +317,8 @@
 
 /* Node selection effects */
 .react-flow__node.selected .custom-node {
-  box-shadow: 
-    0 0 0 3px rgba(59, 130, 246, 0.3), 
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.3),
     var(--node-shadow-hover);
   border-color: var(--node-primary);
 }
@@ -353,7 +358,7 @@
 }
 
 .custom-node:focus-within {
-  box-shadow: 
+  box-shadow:
     0 0 0 2px var(--node-primary),
     var(--node-shadow);
 }
@@ -390,8 +395,6 @@
   }
 } */
 
-
-
 /* Dark mode support */
 /* @media (prefers-color-scheme: dark) {
   :root {
@@ -421,3 +424,63 @@
     display: none !important;
   }
 } */
+
+/* ---------- "What can I take next" ----------
+   Classes are set on React Flow's node wrapper (.react-flow__node), which carries the
+   node's background color, so dimming and the glow apply to the whole node. */
+.react-flow__node.status-locked {
+  opacity: 0.38;
+  filter: saturate(0.35);
+  transition:
+    opacity var(--transition-smooth),
+    filter var(--transition-smooth);
+}
+.react-flow__node.status-locked:hover,
+.react-flow__node.status-locked:focus-within {
+  opacity: 0.85;
+  filter: none;
+}
+.react-flow__node.status-available {
+  outline: 3px solid #22c55e;
+  outline-offset: 3px;
+  box-shadow: 0 0 22px rgba(34, 197, 94, 0.55);
+}
+.react-flow__node.status-focused {
+  outline: 3px solid #facc15 !important;
+  outline-offset: 4px;
+}
+.status-dot {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  animation: status-pulse 2s infinite;
+}
+@keyframes status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot {
+    animation: none;
+  }
+  .react-flow__node.status-locked {
+    transition: none;
+  }
+}
+
+/* Shared (read-only) maps: no completion toggle */
+.readonly-map .close-btn {
+  display: none;
+}

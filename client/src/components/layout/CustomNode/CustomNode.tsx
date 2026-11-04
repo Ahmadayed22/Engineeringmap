@@ -11,6 +11,7 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
     handleKeyDown,
     getClassName,
     getAriaLabel,
+    getStatusTitle,
     getCloseButtonAriaLabel,
     getCloseButtonTitle,
     getMarkAriaLabel,
@@ -24,8 +25,12 @@ const CustomNode = memo(({ data, id }: CustomNodeProps) => {
       onKeyDown={handleKeyDown}
       role="button"
       aria-label={getAriaLabel()}
+      title={getStatusTitle()}
     >
       <span className="whitespace-normal">{data.label}</span>
+      {data.status === 'available' && (
+        <span className="status-dot" aria-hidden="true" />
+      )}
 
       <button
         className="close-btn"

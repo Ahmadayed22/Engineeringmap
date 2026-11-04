@@ -8,4 +8,9 @@ export type Material = {
   videos: string | null;
   courseId: number;
   userId: number;
+  name?: string | null;
+  /** Sum of votes; absent on old API responses. */
+  score?: number;
+  /** The viewer's own vote: -1, 0 or 1. */
+  myVote?: number;
 };

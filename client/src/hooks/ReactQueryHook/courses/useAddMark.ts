@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useI18n } from '@i18n/context';
 
 type FormData = {
   mark: string;
@@ -15,6 +16,7 @@ interface UseAddMarkProps {
 
 const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
   const queryClient = useQueryClient();
+  const { t } = useI18n();
 
   const form = useForm<FormData>({
     defaultValues: {
@@ -41,7 +43,7 @@ const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
         queryKey: ['oneMark', courseId],
       });
 
-      toast.success('Mark has been added successfully!');
+      toast.success(t('grade.added'));
       form.reset(); // Reset form after successful submission
 
       // Call custom success handler if provided
@@ -50,8 +52,8 @@ const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
     onError: (error) => {
       const errorMessage =
         error.message === 'Course ID is required'
-          ? 'Please select a valid course'
-          : 'Failed to add mark. Please try again.';
+          ? t('grade.noCourse')
+          : t('grade.failed');
 
       toast.error(errorMessage);
 
@@ -62,14 +64,14 @@ const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
 
   const handleSubmit = form.handleSubmit((data) => {
     if (!data.mark) {
-      toast.error('Please select a mark');
+      toast.error(t('grade.required'));
       return;
     }
     mutation.mutate(data);
   });
 
   const markOptions = [
-    { value: '', label: '-- Select a Mark --', disabled: true },
+    { value: '', label: t('grade.select'), disabled: true },
     { value: 'A', label: 'A' },
     { value: 'A-', label: 'A-' },
     { value: 'B+', label: 'B+' },
@@ -100,7 +102,7 @@ const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
 
     // Computed values
     isDisabled: mutation.isPending || !courseId,
-    buttonText: mutation.isPending ? 'Adding...' : 'Add Mark',
+    buttonText: mutation.isPending ? t('grade.adding') : t('grade.add'),
 
     // Data
     markOptions,
@@ -108,9 +110,8 @@ const useAddMark = ({ courseId, onSuccess, onError }: UseAddMarkProps) => {
     // Validation rules
     validationRules: {
       mark: {
-        required: 'Please select a mark',
-        validate: (value: string) =>
-          value !== '' || 'Please select a valid mark',
+        required: t('grade.required'),
+        validate: (value: string) => value !== '' || t('grade.required'),
       },
     },
   };

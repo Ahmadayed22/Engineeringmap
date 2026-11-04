@@ -6,10 +6,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { MaterialModalProps } from '@components/common/Modal/MaterialModal';
 import toast from 'react-hot-toast';
+import { useI18n } from '@i18n/context';
 
 const useMaterial = ({ setOpenModal }: MaterialModalProps) => {
   const { courseId } = useTreeFlowContext();
   const queryClient = useQueryClient();
+  const { t } = useI18n();
   const {
     register,
     handleSubmit,
@@ -36,10 +38,10 @@ const useMaterial = ({ setOpenModal }: MaterialModalProps) => {
       });
       setOpenModal(false);
       reset();
-      toast.success('Material added successfully');
+      toast.success(t('mat.added'));
     } catch (error) {
       console.error('Error submitting material:', error);
-      toast.error('Failed to add material');
+      toast.error(t('mat.addFailed'));
       throw error;
     }
   };

@@ -18,6 +18,7 @@ public class CommentMapper {
             comment.getCourse().getId(),
             comment.getUser().getId(),
             comment.getUser().getUsername(),
+            comment.getParentId(),
             comment.getCreatedAt(),
             comment.getUpdatedAt()
         );

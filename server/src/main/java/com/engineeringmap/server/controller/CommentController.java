@@ -72,7 +72,8 @@ public class CommentController {
             CommentResponseDTO comment = commentService.createComment(
                     request.courseId(),
                     userId,
-                    request.content());
+                    request.content(),
+                    request.parentId());
             return ResponseEntity.status(HttpStatus.CREATED).body(comment);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));

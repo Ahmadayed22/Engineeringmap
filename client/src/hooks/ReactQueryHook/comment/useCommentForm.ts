@@ -12,13 +12,18 @@ interface CommentInput {
 interface CreateCommentProps {
   content: string;
   courseId: number | unknown | null;
+  parentId?: number;
 }
 
 interface CommentFormProps {
   courseId: number | unknown | null;
+  /** When set, the form posts a reply to this comment. */
+  parentId?: number;
+  /** Called after a successful post (e.g. to close an inline reply box). */
+  onPosted?: () => void;
 }
 
-const useCommentForm = ({ courseId }: CommentFormProps) => {
+const useCommentForm = ({ courseId, parentId, onPosted }: CommentFormProps) => {
   const queryClient = useQueryClient();
   const { accessToken } = useAuth();
 
@@ -33,10 +38,15 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
     },
   });
 
-  const createComment = async ({ content, courseId }: CreateCommentProps) => {
+  const createComment = async ({
+    content,
+    courseId,
+    parentId,
+  }: CreateCommentProps) => {
     const res = await axios.post('/api/comments', {
       courseId,
       content,
+      parentId,
     });
 
     return res.data;
@@ -53,6 +63,7 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
         queryKey: ['commentsCount', courseId],
       });
       reset();
+      onPosted?.();
     },
     onError: (error) => {
       toast.error(AxiosErrorHandler(error) || 'Could not post your comment.');
@@ -65,6 +76,7 @@ const useCommentForm = ({ courseId }: CommentFormProps) => {
     mutation.mutate({
       content: data.comment.trim(),
       courseId,
+      parentId,
     });
   };
 

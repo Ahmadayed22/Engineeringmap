@@ -14,6 +14,17 @@ import {
 import { useTreeFlowContext } from '@context/TreeFlowContext';
 import useCompletedCoursesWithQuery from '@hooks/ReactQueryHook/courses/useCompletedCoursesWithQuery';
 import useGetAllMark from '@hooks/ReactQueryHook/courses/useGetAllMark';
+import { useAuth } from '@hooks/CustomHook/useAuth';
+import { useCourseProgress } from '@features/progress/useCourseProgress';
+
+const HIGHLIGHT_KEY = 'engmap.highlightAvailable';
+const readHighlightPref = () => {
+  try {
+    return localStorage.getItem(HIGHLIGHT_KEY) !== 'off';
+  } catch {
+    return true;
+  }
+};
 
 const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
   const [baseNodes, setBaseNodes] = useState<Node[]>(initialNodes);
@@ -22,6 +33,16 @@ const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
     useTreeFlowContext();
 
   const { allMarks, isLoading: marksLoading } = useGetAllMark();
+  const { isAuthenticated } = useAuth();
+  const [highlight, setHighlightState] = useState(readHighlightPref);
+  const setHighlight = useCallback((on: boolean) => {
+    setHighlightState(on);
+    try {
+      localStorage.setItem(HIGHLIGHT_KEY, on ? 'on' : 'off');
+    } catch {
+      // storage unavailable (private mode); the toggle still works for this visit
+    }
+  }, []);
 
   // React Query integration for completed courses
   const {
@@ -50,28 +71,53 @@ const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
     [baseNodes, toggleCourseCompletion, isMutating]
   );
 
-  // Enrich nodes with completion state and marks
+  // Requirements come from the static plan, so layout changes never alter them.
+  const progress = useCourseProgress(
+    initialNodes,
+    initialEdges,
+    completedCourses,
+    allMarks
+  );
+  const showStatus = isAuthenticated && highlight;
+
+  // Enrich nodes with completion state, marks and "can I take it" status
   const customNodes = useMemo(() => {
     return baseNodes.map((node) => {
       if (node.type === 'custom' && node.data.courseId) {
         const isCompleted = completedCourses.has(Number(node.data.courseId));
         const courseId = Number(node.data.courseId);
         const mark = allMarks[courseId];
+        const state = progress.states.get(courseId);
+        const missingNames = (state?.missing ?? [])
+          .map((id) => progress.graph.courses.get(id)?.name)
+          .filter(Boolean)
+          .join('، ');
 
         return {
           ...node,
+          className: showStatus && state ? `status-${state.status}` : undefined,
           data: {
             ...node.data,
             isStrikethrough: isCompleted,
             onClose: handleNodeClose,
             isUpdating: isMutating,
             mark,
+            status: showStatus ? state?.status : undefined,
+            missingNames: showStatus ? missingNames : undefined,
           },
         };
       }
       return node;
     });
-  }, [baseNodes, completedCourses, handleNodeClose, isMutating, allMarks]);
+  }, [
+    baseNodes,
+    completedCourses,
+    handleNodeClose,
+    isMutating,
+    allMarks,
+    progress,
+    showStatus,
+  ]);
 
   // Standard React Flow handlers
   const onNodesChange: OnNodesChange = useCallback(
@@ -132,6 +178,11 @@ const useTreeFlow = (initialNodes: Node[] = [], initialEdges: Edge[] = []) => {
     completedCoursesCount: completedCourses.size,
     totalNodes: baseNodes.length,
     completedCourseIds: Array.from(completedCourses),
+    // "What can I take next" + progress summary
+    progress,
+    isSignedIn: isAuthenticated,
+    highlight,
+    setHighlight,
   };
 };
 

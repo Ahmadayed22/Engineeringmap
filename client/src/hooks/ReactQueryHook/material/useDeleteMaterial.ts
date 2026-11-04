@@ -4,10 +4,12 @@ import { useTreeFlowContext } from '@context/TreeFlowContext';
 import toast from 'react-hot-toast';
 import { useGetMaterial } from '@hooks/index';
 import { useAppSelector } from '@store/reduxHooks';
+import { useI18n } from '@i18n/context';
 
 const useDeleteMaterial = () => {
   const { courseId } = useTreeFlowContext();
   const queryClient = useQueryClient();
+  const { t } = useI18n();
   const { data, isLoading, isError } = useGetMaterial();
   const { userInfo } = useAppSelector((state) => state.auth);
 
@@ -16,16 +18,16 @@ const useDeleteMaterial = () => {
       axios.delete(`/api/resource/${materialId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['resource', courseId] });
-      toast.success('Material deleted successfully');
+      toast.success(t('mat.deleted'));
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       const message =
         error.response?.status === 403
-          ? 'You are not authorized to delete this material'
+          ? t('mat.deleteForbidden')
           : error.response?.status === 404
-            ? 'Material not found'
-            : 'Failed to delete material';
+            ? t('mat.notFound')
+            : t('mat.deleteFailed');
       toast.error(message);
     },
   });

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { DrEmail } from '@customTypes/DrEmail';
 import useDrEmail from '@hooks/CustomHook/useDrEmail';
+import { useI18n } from '@i18n/context';
 
 const DrEmailTable = () => {
   const {
@@ -14,6 +15,7 @@ const DrEmailTable = () => {
     department,
     setDepartment,
   } = useDrEmail();
+  const { t, dir } = useI18n();
 
   // Use useCallback to prevent function recreation on each render
   const handleSearchChange = useCallback(
@@ -40,30 +42,34 @@ const DrEmailTable = () => {
   }, [setPage, data?.totalPages]);
 
   if (isLoading)
-    return <div className="text-center py-6 text-white">Loading...</div>;
+    return (
+      <div className="text-center py-6 text-white">{t('common.loading')}</div>
+    );
   if (error)
     return (
-      <div className="text-center text-red-400 py-6">Error loading data</div>
+      <div className="text-center text-red-400 py-6">{t('dr.loadError')}</div>
     );
 
   if (!data) {
-    return <div className="text-center py-6 text-white">No data available</div>;
+    return <div className="text-center py-6 text-white">{t('dr.empty')}</div>;
   }
 
   const { content = [], totalPages = 0, number = 0 } = data;
 
   const departments = [
-    { value: '', label: 'جميع الأقسام' },
-    { value: 'هندسة الحاسوب', label: 'هندسة الحاسوب' },
-    { value: 'هندسة الكهرباء', label: 'هندسة الكهرباء' },
+    // Values are stored in Arabic in the database; only the labels are translated.
+    { value: '', label: t('dr.allDepartments') },
+    { value: 'هندسة الحاسوب', label: t('plan.cpe') },
+    { value: 'هندسة الكهرباء', label: t('plan.ee') },
   ];
 
   return (
     <div className="custom-bg p-6 min-h-screen">
-      <div className="w-xs md:w-xl ml-auto flex flex-row items-center justify-between gap-4 mb-6 bg-[#1F2937] p-4 rounded-2xl shadow-lg">
+      <div className="w-xs md:w-xl flex flex-row items-center justify-between gap-4 mb-6 bg-[#1F2937] p-4 rounded-2xl shadow-lg">
         <input
           type="text"
-          placeholder="🔍 ابحث بالاسم أو البريد"
+          placeholder={t('dr.searchPh')}
+          aria-label={t('admin.search')}
           value={search}
           onChange={handleSearchChange}
           className="w-full md:w-1/2 border border-gray-600 bg-gray-800 text-gray-200 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none placeholder-gray-400"
@@ -91,9 +97,9 @@ const DrEmailTable = () => {
         <table className="w-full border-collapse text-center">
           <thead className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
             <tr>
-              <th className="p-3 font-semibold">القسم</th>
-              <th className="p-3 font-semibold">البريد الإلكتروني</th>
-              <th className="p-3 font-semibold">الاسم</th>
+              <th className="p-3 font-semibold">{t('dr.colName')}</th>
+              <th className="p-3 font-semibold">{t('dr.colEmail')}</th>
+              <th className="p-3 font-semibold">{t('dr.colDept')}</th>
             </tr>
           </thead>
           <tbody>
@@ -105,17 +111,26 @@ const DrEmailTable = () => {
                     index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'
                   } hover:bg-gray-600 transition`}
                 >
-                  <td className="p-3 text-gray-200">{item.department}</td>
-                  <td className="p-3 text-blue-400 font-medium">
-                    {item.email}
+                  <td className="p-3 font-semibold text-white" dir="auto">
+                    {item.name}
                   </td>
-                  <td className="p-3 font-semibold text-white">{item.name}</td>
+                  <td className="p-3 text-blue-400 font-medium" dir="ltr">
+                    <a
+                      href={`mailto:${item.email}`}
+                      className="hover:underline"
+                    >
+                      {item.email}
+                    </a>
+                  </td>
+                  <td className="p-3 text-gray-200" dir="auto">
+                    {item.department}
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td colSpan={3} className="p-6 text-gray-400 text-center">
-                  لا توجد بيانات متاحة
+                  {t('dr.empty')}
                 </td>
               </tr>
             )}
@@ -134,10 +149,10 @@ const DrEmailTable = () => {
               : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90 text-white cursor-pointer'
           }`}
         >
-          ⬅ السابق
+          {dir === 'rtl' ? '➡' : '⬅'} {t('dr.prev')}
         </button>
         <span className="font-medium">
-          الصفحة {number + 1} من {totalPages}
+          {t('dr.page', { n: number + 1, m: Math.max(totalPages, 1) })}
         </span>
         <button
           onClick={handleNextPage}
@@ -148,7 +163,7 @@ const DrEmailTable = () => {
               : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 text-white cursor-pointer'
           }`}
         >
-          التالي ➡
+          {t('dr.next')} {dir === 'rtl' ? '⬅' : '➡'}
         </button>
       </div>
     </div>
