@@ -41,6 +41,10 @@ public class StudyPlan {
     @Column(name = "sort_order", nullable = false)
     private int sortOrder;
 
+    /** When the card picture last changed (epoch ms); null = no uploaded picture. */
+    @Column(name = "image_version")
+    private Long imageVersion;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

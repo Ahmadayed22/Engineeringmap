@@ -27,7 +27,7 @@ const Dialog = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="max-h-[85vh] w-full max-w-lg overflow-auto rounded-2xl border border-white/10 bg-neutral-900 p-5 text-white shadow-2xl"
+        className="max-h-[85vh] w-full max-w-lg overflow-auto [color-scheme:dark] rounded-2xl border border-white/10 bg-neutral-900 p-5 text-white shadow-2xl"
       >
         <div className="mb-4 flex items-center justify-between gap-4">
           <h2 id={titleId} className="text-lg font-semibold">

@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { Edge, Node } from '@xyflow/react';
 import { fromFlow, toFlow, type StudyMapDoc } from './mapFormat';
-import { roadmapPath, roadmapName } from './useRoadmaps';
+import { roadmapPath, roadmapName, roadmapPicture } from './useRoadmaps';
+import { fitSize } from './shrinkImage';
 import { readLastPlan, saveLastPlan } from '../progress/plans';
 import {
   edgeColorFor,
@@ -133,5 +134,23 @@ describe('roadmaps', () => {
     expect(readLastPlan(['cpe', 'ee', 'mechatronics'])).toBe('mechatronics');
     expect(readLastPlan(['cpe', 'ee'])).toBeUndefined();
     vi.unstubAllGlobals();
+  });
+});
+
+describe('roadmap pictures', () => {
+  it('shrinks big pictures to fit 1600x1200 and never enlarges small ones', () => {
+    expect(fitSize(4000, 3000)).toEqual({ width: 1600, height: 1200 });
+    expect(fitSize(3200, 1000)).toEqual({ width: 1600, height: 500 });
+    expect(fitSize(1000, 3000)).toEqual({ width: 400, height: 1200 });
+    expect(fitSize(800, 600)).toEqual({ width: 800, height: 600 });
+  });
+
+  it('uses the uploaded picture, else the bundled one for CPE/EE, else none', () => {
+    expect(roadmapPicture({ slug: 'new-plan', imageVersion: 42 })).toMatch(
+      /\/api\/plans\/new-plan\/image\?v=42$/
+    );
+    expect(roadmapPicture({ slug: 'cpe', imageVersion: 7 })).toMatch(/\/api\/plans\/cpe\/image\?v=7$/);
+    expect(roadmapPicture({ slug: 'cpe', imageVersion: null })).toMatch(/cpe.*\.webp/);
+    expect(roadmapPicture({ slug: 'new-plan', imageVersion: null })).toBeUndefined();
   });
 });

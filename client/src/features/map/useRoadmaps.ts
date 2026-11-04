@@ -1,4 +1,6 @@
 import axios from 'axios';
+import cpePicture from '@assets/EngPlan/cpe.webp';
+import eePicture from '@assets/EngPlan/EE.webp';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@hooks/CustomHook/useAuth';
 import type { Lang } from '@i18n/context';
@@ -11,6 +13,8 @@ export type Roadmap = {
   /** Hidden roadmaps are listed for admins only. */
   visible: boolean;
   sortOrder: number;
+  /** When an admin last uploaded a card picture; null = none uploaded. */
+  imageVersion?: number | null;
 };
 
 export const roadmapsKey = (admin: boolean) => ['roadmaps', admin] as const;
@@ -73,3 +77,21 @@ const LEGACY_PATHS: Record<string, string> = {
 
 export const roadmapPath = (slug: string) =>
   LEGACY_PATHS[slug] ?? `/plan/${encodeURIComponent(slug)}`;
+
+/** The pictures of the two original 2022 trees, used until an admin uploads another. */
+const BUNDLED_PICTURES: Record<string, string> = {
+  cpe: cpePicture,
+  ee: eePicture,
+};
+
+/**
+ * The roadmap's card picture: the uploaded one (versioned URL, cached for good by the
+ * browser), else the bundled one for CPE/EE, else none.
+ */
+export function roadmapPicture(r: Pick<Roadmap, 'slug' | 'imageVersion'>) {
+  if (r.imageVersion) {
+    const base = String(axios.defaults.baseURL ?? '').replace(/\/$/, '');
+    return `${base}/api/plans/${encodeURIComponent(r.slug)}/image?v=${r.imageVersion}`;
+  }
+  return BUNDLED_PICTURES[r.slug];
+}
