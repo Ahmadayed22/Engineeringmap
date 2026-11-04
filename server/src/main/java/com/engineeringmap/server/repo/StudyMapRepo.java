@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.engineeringmap.server.entity.StudyMap;
@@ -22,4 +23,9 @@ public interface StudyMapRepo extends JpaRepository<StudyMap, Long> {
             order by m.version desc
             """)
     List<com.engineeringmap.server.dto.StudyMapDto.VersionInfo> versions(String plan);
+
+    /** All versions of a roadmap that is being removed. */
+    @Modifying
+    @Query("delete from StudyMap m where m.plan = :plan")
+    int deleteByPlan(String plan);
 }

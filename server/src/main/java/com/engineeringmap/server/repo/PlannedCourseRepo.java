@@ -16,4 +16,9 @@ public interface PlannedCourseRepo extends JpaRepository<PlannedCourse, Long> {
     @Modifying
     @Query("DELETE FROM PlannedCourse p WHERE p.user.id = :userId AND p.plan = :plan")
     int deleteByUserAndPlan(@Param("userId") Long userId, @Param("plan") String plan);
+
+    /** Every student's planner entries for a roadmap that is being removed. */
+    @Modifying
+    @Query("DELETE FROM PlannedCourse p WHERE p.plan = :plan")
+    int deleteByPlan(@Param("plan") String plan);
 }

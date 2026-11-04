@@ -15,7 +15,9 @@ public final class StudyPlanDto {
     /** Shape of a roadmap id in URLs; whether it exists is checked by StudyPlanService. */
     public static final String SLUG_PATTERN = "^[a-z0-9][a-z0-9-]{0,39}$";
 
-    public record PlanInfo(String slug, String nameAr, String nameEn, boolean visible, int sortOrder) {
+    /** imageVersion: null when no picture was uploaded (the client then uses its own, if any). */
+    public record PlanInfo(String slug, String nameAr, String nameEn, boolean visible, int sortOrder,
+            Long imageVersion) {
     }
 
     /** copyFrom: slug of the roadmap whose current map to copy; null = start with an empty map. */

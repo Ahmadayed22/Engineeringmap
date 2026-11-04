@@ -282,11 +282,32 @@ Hidden roadmaps answer 404 to students for their map and the planner. The roadma
 
 **Verified in the browser** (local PostgreSQL 16): V5 ran on the existing database; as admin, created "هندسة الحاسوب 2026" as a copy of CPE: it opened in the editor at `/plan/computer-engineering-2026` with the copied map and its own title, showed "Hidden" to the admin, and was absent (404) for visitors; made it visible from its settings: it then appeared for visitors, on the home page (plain card) and as a planner tab.
 
-## 12. Signed in on several devices (2026-11-04)
+## 12. Roadmap pictures and removal (2026-11-04)
+
+Two additions to a roadmap's **Settings** on the home page.
+
+**Decisions (agreed before building):** removing a roadmap deletes the roadmap, its map history and students' semester-planner entries for it, and keeps courses with their comments, materials, grades and ratings; the admin types the roadmap's name to confirm and the last roadmap can't be removed. The picture is the home-page card picture, uploaded as a file and stored in the database (Render's disk is wiped on every deploy).
+
+**Card picture**
+- `V6__study_plan_images.sql` adds `study_plan_images` (one picture per roadmap, deleted with it) and `study_plans.image_version`.
+- `PUT /api/admin/plans/{slug}/image` (multipart `file`, ADMIN) and `DELETE` the same path. The server decides the type from the file's first bytes and accepts only JPEG, PNG and WebP (an SVG, which could carry script, is refused); 2 MB at most.
+- `GET /api/plans/{slug}/image` is public (an `<img>` sends no token) and cached for a year; the client adds `?v=<image_version>` so a new picture shows at once.
+- The browser shrinks the chosen picture to at most 1600×1200 and re-encodes it as WebP before uploading (a 4.3 MB PNG became 14 KB).
+- CPE and EE keep their bundled pictures until an admin uploads one; removing an uploaded picture brings the bundled one back.
+
+**Removing a roadmap:** `DELETE /api/admin/plans/{slug}` (ADMIN). Deletes planner entries, map versions, picture and the roadmap. Refused for the last remaining roadmap. The settings dialog explains what is kept and enables **Remove permanently** only after the name is typed.
+
+**Tests.** Server 28 (`StudyPlanImageAndRemovalTest`: upload, public cached download, SVG refused, picture removal, roadmap removal keeps the course and clears maps, planner rows and picture, admin-only; `StudyPlanServiceTest`: last roadmap can't be removed, picture types by content, ids from English names). Client 39.
+
+**Verified in the browser** (local PostgreSQL 16, as a separate test admin): uploaded a 3000×2000 PNG to "هندسة الحاسوب 2026": stored as a 1600×1067 WebP of 14 KB, served with a one-year cache and `nosniff`, shown on its card; created a throwaway roadmap from an empty map (only the title banner), then removed it after typing its name: card gone, maps deleted, its address answers 404.
+
+**Note.** The app keeps one session per account (`refresh_token.user_id` is unique): signing in as the same user somewhere else signs out the first browser. That is existing behaviour; it is why local browser checks use their own test admin.
+
+## 13. Signed in on several devices (2026-11-04)
 
 Signing in on a second device used to sign the first one out at its next token refresh: `refresh_token.user_id` was unique and every sign-in replaced the user's only refresh token. Each sign-in now gets its own refresh token.
 
-**Database.** `V6__refresh_token_per_sign_in.sql` drops the unique constraint on `refresh_token.user_id` (`ukf95ixxe7pa48ryn1awmh2evt7`) and adds a plain index `idx_refresh_token_user_id`. The foreign key is dropped and added back with the same name around it, because H2 otherwise keeps the old unique index alive under the foreign key. Checked on PostgreSQL 16 (V1 then V6 on an empty database) and on H2 (the tests).
+**Database.** `V7__refresh_token_per_sign_in.sql` drops the unique constraint on `refresh_token.user_id` (`ukf95ixxe7pa48ryn1awmh2evt7`) and adds a plain index `idx_refresh_token_user_id`. The foreign key is dropped and added back with the same name around it, because H2 otherwise keeps the old unique index alive under the foreign key. Checked on PostgreSQL 16 (V1 then V7 on an empty database) and on H2 (the tests).
 
 **Server**
 - `RefreshToken.user` is `@ManyToOne` (was `@OneToOne`, unique).
@@ -298,6 +319,6 @@ Signing in on a second device used to sign the first one out at its next token r
 
 **Client.** `thunkAuthLogout` sends the device's refresh token to `/api/auth/logout` (it sent nothing before, so the server could only sign out every device).
 
-**Tests.** Server 30 (`AuthSessionsTest`: two sign-ins both refresh; logging out one leaves the other working; logout can't revoke another user's token; logout without a body revokes nothing; an expired token is rejected and deleted; an unknown token is rejected; sign-in removes expired tokens and caps sign-ins at 10). `MigrationsTest` expects V1–V6. Client 37, `tsc -b` and `eslint .` clean (0 errors).
+**Tests.** Server 35 after merging section 12 (`AuthSessionsTest`: two sign-ins both refresh; logging out one leaves the other working; logout can't revoke another user's token; logout without a body revokes nothing; an expired token is rejected and deleted; an unknown token is rejected; sign-in removes expired tokens and caps sign-ins at 10). `MigrationsTest` expects V1–V7. Client 39, `tsc -b` and `eslint .` clean (0 errors).
 
-**Not verified:** not tried in two real browsers against the local PostgreSQL stack (V6 was not applied to the shared local database); the HTTP flows above run through MockMvc on H2.
+**Not verified:** not tried in two real browsers against the local PostgreSQL stack (V7 was not applied to the shared local database); the HTTP flows above run through MockMvc on H2.

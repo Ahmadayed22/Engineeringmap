@@ -75,6 +75,7 @@ public class SecurityConfig {
             "/api/share/*",
             "/api/maps/*",
             "/api/plans",
+            "/api/plans/*/image",
     };
 
     @Bean
