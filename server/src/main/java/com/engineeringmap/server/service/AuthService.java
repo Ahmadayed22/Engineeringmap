@@ -82,20 +82,23 @@ public LoginResponse login(LoginRequest loginRequest) {
    public LoginResponse refreshToken(RefreshTokenRequest request) {
         String requestRefreshToken = request.refreshToken();
 
-        return refreshTokenService.findByToken(requestRefreshToken)
-                .map(refreshTokenService::verifyExpiration)
+        // Unknown, revoked and expired tokens all fail the same way (the controller answers 403).
+        return refreshTokenService.findValidToken(requestRefreshToken)
                 .map(RefreshToken::getUser)
                 .map(user -> {
                     String accessToken = jwtUtil.generateToken(user);
                     UserInfo userInfo = new UserInfo(user.getId(), user.getUsername(), user.getEmail());
                     return new LoginResponse(userInfo, accessToken, requestRefreshToken);
                 })
-                .orElseThrow(() -> new RuntimeException("Refresh token is not in database!"));
+                .orElseThrow(() -> new RuntimeException("Refresh token is unknown, revoked or expired"));
     }
     
+    /** Signs out one device: revokes the refresh token it sent. Other sign-ins stay valid. */
     @Transactional
-    public void logout(Long userId) {
-        refreshTokenService.deleteByUserId(userId);
+    public void logout(Long userId, String refreshToken) {
+        if (refreshToken != null && !refreshToken.isBlank()) {
+            refreshTokenService.revoke(refreshToken, userId);
+        }
     }
     
 }

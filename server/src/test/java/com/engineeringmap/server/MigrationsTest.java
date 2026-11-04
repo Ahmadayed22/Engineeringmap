@@ -40,7 +40,7 @@ class MigrationsTest {
         assertThat(Arrays.stream(applied)
                 .filter(m -> m.getVersion() != null)
                 .map(m -> m.getVersion().getVersion()))
-                .containsExactly("1", "2", "3", "4", "5", "6");
+                .containsExactly("1", "2", "3", "4", "5", "6", "7");
     }
 
     @Test

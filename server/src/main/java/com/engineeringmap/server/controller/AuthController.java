@@ -63,9 +63,14 @@ public class AuthController {
         }
     }
 
+    /**
+     * Signs out the calling device by revoking the refresh token in the body. The user's other
+     * devices stay signed in. Without a body nothing is revoked (the token expires on its own).
+     */
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        authService.logout(userDetails.getId());
+    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestBody(required = false) RefreshTokenRequest request) {
+        authService.logout(userDetails.getId(), request == null ? null : request.refreshToken());
         log.debug("User {} logged out", userDetails.getId());
         return ResponseEntity.ok(new SuccessResponse("Logged out successfully"));
     }

@@ -15,8 +15,9 @@ public class RefreshToken {
     @Column(nullable = false)
     private Instant expiryDate;
     
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
+    // One token per sign-in: a user signed in on several devices has several tokens.
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     public RefreshToken() {

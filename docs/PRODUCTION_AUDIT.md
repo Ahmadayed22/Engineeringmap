@@ -302,3 +302,23 @@ Two additions to a roadmap's **Settings** on the home page.
 **Verified in the browser** (local PostgreSQL 16, as a separate test admin): uploaded a 3000×2000 PNG to "هندسة الحاسوب 2026": stored as a 1600×1067 WebP of 14 KB, served with a one-year cache and `nosniff`, shown on its card; created a throwaway roadmap from an empty map (only the title banner), then removed it after typing its name: card gone, maps deleted, its address answers 404.
 
 **Note.** The app keeps one session per account (`refresh_token.user_id` is unique): signing in as the same user somewhere else signs out the first browser. That is existing behaviour; it is why local browser checks use their own test admin.
+
+## 13. Signed in on several devices (2026-11-04)
+
+Signing in on a second device used to sign the first one out at its next token refresh: `refresh_token.user_id` was unique and every sign-in replaced the user's only refresh token. Each sign-in now gets its own refresh token.
+
+**Database.** `V7__refresh_token_per_sign_in.sql` drops the unique constraint on `refresh_token.user_id` (`ukf95ixxe7pa48ryn1awmh2evt7`) and adds a plain index `idx_refresh_token_user_id`. The foreign key is dropped and added back with the same name around it, because H2 otherwise keeps the old unique index alive under the foreign key. Checked on PostgreSQL 16 (V1 then V7 on an empty database) and on H2 (the tests).
+
+**Server**
+- `RefreshToken.user` is `@ManyToOne` (was `@OneToOne`, unique).
+- Sign-in creates a new token and leaves the user's other tokens alone. It also deletes that user's expired tokens and keeps at most 10 sign-ins per user (the oldest is dropped).
+- Refresh looks the token up by its value. Unknown, revoked and expired tokens all get the same 403 `"Your session has expired. Please sign in again."` (already translated in `serverMessages.ts`); an expired token is deleted when it is used.
+- `POST /api/auth/logout` takes `{refreshToken}` and revokes only that token, and only if it belongs to the signed-in user. Without a body it revokes nothing (the token expires on its own); it used to delete every token of the user.
+- The daily `@Scheduled` job still deletes all expired tokens and now logs how many.
+- Token lifetimes are unchanged (access 15 min, refresh 7 days; the refresh token is not rotated).
+
+**Client.** `thunkAuthLogout` sends the device's refresh token to `/api/auth/logout` (it sent nothing before, so the server could only sign out every device).
+
+**Tests.** Server 35 after merging section 12 (`AuthSessionsTest`: two sign-ins both refresh; logging out one leaves the other working; logout can't revoke another user's token; logout without a body revokes nothing; an expired token is rejected and deleted; an unknown token is rejected; sign-in removes expired tokens and caps sign-ins at 10). `MigrationsTest` expects V1–V7. Client 39, `tsc -b` and `eslint .` clean (0 errors).
+
+**Not verified:** not tried in two real browsers against the local PostgreSQL stack (V7 was not applied to the shared local database); the HTTP flows above run through MockMvc on H2.
