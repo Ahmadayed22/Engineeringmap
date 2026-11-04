@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.engineeringmap.server.dto.CommunityDto;
 import com.engineeringmap.server.dto.request.ResourceRequestDto;
+import com.engineeringmap.server.dto.response.SuccessResponse;
 import com.engineeringmap.server.dto.response.ResouceResponseDto;
 import com.engineeringmap.server.security.UserDetailsImpl;
 import com.engineeringmap.server.service.ResourceService;
@@ -40,9 +42,26 @@ public class ResourceController {
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<ResouceResponseDto>> getResourcesByCourseId(@PathVariable Long courseId) {
-        List<ResouceResponseDto> resources = resourceService.getResourceByCourseId(courseId);
+    public ResponseEntity<List<ResouceResponseDto>> getResourcesByCourseId(@PathVariable Long courseId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long viewerId = userDetails == null ? null : userDetails.getId();
+        List<ResouceResponseDto> resources = resourceService.getResourceByCourseId(courseId, viewerId);
         return ResponseEntity.ok(resources);
+    }
+
+    @PostMapping("/{id}/vote")
+    public ResponseEntity<CommunityDto.VoteResponse> vote(@PathVariable Long id,
+            @Valid @RequestBody CommunityDto.VoteRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(resourceService.vote(id, userDetails.getId(), request.value()));
+    }
+
+    @PostMapping("/{id}/report")
+    public ResponseEntity<SuccessResponse> report(@PathVariable Long id,
+            @Valid @RequestBody CommunityDto.ReportRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        resourceService.report(id, userDetails.getId(), request);
+        return ResponseEntity.ok(new SuccessResponse("Thanks. An admin will review this material."));
     }
 
     @PostMapping("/course/{courseId}")

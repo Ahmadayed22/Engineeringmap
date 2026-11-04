@@ -1,29 +1,46 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
-
 .react-flow__handle-top,
 .react-flow__handle-bottom {
-    visibility: hidden;
-} 
-
-hr{
-    overflow: visible; 
-    height: 30px;
-    border-style: solid;
-    border-color: white;
-    border-width: 1px 0 0 0;
-    border-radius: 20px;
-    margin-top: 30px;
+  visibility: hidden;
 }
-hr:before { 
-    display: block;
-    content: "";
-    height: 30px;
-    margin-top: -31px;
-    border-style: solid;
-    border-color: white;
-    border-width: 0 0 1px 0;
-    border-radius: 20px;
+
+hr {
+  overflow: visible;
+  height: 30px;
+  border-style: solid;
+  border-color: white;
+  border-width: 1px 0 0 0;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+hr:before {
+  display: block;
+  content: '';
+  height: 30px;
+  margin-top: -31px;
+  border-style: solid;
+  border-color: white;
+  border-width: 0 0 1px 0;
+  border-radius: 20px;
+}
+/* React Flow zoom controls, matched to the dark theme */
+.react-flow__controls {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.react-flow__controls-button {
+  background: rgba(10, 10, 10, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  fill: #fff;
+}
+.react-flow__controls-button:hover {
+  background: rgba(38, 38, 38, 0.95);
+}
+.react-flow__controls-button svg {
+  fill: currentColor;
 }

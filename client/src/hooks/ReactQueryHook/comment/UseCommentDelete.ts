@@ -4,9 +4,11 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { CommentCardContentProps } from '@customTypes/CommentSection';
+import { useI18n } from '@i18n/context';
 
 const UseCommentDelete = ({ comment }: CommentCardContentProps) => {
   const [openModal, setOpenModal] = useState(false);
+  const { t } = useI18n();
 
   const queryClient = useQueryClient();
 
@@ -31,14 +33,14 @@ const UseCommentDelete = ({ comment }: CommentCardContentProps) => {
         queryKey: ['commentsCount', comment.courseId],
       });
       setOpenModal(false);
-      toast.success('Comment deleted successfully!', {
+      toast.success(t('comments.deleted'), {
         icon: '🗑️',
         style: SuccessToast,
       });
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onError: (_error) => {
-      toast.error(`Failed to delete comment. Please try again.`, {
+      toast.error(t('comments.deleteFailed'), {
         icon: '❌',
         style: ErrorToast,
       });

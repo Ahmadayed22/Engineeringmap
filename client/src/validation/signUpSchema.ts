@@ -3,26 +3,26 @@ import { z } from 'zod';
 export const signUpSchema = z
   .object({
     username: z
-      .string({ required_error: 'Username is required' })
-      .min(3, { message: 'Username must be at least 3 characters' })
-      .max(20, { message: 'Username must be at most 20 characters' }),
+      .string({ required_error: 'v.usernameMin' })
+      .min(3, { message: 'v.usernameMin' })
+      .max(20, { message: 'v.usernameMax' }),
 
     email: z
-      .string({ required_error: 'Email is required' })
-      .email({ message: 'Invalid email format' }),
+      .string({ required_error: 'v.emailRequired' })
+      .email({ message: 'v.emailInvalid' }),
 
     password: z
-      .string({ required_error: 'Password is required' })
-      .min(6, { message: 'Password must be at least 6 characters' })
-      .max(40, { message: 'Password must be at most 40 characters' }),
+      .string({ required_error: 'v.passwordRequired' })
+      .min(6, { message: 'v.passwordMin' })
+      .max(40, { message: 'v.passwordMax' }),
 
     confirmPassword: z.string({
-      required_error: 'Please confirm your password',
+      required_error: 'v.confirmRequired',
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
-    message: 'Passwords do not match',
+    message: 'v.passwordsDiffer',
   });
 
 // TypeScript type (optional)

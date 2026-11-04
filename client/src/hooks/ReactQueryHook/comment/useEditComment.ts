@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { EditCommentProps, FormEdit } from '@customTypes/CommentSection';
 import toast from 'react-hot-toast';
 import { ErrorToast, SuccessToast } from '@components/common';
+import { useI18n } from '@i18n/context';
 const useEditComment = ({ comment, setOpenEdit }: EditCommentProps) => {
   const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
+  const { t } = useI18n();
 
   const {
     register,
@@ -34,14 +36,14 @@ const useEditComment = ({ comment, setOpenEdit }: EditCommentProps) => {
 
       setOpenEdit(false);
       setError(null);
-      toast.success('Comment updated successfully!', {
+      toast.success(t('comments.updated'), {
         icon: '',
         style: SuccessToast,
       });
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onError: () => {
-      toast.error(`Failed to Update comment. ${mutation.error?.message}`, {
+      toast.error(t('comments.updateFailed'), {
         icon: '❌',
         style: ErrorToast,
       });

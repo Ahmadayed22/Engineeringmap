@@ -2,6 +2,9 @@ import { jwtDecode } from 'jwt-decode';
 import { AppDispatch } from '@store/Store';
 import { authLogout } from '@store/auth/authSlice';
 import { refreshAccessToken } from '../service/apiClient';
+import { isSessionExpired } from '@store/auth/thunk/thunkAuthRefresh';
+
+const RETRY_AFTER_NETWORK_ERROR_MS = 30_000;
 
 type DecodedToken = {
   exp: number; // in seconds
@@ -46,7 +49,16 @@ async function triggerRefresh(dispatch: AppDispatch) {
     // The new token lands in the store, and AppRouter reschedules from there.
     await refreshAccessToken();
   } catch (error) {
-    console.error('Token refresh failed:', error);
-    dispatch(authLogout());
+    if (isSessionExpired(error)) {
+      dispatch(authLogout());
+      return;
+    }
+    // Offline or the server is waking up: keep the user signed in and try again.
+    console.warn('Token refresh failed, retrying shortly:', error);
+    if (logoutTimer) clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(
+      () => triggerRefresh(dispatch),
+      RETRY_AFTER_NETWORK_ERROR_MS
+    );
   }
 }

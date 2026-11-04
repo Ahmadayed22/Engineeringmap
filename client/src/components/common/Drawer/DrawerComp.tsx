@@ -6,18 +6,22 @@ import React, { useState } from 'react';
 import MarkModal from '../Modal/MarkModal';
 import { useAuth } from '@hooks/CustomHook/useAuth';
 import { useTreeFlowContext } from '@context/TreeFlowContext';
+import CourseRequirements from '@features/progress/CourseRequirements';
+import CourseRatings from '@features/community/CourseRatings';
+import { useI18n } from '@i18n/context';
 
 type Tab = 'comments' | 'materials';
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'comments', label: 'Comments' },
-  { id: 'materials', label: 'Materials' },
-];
+const TABS = [
+  { id: 'comments', labelKey: 'drawer.comments' },
+  { id: 'materials', labelKey: 'drawer.materials' },
+] as const;
 
 function DrawerComp() {
   const [activeTab, setActiveTab] = useState<Tab>('comments');
   const [openMark, setOpenMark] = useState<boolean>(false);
   const { accessToken } = useAuth();
+  const { t, dir } = useI18n();
   // Read straight from context. This used to call useTreeFlow(), which spun up a second
   // copy of the whole map state and its queries just to get setDrawerOpen.
   const { courseId, title, drawerOpen, setDrawerOpen } = useTreeFlowContext();
@@ -27,16 +31,19 @@ function DrawerComp() {
       <Drawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        position="right"
+        position={dir === 'rtl' ? 'left' : 'right'}
         className="w-full sm:max-w-sm md:max-w-xl lg:max-w-2xl !bg-[#171717]"
       >
         <div className="flex h-full w-full flex-col">
           <DrawerHeader title={typeof title === 'string' ? title : undefined} />
 
+          <CourseRequirements courseId={courseId} />
+          <CourseRatings courseId={courseId} />
+
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
             <div
               role="tablist"
-              aria-label="Course sections"
+              aria-label={t('drawer.sections')}
               className="inline-flex rounded-lg border border-neutral-700 bg-neutral-900 p-1"
             >
               {TABS.map((tab) => {
@@ -56,7 +63,7 @@ function DrawerComp() {
                         : 'text-neutral-400 hover:text-neutral-100'
                     }`}
                   >
-                    {tab.label}
+                    {t(tab.labelKey)}
                   </button>
                 );
               })}
@@ -69,7 +76,7 @@ function DrawerComp() {
                 className="cursor-pointer"
                 onClick={() => setOpenMark(true)}
               >
-                Add my grade
+                {t('drawer.addGrade')}
               </Button>
             )}
           </div>

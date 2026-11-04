@@ -25,9 +25,24 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /**
+     * Set for replies: the top-level comment this answers. A plain id (no foreign key) so
+     * deleting threads never trips over constraint ordering; CommentService removes replies.
+     */
+    @Column(name = "parent_id")
+    private Long parentId;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;

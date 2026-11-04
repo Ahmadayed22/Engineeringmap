@@ -15,7 +15,8 @@ import { useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
 import { thunkAuthLogout } from '@store/auth/authSlice';
 import { useQueryClient } from '@tanstack/react-query';
-import AboAyed from '../../assets/svg/AboAyed.svg';
+import NotificationBell from '@features/community/NotificationBell';
+import { useI18n } from '../../i18n/context';
 import './bgStyle.css';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -29,6 +30,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { userInfo, accessToken } = useAppSelector((state) => state.auth);
   const queryClient = useQueryClient();
+  const { t, lang, toggle } = useI18n();
 
   const navbarToggleRef = useRef<HTMLButtonElement | null>(null);
 
@@ -53,7 +55,7 @@ const Header = () => {
         size="sm"
         className="!bg-gray-700 hover:!bg-gray-800 text-white text-xs sm:text-sm px-3 sm:px-4"
       >
-        Register
+        {t('header.register')}
       </Button>
       <Button
         as={Link}
@@ -61,7 +63,7 @@ const Header = () => {
         size="sm"
         className="!bg-gray-700 hover:!bg-gray-800 text-white text-xs sm:text-sm px-3 sm:px-4"
       >
-        Login
+        {t('header.login')}
       </Button>
     </div>
   );
@@ -72,22 +74,35 @@ const Header = () => {
       inline
       label={
         <Avatar
-          alt={`${userInfo?.username || 'User'} profile picture`}
-          img={AboAyed}
+          alt={t('header.userMenu', { name: userInfo?.username || '' })}
+          placeholderInitials={(userInfo?.username ?? '?')
+            .slice(0, 2)
+            .toUpperCase()}
           rounded
-          className="cursor-pointer hover:ring-2 bg-gray-300 hover:ring-gray-300 transition-all duration-200"
+          className="cursor-pointer transition-all duration-200 hover:opacity-90"
           size="sm"
         />
       }
     >
       <DropdownHeader className="py-3">
         <span className="block text-sm font-medium text-gray-900 dark:text-white">
-          {userInfo?.username || 'Unknown User'}
+          {userInfo?.username || t('header.unknownUser')}
         </span>
         <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-          {userInfo?.email || 'No email provided'}
+          {userInfo?.email}
         </span>
       </DropdownHeader>
+      <DropdownItem as={Link} to="/planner">
+        {t('header.planner')}
+      </DropdownItem>
+      <DropdownItem as={Link} to="/share">
+        {t('header.share')}
+      </DropdownItem>
+      {userInfo?.roles?.includes('ADMIN') && (
+        <DropdownItem as={Link} to="/admin">
+          {t('header.moderation')}
+        </DropdownItem>
+      )}
       <DropdownDivider />
       <DropdownItem
         onClick={() => {
@@ -96,7 +111,7 @@ const Header = () => {
         }}
         className="text-red-600 hover:bg-red-100 focus:bg-red-100"
       >
-        Sign out
+        {t('header.signOut')}
       </DropdownItem>
     </Dropdown>
   );
@@ -113,14 +128,31 @@ const Header = () => {
           className="rounded focus-visible:outline-2 focus-visible:outline-white"
         >
           <span className="text-lg sm:text-xl font-semibold text-white whitespace-nowrap hover:opacity-80 transition-opacity duration-200">
-            <span className="hidden sm:inline">Engineering Map</span>
-            <span className="sm:hidden">Eng Map</span>
+            <span className="hidden sm:inline">{t('header.brand')}</span>
+            <span className="sm:hidden">{t('header.brandShort')}</span>
           </span>
         </Link>
       </NavbarBrand>
 
-      <div className="flex items-center space-x-3 md:order-2">
-        {accessToken && userInfo ? renderUserDropdown() : renderAuthButtons()}
+      <div className="flex items-center gap-2 md:order-2">
+        <button
+          type="button"
+          onClick={toggle}
+          lang={lang === 'ar' ? 'en' : 'ar'}
+          aria-label={t('lang.switchLabel')}
+          title={t('lang.switchLabel')}
+          className="cursor-pointer rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-white"
+        >
+          {t('lang.switchTo')}
+        </button>
+        {accessToken && userInfo ? (
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            {renderUserDropdown()}
+          </div>
+        ) : (
+          renderAuthButtons()
+        )}
         <NavbarToggle
           className="text-white hover:bg-gray-700 focus:ring-gray-400"
           ref={navbarToggleRef}
@@ -135,7 +167,7 @@ const Header = () => {
             className={navLinkClass}
             onClick={closeMenu}
           >
-            Road Map
+            {t('nav.roadmap')}
           </NavLink>
         </li>
         <li>
@@ -145,7 +177,7 @@ const Header = () => {
             className={navLinkClass}
             onClick={closeMenu}
           >
-            GPA
+            {t('nav.gpa')}
           </NavLink>
         </li>
         <li>
@@ -156,7 +188,8 @@ const Header = () => {
             className="block rounded px-3 py-2 text-white/80 transition-colors hover:bg-gray-700 hover:text-white md:p-0 md:hover:bg-transparent"
             onClick={closeMenu}
           >
-            BankZenon<span className="sr-only"> (opens in a new tab)</span>
+            {t('nav.bank')}
+            <span className="sr-only"> {t('nav.newTab')}</span>
           </a>
         </li>
         <li>
@@ -166,7 +199,7 @@ const Header = () => {
             className={navLinkClass}
             onClick={closeMenu}
           >
-            Faculty Emails
+            {t('nav.facultyEmails')}
           </NavLink>
         </li>
         <li>
@@ -176,7 +209,7 @@ const Header = () => {
             className={navLinkClass}
             onClick={closeMenu}
           >
-            About
+            {t('nav.about')}
           </NavLink>
         </li>
       </NavbarCollapse>

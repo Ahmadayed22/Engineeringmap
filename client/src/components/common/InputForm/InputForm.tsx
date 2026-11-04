@@ -1,4 +1,5 @@
 import { HelperText, Label, TextInput } from 'flowbite-react';
+import { useI18n } from '../../../i18n/context';
 
 type InputFormProps = {
   label: string;
@@ -22,6 +23,7 @@ const InputForm = ({
   register,
   error,
 }: InputFormProps) => {
+  const { tMaybe } = useI18n();
   const inputId = id ?? name;
   const errorId = `${inputId}-error`;
   return (
@@ -44,7 +46,7 @@ const InputForm = ({
       />
       {error && (
         <HelperText id={errorId} color="failure" role="alert">
-          {error}
+          {tMaybe(error)}
         </HelperText>
       )}
     </div>

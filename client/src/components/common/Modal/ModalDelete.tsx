@@ -1,4 +1,5 @@
 import { Button, Modal, ModalBody, ModalHeader } from 'flowbite-react';
+import { useI18n } from '@i18n/context';
 
 type ModalDeleteProps = {
   openModal: boolean;
@@ -7,6 +8,7 @@ type ModalDeleteProps = {
 };
 
 function ModalDelete({ openModal, setOpenModal, onDelete }: ModalDeleteProps) {
+  const { t } = useI18n();
   return (
     <Modal
       show={openModal}
@@ -24,13 +26,12 @@ function ModalDelete({ openModal, setOpenModal, onDelete }: ModalDeleteProps) {
         {' '}
         {/* Wrap content for background */}
         <ModalHeader className="bg-[#171717] text-white">
-          Delete Comment
+          {t('comments.deleteTitle')}
         </ModalHeader>
         <ModalBody className="bg-[#171717]">
           <div className="space-y-6">
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this comment? This Action cannot
-              be undone.
+              {t('comments.deleteBody')}
             </h3>
           </div>
           <div className="flex justify-end mt-5 gap-2">
@@ -39,14 +40,14 @@ function ModalDelete({ openModal, setOpenModal, onDelete }: ModalDeleteProps) {
               onClick={() => setOpenModal(false)}
               color="alternative"
             >
-              Close
+              {t('common.cancel')}
             </Button>
             <Button
               className="cursor-pointer"
               color="red"
               onClick={() => onDelete()}
             >
-              Delete
+              {t('common.delete')}
             </Button>
           </div>
         </ModalBody>

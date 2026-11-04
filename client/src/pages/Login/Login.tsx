@@ -5,6 +5,8 @@ import { resetUI } from '@store/auth/authSlice';
 import { Alert, Button, Spinner } from 'flowbite-react';
 import { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { safeNext } from '@util/safeNext';
+import { useI18n } from '../../i18n/context';
 
 const Login = () => {
   const {
@@ -18,34 +20,36 @@ const Login = () => {
     dispatch,
     accessToken,
   } = useLogin();
+  const { t, tMaybe } = useI18n();
 
   useEffect(() => {
     dispatch(resetUI());
   }, [dispatch]);
 
-  if (accessToken) return <Navigate to="/" replace />;
+  if (accessToken)
+    return <Navigate to={safeNext(searchParams.get('next'))} replace />;
 
   const isPending = loading === 'pending';
 
   return (
     <AuthCard
-      title="Welcome back"
-      subtitle="Sign in to track your courses, grades and comments."
+      title={t('auth.welcome')}
+      subtitle={t('auth.loginSubtitle')}
       footer={
         <>
-          New here?{' '}
+          {t('auth.newHere')}{' '}
           <Link
             to="/signup"
             className="font-medium text-blue-400 hover:underline"
           >
-            Create an account
+            {t('auth.createAccount')}
           </Link>
         </>
       }
     >
       {searchParams.get('message') === 'accountCreated' && (
         <Alert color="success" className="mb-4 text-center">
-          Account created. Please sign in.
+          {t('auth.accountCreated')}
         </Alert>
       )}
 
@@ -56,7 +60,7 @@ const Login = () => {
       >
         <InputForm
           register={register}
-          label="Email"
+          label={t('auth.email')}
           name="email"
           type="email"
           autoComplete="email"
@@ -65,7 +69,7 @@ const Login = () => {
         />
         <InputForm
           register={register}
-          label="Password"
+          label={t('auth.password')}
           name="password"
           type="password"
           autoComplete="current-password"
@@ -81,15 +85,15 @@ const Login = () => {
           {isPending ? (
             <>
               <Spinner size="sm" className="me-2" aria-hidden="true" />
-              Signing in…
+              {t('auth.signingIn')}
             </>
           ) : (
-            'Sign in'
+            t('common.signIn')
           )}
         </Button>
         {error && (
           <Alert color="failure" role="alert" className="text-center">
-            {error}
+            {tMaybe(error)}
           </Alert>
         )}
       </form>

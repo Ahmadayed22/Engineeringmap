@@ -1,30 +1,34 @@
 import { useDeleteMaterial, useGetMaterial } from '@hooks/index';
 import MaterialCard from './MaterialCard';
+import { useI18n } from '@i18n/context';
 
-const materials = [
-  { label: 'الكتب', key: 'books' },
-  { label: 'ملخصات', key: 'summaries' },
-  { label: 'سلايدات ', key: 'slides' },
-  { label: 'مختبرات', key: 'labs' },
-  { label: 'امتحانات', key: 'exams' },
-  { label: 'فيديوهات', key: 'videos' },
-];
+const categories = [
+  { key: 'books', labelKey: 'mat.books' },
+  { key: 'summaries', labelKey: 'mat.summaries' },
+  { key: 'slides', labelKey: 'mat.slides' },
+  { key: 'labs', labelKey: 'mat.labs' },
+  { key: 'exams', labelKey: 'mat.exams' },
+  { key: 'videos', labelKey: 'mat.videos' },
+] as const;
+
 const MaterialList = () => {
   const { data, isLoading, isError } = useGetMaterial();
-  const { deleteMaterial, userId } = useDeleteMaterial();
+  const { deleteMaterial, userId, courseId } = useDeleteMaterial();
+  const { t } = useI18n();
   return (
-    <div className="flex flex-col gap-3 items-end ">
-      {materials.map((item) => (
-        <div key={item.key} className="w-full ">
+    <div className="flex flex-col items-start gap-3">
+      {categories.map((c) => (
+        <div key={c.key} className="w-full">
           <MaterialCard
-            item={item}
+            item={{ key: c.key, label: t(c.labelKey) }}
             data={data}
             isLoading={isLoading}
             isError={isError}
             deleteMaterial={deleteMaterial}
             userId={userId}
+            courseId={courseId}
           />
-          <hr className="border-t border-gray-300 my-2" />
+          <hr className="my-2 border-t border-gray-300" />
         </div>
       ))}
     </div>

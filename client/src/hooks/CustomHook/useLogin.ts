@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@store/reduxHooks';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { thunkAuthLogin } from '@store/auth/authSlice';
+import { safeNext } from '@util/safeNext';
 
 const useLogin = () => {
   const {
@@ -26,7 +27,7 @@ const useLogin = () => {
     dispatch(thunkAuthLogin(data))
       .unwrap()
       .then(() => {
-        navigate('/');
+        navigate(safeNext(searchParams.get('next')), { replace: true });
       });
   };
 

@@ -1,7 +1,11 @@
 import '@xyflow/react/dist/style.css';
 import DrawerComp from '@components/common/Drawer/DrawerComp';
 import useTreeFlow from '@hooks/CustomHook/useTreeFlow';
-import { Edge, MarkerType, ReactFlow, Node } from '@xyflow/react';
+import { Controls, Edge, MarkerType, ReactFlow, Node } from '@xyflow/react';
+import { ProgressContext } from '@features/progress/ProgressContext';
+import ProgressPanel from '@features/progress/ProgressPanel';
+import CourseSearch from '@features/progress/CourseSearch';
+import OpenCourseFromUrl from '@features/progress/OpenCourseFromUrl';
 import { TreeFlowProvider, useTreeFlowContext } from '@context/TreeFlowContext';
 import { ModalRoot } from '@components/common';
 import CustomNode from '@components/layout/CustomNode/CustomNode';
@@ -10,6 +14,7 @@ import { initialNodes as initialNodesCPE } from '@components/layout/node/cpeNode
 import { initialEdges as initialEdgesCPE } from '@components/layout/edge/cpeEdge/initialEdges';
 import { initialNodesEE } from '@components/layout/node/EENode/initialNodesEE';
 import { initialEdgesEE } from '@components/layout/edge/EeEdge/initialEdgesEE';
+import { useI18n } from '@i18n/context';
 interface TreeFlowProps {
   flowType: 'cpe' | 'ee';
 }
@@ -24,6 +29,7 @@ const TreeFlowInner = memo(
     flowType: 'cpe' | 'ee';
   }) => {
     const { title } = useTreeFlowContext();
+    const { dir } = useI18n();
     const {
       nodes,
       edges,
@@ -33,7 +39,16 @@ const TreeFlowInner = memo(
       handleNodeClick,
       rootModalOpen,
       setRootModalOpen,
+      progress,
+      isSignedIn,
+      highlight,
+      setHighlight,
     } = useTreeFlow(initialNodes, initialEdges);
+
+    const progressValue = useMemo(
+      () => ({ progress, isSignedIn, highlight, setHighlight }),
+      [progress, isSignedIn, highlight, setHighlight]
+    );
 
     const nodeTypes = useMemo(
       () => ({
@@ -50,33 +65,43 @@ const TreeFlowInner = memo(
     );
 
     return (
-      <div className="w-full h-screen px-2 sm:px-6 md:px-10 overflow-hidden bg-transparent ">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onNodeClick={handleNodeClick}
-          defaultEdgeOptions={defaultEdgeOptions}
-          minZoom={0.3}
-          fitView
-          fitViewOptions={{ padding: 0.2 }}
-          style={{ background: 'transparent' }}
-          proOptions={{ hideAttribution: true }}
-          nodeTypes={nodeTypes}
-          nodesDraggable={false}
-        />
+      <ProgressContext.Provider value={progressValue}>
+        <div className="w-full h-[calc(100dvh-6rem)] px-2 sm:px-6 md:px-10 overflow-hidden bg-transparent">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onNodeClick={handleNodeClick}
+            defaultEdgeOptions={defaultEdgeOptions}
+            minZoom={0.3}
+            fitView
+            fitViewOptions={{ padding: 0.2 }}
+            style={{ background: 'transparent' }}
+            proOptions={{ hideAttribution: true }}
+            nodeTypes={nodeTypes}
+            nodesDraggable={false}
+          >
+            <CourseSearch />
+            <OpenCourseFromUrl />
+            <ProgressPanel />
+            <Controls
+              position={dir === 'rtl' ? 'bottom-left' : 'bottom-right'}
+              showInteractive={false}
+            />
+          </ReactFlow>
 
-        {rootModalOpen && (
-          <ModalRoot
-            isOpen={rootModalOpen}
-            onClose={() => setRootModalOpen(false)}
-            flowType={flowType}
-          />
-        )}
-        {!rootModalOpen && title !== 'root' && <DrawerComp />}
-      </div>
+          {rootModalOpen && (
+            <ModalRoot
+              isOpen={rootModalOpen}
+              onClose={() => setRootModalOpen(false)}
+              flowType={flowType}
+            />
+          )}
+          {!rootModalOpen && title !== 'root' && <DrawerComp />}
+        </div>
+      </ProgressContext.Provider>
     );
   }
 );

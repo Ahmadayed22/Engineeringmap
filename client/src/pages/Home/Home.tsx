@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import cpe from '@assets/EngPlan/cpe.webp';
 import EE from '@assets/EngPlan/EE.webp';
+import { useI18n } from '../../i18n/context';
 
 const plans = [
   {
@@ -9,33 +10,27 @@ const plans = [
     image: cpe,
     width: 1600,
     height: 1067,
-    title: 'Computer Engineering',
-    titleAr: 'هندسة الحاسوب',
+    titleKey: 'plan.cpe',
   },
   {
     to: '/electricalEngineer',
     image: EE,
     width: 1280,
     height: 777,
-    title: 'Electrical Engineering',
-    titleAr: 'الهندسة الكهربائية',
+    titleKey: 'plan.ee',
   },
-];
+] as const;
 
 const Home = () => {
+  const { t, dir } = useI18n();
   return (
     <main className="mx-auto flex min-h-[calc(100vh-6rem)] max-w-6xl flex-col items-center justify-center px-4 py-10">
       <header className="mb-10 text-center">
-        <h1
-          className="text-3xl font-bold text-white md:text-4xl"
-          lang="ar"
-          dir="rtl"
-        >
-          اختر الخطة المطلوبة
+        <h1 className="text-3xl font-bold text-white md:text-4xl">
+          {t('home.title')}
         </h1>
         <p className="mt-3 text-sm text-white/70 md:text-base">
-          Pick your study plan to see every course, its prerequisites and your
-          progress.
+          {t('home.subtitle')}
         </p>
       </header>
 
@@ -48,26 +43,25 @@ const Home = () => {
             >
               <img
                 src={plan.image}
-                alt={`${plan.title} study plan`}
+                alt={t('home.planAlt', { plan: t(plan.titleKey) })}
                 width={plan.width}
                 height={plan.height}
                 decoding="async"
                 className="aspect-[3/2] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"
               />
               <div className="flex items-center justify-between gap-3 px-5 py-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-white">
-                    {plan.title}
-                  </h2>
-                  <p className="text-sm text-white/60" lang="ar" dir="rtl">
-                    {plan.titleAr}
-                  </p>
-                </div>
+                <h2 className="text-lg font-semibold text-white">
+                  {t(plan.titleKey)}
+                </h2>
                 <span
                   aria-hidden="true"
-                  className="text-2xl text-white/60 transition-transform group-hover:translate-x-1 group-hover:text-white"
+                  className={`text-2xl text-white/60 transition-transform group-hover:text-white ${
+                    dir === 'rtl'
+                      ? 'group-hover:-translate-x-1'
+                      : 'group-hover:translate-x-1'
+                  }`}
                 >
-                  →
+                  {dir === 'rtl' ? '←' : '→'}
                 </span>
               </div>
             </Link>

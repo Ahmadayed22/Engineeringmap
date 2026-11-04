@@ -3,15 +3,39 @@ import { z } from 'zod';
 export const materialSchema = z
   .object({
     // name is required, must be a non-empty string
-    name: z.string().min(1, 'Name is required').max(50),
+    name: z.string().min(1, 'v.nameRequired').max(50, 'v.nameMax'),
 
     // all possible materials (only one will be active at a time, but required)
-    books: z.string().url('Invalid URL').optional(),
-    summaries: z.string().url('Invalid URL').optional(),
-    slides: z.string().url('Invalid URL').optional(),
-    labs: z.string().url('Invalid URL').optional(),
-    exams: z.string().url('Invalid URL').optional(),
-    videos: z.string().url('Invalid URL').optional(),
+    books: z
+      .string()
+      .url('v.urlInvalid')
+      .regex(/^https?:\/\//i, 'v.urlInvalid')
+      .optional(),
+    summaries: z
+      .string()
+      .url('v.urlInvalid')
+      .regex(/^https?:\/\//i, 'v.urlInvalid')
+      .optional(),
+    slides: z
+      .string()
+      .url('v.urlInvalid')
+      .regex(/^https?:\/\//i, 'v.urlInvalid')
+      .optional(),
+    labs: z
+      .string()
+      .url('v.urlInvalid')
+      .regex(/^https?:\/\//i, 'v.urlInvalid')
+      .optional(),
+    exams: z
+      .string()
+      .url('v.urlInvalid')
+      .regex(/^https?:\/\//i, 'v.urlInvalid')
+      .optional(),
+    videos: z
+      .string()
+      .url('v.urlInvalid')
+      .regex(/^https?:\/\//i, 'v.urlInvalid')
+      .optional(),
   })
   .refine(
     (data) => {
@@ -26,7 +50,7 @@ export const materialSchema = z
       );
     },
     {
-      message: 'URL link is required',
+      message: 'v.urlRequired',
       path: ['_url'], // artificial path to show error in form
     }
   );

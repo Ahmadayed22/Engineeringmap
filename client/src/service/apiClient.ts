@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { store } from '@store/Store';
 import { authLogout, thunkAuthRefresh } from '@store/auth/authSlice';
+import { isSessionExpired } from '@store/auth/thunk/thunkAuthRefresh';
 
 /**
  * One place that configures every request the app makes.
@@ -68,8 +69,8 @@ axios.interceptors.response.use(
       const newToken = await refreshAccessToken();
       original.headers.set('Authorization', `Bearer ${newToken}`);
       return axios(original);
-    } catch {
-      store.dispatch(authLogout());
+    } catch (refreshError) {
+      if (isSessionExpired(refreshError)) store.dispatch(authLogout());
       return Promise.reject(error);
     }
   }

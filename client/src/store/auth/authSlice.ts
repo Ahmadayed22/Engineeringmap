@@ -73,11 +73,13 @@ const authSlice = createSlice({
       state.userInfo = action.payload.userInfo;
     });
     builder.addCase(thunkAuthRefresh.rejected, (state, action) => {
-      state.userInfo = null;
-      state.accessToken = null;
-      state.refreshToken = null;
-      if (action.payload && typeof action.payload === 'string') {
-        state.error = action.payload;
+      // Keep the session through network blips; sign out only when the server
+      // actually rejected the refresh token.
+      if (action.payload?.sessionExpired) {
+        state.userInfo = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.error = action.payload.message;
       }
     });
 

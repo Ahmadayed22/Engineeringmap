@@ -71,6 +71,8 @@ public class SecurityConfig {
             "/api/resource/course/*",
             "/api/users/{id:\\d+}",
             "/api/dremails",
+            "/api/courses/{id:[0-9]+}/ratings",
+            "/api/share/*",
     };
 
     @Bean
@@ -91,6 +93,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/courses/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/courses/*").hasRole("ADMIN")
                         .requestMatchers("/api/dremails/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // Everything else under the API needs a signed-in user
                         .requestMatchers("/api/**").authenticated()
                         // Non-API paths are the React app and its static assets

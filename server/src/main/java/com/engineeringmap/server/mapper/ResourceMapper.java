@@ -23,6 +23,10 @@ public class ResourceMapper {
     }
 
     public static ResouceResponseDto toDto(Resource resource) {
+        return toDto(resource, 0, 0);
+    }
+
+    public static ResouceResponseDto toDto(Resource resource, long score, int myVote) {
         return new ResouceResponseDto(
             resource.getId(),
             resource.getBooks(),
@@ -33,8 +37,9 @@ public class ResourceMapper {
             resource.getVideos(),
             resource.getCourse().getId(),
             resource.getUser().getId(),
-            resource.getName()
-            
+            resource.getName(),
+            score,
+            myVote
         );
     }
 
