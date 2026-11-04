@@ -73,6 +73,7 @@ public class SecurityConfig {
             "/api/dremails",
             "/api/courses/{id:[0-9]+}/ratings",
             "/api/share/*",
+            "/api/maps/*",
     };
 
     @Bean

@@ -4,10 +4,15 @@ import { buildRequirementGraph, computeCourseStates } from './prerequisites';
 import { computeGpa } from './gpa';
 import { normalizeForSearch, searchCourses } from './search';
 import { eligibleForSemester, validatePlan } from './planner';
-import { initialNodes as cpeNodes } from '@components/layout/node/cpeNode/initialNodes';
-import { initialEdges as cpeEdges } from '@components/layout/edge/cpeEdge/initialEdges';
-import { initialNodesEE } from '@components/layout/node/EENode/initialNodesEE';
-import { initialEdgesEE } from '@components/layout/edge/EeEdge/initialEdgesEE';
+import { toFlow, type StudyMapDoc } from '@features/map/mapFormat';
+// The 2022 maps exactly as the V4 migration seeds them into the database.
+import cpeMap from '@features/map/fixtures/cpe.json';
+import eeMap from '@features/map/fixtures/ee.json';
+
+const { nodes: cpeNodes, edges: cpeEdges } = toFlow(cpeMap as StudyMapDoc);
+const { nodes: initialNodesEE, edges: initialEdgesEE } = toFlow(
+  eeMap as StudyMapDoc
+);
 
 const node = (id: string, courseId?: number): Node => ({
   id,

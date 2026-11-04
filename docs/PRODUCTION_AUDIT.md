@@ -212,3 +212,42 @@ Scripts live in `server/src/main/resources/db/migration`.
 - The existing local database (created by `ddl-auto`, PR #2 included): baselined; V2 and V3 changed nothing; sign-up and sign-in work.
 
 **Not done:** course rows are still not seeded. A new database has the roles but an empty `courses` table, so the map has no course details until they are inserted.
+
+## 10. Editable study maps (2026-11-04)
+
+The CPE and EE maps used to be ~3,000 lines of hard-coded TypeScript. They now live in the database and admins edit them in the app.
+
+**Decisions (agreed before building):** one map document per plan with version history; a visual editor on the map; removing a course only takes its box off the map (the course, its comments, materials, grades and ratings stay); the two plans are edited in place (no parallel plan versions).
+
+**Database.** `V4__study_maps.sql` creates `study_maps` (plan, version, JSON content, author, time) and seeds version 1 of both plans from the old client files: same boxes, positions, colours and arrows. One arrow in the CPE file pointed to a box that doesn't exist (`math2-to-signalsSystems`); it was never drawn or used, and it isn't in the seed. Every publish adds a version; the map shown is the newest.
+
+**API** (`StudyMapController`, `StudyMapService`)
+| Endpoint | Who | What |
+|---|---|---|
+| `GET /api/maps/{cpe\|ee}` | anyone | current map |
+| `PUT /api/admin/maps/{plan}` | ADMIN | publish `{baseVersion, content}`; 409 if someone published since `baseVersion` |
+| `GET /api/admin/maps/{plan}/versions` | ADMIN | history (version, time, author) |
+| `POST /api/admin/maps/{plan}/versions/{v}/restore` | ADMIN | publish an old version again as the newest |
+
+Published maps are checked on the server: exactly one title banner, unique box and arrow ids, every box points to an existing course, arrows join existing boxes, nothing points at the banner, no duplicate arrows, no prerequisite loops, `#rrggbb` colours. Only plain fields are stored (no styles), so a map can't carry markup.
+
+**Client**
+- Maps load from the API (`features/map/useStudyMap.ts`) and are cached in `localStorage`, so repeat visits are instant and the map still works offline. The map page, planner, shared-progress page and `/course/:id` all use the loaded maps.
+- Admins see **Edit map** on the map. The editor (`features/map/editor/`, loaded only when opened) lets them drag boxes, draw prerequisite arrows from the dot under a course, mark an arrow as co-requisite (dashed), change colours (per-plan presets or any colour), rename a course on the map, set credit hours, add a new or existing course, remove boxes and arrows, undo (Ctrl+Z), see the history and restore a version.
+- Changes are a draft kept in the browser until **Publish**; students see nothing before that. A draft made on an older version is discarded when the editor opens.
+- Two exceptions are saved immediately because they are course data, not map layout: creating a new course and changing credit hours.
+- New text is in `i18n/strings.ts` (Arabic and English); the server's map errors are translated in `i18n/serverMessages.ts`.
+
+**Fixes found while testing**
+- *Adding a course failed with a duplicate-key error.* The `courses` rows were inserted with explicit ids, so PostgreSQL's id sequence never moved (it was at 1 locally; production will be the same, since its ids match the old map files). New Flyway callback `db/vendor/postgresql/afterMigrate__sync_id_sequences.sql` runs after every migrate and moves each identity sequence past the highest id (never backwards). Configured through `spring.flyway.locations=classpath:db/migration,classpath:db/vendor/{vendor}`.
+- *Course endpoints leaked SQL errors.* `CourseController` returned any exception's message, so that failure showed the SQL statement to the user. The controller no longer catches exceptions; `CourseService` throws `IllegalArgumentException` (duplicate name, 400) or `ResourceNotFoundException` (404), and anything else becomes the generic 500 message.
+- One arrow in the CPE data pointed to a missing box (see above).
+
+**Tests.** Server 19 (`StudyMapTest`: public read, 401/403 for non-admins, publish, conflict, history, restore, every validation rule, the seeded maps passing all rules, and course errors without internal details). Client 33 (the converter round-trips both seeded maps exactly; editor rules for arrows, ids and renaming; translated errors). The "real study plans" tests now run on the seeded maps.
+
+**Verified in the browser** (local PostgreSQL 16, Arabic and English): V4 ran on the existing database; the map, progress panel, planner and `/course/:id` load from the API; a student sees no **Edit map** button; as admin: created a course (id 201), dragged it, drew a prerequisite arrow, the editor refused an arrow that would make a loop, the draft survived a page reload, published version 2 (students' map, search and course drawer showed the new course), then restored version 1 from History (the course row stayed). Phone width: no horizontal scroll.
+
+**Notes for admins**
+- Drawing an arrow *from a copy* of a course (a course shown twice) also makes the copy's parent a requirement, as on the 2022 maps. Draw from the course's main box for a plain prerequisite.
+- Credit hours and new courses are saved immediately (they are course data); everything else waits for **Publish**.
+- `Home` still shows the two plan pictures (`assets/EngPlan/*.webp`); they don't change when a map is edited.

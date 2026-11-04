@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.engineeringmap.server.dto.request.CourseRequestDto;
 import com.engineeringmap.server.dto.request.MarkRequest;
 import com.engineeringmap.server.dto.response.CourseResponseDto;
+import com.engineeringmap.server.exception.ResourceNotFoundException;
 import com.engineeringmap.server.entity.Course;
 import com.engineeringmap.server.entity.Tracking;
 import com.engineeringmap.server.entity.User;
@@ -50,7 +51,7 @@ public class CourseService {
     
     public CourseResponseDto createCourse(CourseRequestDto courseDto) {
         if (courseRepository.findByNameIgnoreCase(courseDto.name()).isPresent()) {
-            throw new RuntimeException("Course name already exists: " + courseDto.name());
+            throw new IllegalArgumentException("Course name already exists: " + courseDto.name());
         }
         Course course = CourseMapper.toEntity(courseDto);
         Course savedCourse = courseRepository.save(course);
@@ -59,11 +60,11 @@ public class CourseService {
     
     public CourseResponseDto updateCourse(Long id, CourseRequestDto courseDetails) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
         
         if (!course.getName().equalsIgnoreCase(courseDetails.name()) && 
             courseRepository.findByNameIgnoreCase(courseDetails.name()).isPresent()) {
-            throw new RuntimeException("Course name already exists: " + courseDetails.name());
+            throw new IllegalArgumentException("Course name already exists: " + courseDetails.name());
         }
         
         course.setName(courseDetails.name());
@@ -77,7 +78,7 @@ public class CourseService {
     
     public void deleteCourse(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
         courseRepository.delete(course);
     }
     
@@ -90,9 +91,9 @@ public class CourseService {
 
 public void completeCourse(Long courseId, Long userId, boolean completed) {
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Course course = courseRepository.findById(courseId)
-            .orElseThrow(() -> new RuntimeException("Course not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         Optional<Tracking> existingCompletion = trackingRepo.findByUserIdAndCourseId(userId, courseId);
         if (existingCompletion.isPresent()) {
@@ -119,9 +120,9 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
 
     public void createMark(Long courseId, Long userId, String markRequest) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Use Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
         Optional<Tracking> existingMark = trackingRepo.findByUserIdAndCourseId(userId, courseId);
         if (existingMark.isPresent()) {
             Tracking mark = existingMark.get();
@@ -149,8 +150,7 @@ public void completeCourse(Long courseId, Long userId, boolean completed) {
 
     public String getMarkCourseById(Long userId, Long courseId) {
         Tracking tracking = trackingRepo.findByUserIdAndCourseId(userId, courseId)
-                .orElseThrow(() -> new RuntimeException(
-                        "Mark not found for userId: " + userId + " and courseId: " + courseId));
+                .orElseThrow(() -> new ResourceNotFoundException("Mark not found"));
         return tracking.getMark();
     }
 

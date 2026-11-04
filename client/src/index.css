@@ -7,6 +7,14 @@
   visibility: hidden;
 }
 
+/* The map editor needs the connection dots: drag from one to draw a prerequisite. */
+.map-editor .react-flow__handle-top,
+.map-editor .react-flow__handle-bottom {
+  visibility: visible;
+  width: 14px;
+  height: 14px;
+}
+
 hr {
   overflow: visible;
   height: 30px;

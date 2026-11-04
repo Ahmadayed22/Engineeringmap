@@ -1,43 +1,33 @@
-import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { PageLoader } from '@components/feedbaks';
+import { PLAN_META, usePlans } from '@features/progress/plans';
 import { useI18n } from '../../i18n/context';
 
-/**
- * /course/:id → opens that course on whichever study plan contains it.
- * The plan data is loaded lazily so the header doesn't pull the maps into every page.
- */
+/** /course/:id → opens that course on whichever study plan contains it. */
 const CourseRedirect = () => {
   const { id } = useParams();
-  const [target, setTarget] = useState<string | null>(null);
   const { t } = useI18n();
+  const { plans, isError } = usePlans();
 
-  useEffect(() => {
-    const courseId = Number(id);
-    let cancelled = false;
-    Promise.all([
-      import('@components/layout/node/cpeNode/initialNodes'),
-      import('@components/layout/node/EENode/initialNodesEE'),
-    ]).then(([cpe, ee]) => {
-      if (cancelled) return;
-      const has = (nodes: { data?: { courseId?: unknown } }[]) =>
-        nodes.some((n) => Number(n.data?.courseId) === courseId);
-      const path = has(cpe.initialNodes)
-        ? '/computerEngineer'
-        : has(ee.initialNodesEE)
-          ? '/electricalEngineer'
-          : null;
-      setTarget(path ? `${path}?course=${courseId}` : '/');
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [id]);
+  if (!plans) {
+    return isError ? (
+      <Navigate to="/" replace />
+    ) : (
+      <PageLoader message={t('loader.course')} />
+    );
+  }
 
-  return target ? (
-    <Navigate to={target} replace />
-  ) : (
-    <PageLoader message={t('loader.course')} />
+  const courseId = Number(id);
+  const key = plans.cpe.graph.courses.has(courseId)
+    ? 'cpe'
+    : plans.ee.graph.courses.has(courseId)
+      ? 'ee'
+      : null;
+  return (
+    <Navigate
+      to={key ? `${PLAN_META[key].path}?course=${courseId}` : '/'}
+      replace
+    />
   );
 };
 

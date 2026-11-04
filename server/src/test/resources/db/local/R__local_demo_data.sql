@@ -6,6 +6,9 @@
 INSERT INTO courses (id, name, label, description, credit_hours, created_at, updated_at)
 SELECT x, 'Course ' || x, 'Course ' || x, 'Demo course', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 FROM SYSTEM_RANGE(1, 200);
+-- The rows above used explicit ids; start new courses after them (PostgreSQL does this in
+-- db/vendor/postgresql/afterMigrate__sync_id_sequences.sql).
+ALTER TABLE courses ALTER COLUMN id RESTART WITH 1000;
 
 INSERT INTO dr_email (name, email, department) VALUES
   ('Dr. Example One', 'one@example.edu', 'Computer Engineering'),
