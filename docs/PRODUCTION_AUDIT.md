@@ -27,7 +27,7 @@ _Audit date: 2026-11-04. Scope: `client/` (React 19 + Vite + Redux Toolkit + Rea
 | 6 | Validate input on the server (marks, comment edits, refresh token, paging) | **Done** |
 | 7 | Cut the entry bundle: lazy Lottie, drop particles from the eager graph | **Done** (−56%) |
 | 8 | Move refresh tokens to an httpOnly cookie (protects against XSS token theft) | Needs your decision |
-| 9 | Replace `ddl-auto=update` with Flyway migrations and seed roles (a fresh DB can't register users today) | Needs your decision |
+| 9 | Replace `ddl-auto=update` with Flyway migrations and seed roles (a fresh DB can't register users today) | **Done** (section 9) |
 | 10 | Use the data you already have: GPA from saved marks, a progress dashboard, "what can I take next" | Proposed |
 
 ## 3. Critical bugs and security issues found
@@ -54,7 +54,7 @@ _Audit date: 2026-11-04. Scope: `client/` (React 19 + Vite + Redux Toolkit + Rea
 | Open | No rate limiting on `/signin` and `/signup` (brute force, spam accounts) | server | ❌ see roadmap |
 | Open | Access and refresh tokens in `localStorage` (readable by any XSS) | client | ❌ decision needed |
 | Open | Refresh tokens are not rotated on use | `AuthService.refreshToken` | ❌ |
-| Open | `spring.jpa.hibernate.ddl-auto=update` in production; role seeding commented out | config | ❌ decision needed |
+| Fixed | `spring.jpa.hibernate.ddl-auto=update` in production; role seeding commented out | config | ✅ Flyway + `validate` (section 9) |
 | Open | JJWT 0.11 deprecated API (compile warnings) | `JwtUtil` | ❌ upgrade to 0.12 |
 | Open | `lottie-web` uses `eval`, which blocks a strict Content-Security-Policy | dependency | ❌ |
 
@@ -87,12 +87,12 @@ _Audit date: 2026-11-04. Scope: `client/` (React 19 + Vite + Redux Toolkit + Rea
 **Critical (this week)**
 - Rotate the DB password that was committed, and confirm `JWT_SECRET` is a long random base64 value in Render.
 - Deploy this branch (security fixes).
-- Make sure the `roles` table has `USER` and `ADMIN` in production (seeding is commented out in `StartupConfig`).
+- ~~Make sure the `roles` table has `USER` and `ADMIN` in production~~ — done by the `V3__seed_roles` migration (section 9).
 
 **High**
 - Rate-limit `/api/auth/signin` and `/api/auth/signup` (Bucket4j or a simple in-memory limiter).
 - Refresh token in an httpOnly, Secure, SameSite cookie; access token in memory only.
-- Flyway migrations instead of `ddl-auto=update`.
+- ~~Flyway migrations instead of `ddl-auto=update`.~~ Done (section 9).
 - Stop committing the built frontend in `server/src/main/resources/static/` (the Dockerfile rebuilds it); add it to `.gitignore`.
 - Remove unused dependencies: `@heroui/*`, `@nextui-org/react`, `framer-motion`, `yup`, `react-content-loader`, the tsparticles packages, and the stale Tailwind v3 `tailwind.config.js`.
 
@@ -104,7 +104,7 @@ _Audit date: 2026-11-04. Scope: `client/` (React 19 + Vite + Redux Toolkit + Rea
 
 **Low**
 - Rename typos (`feedbaks`, `useSiginUp`, `ResouceResponseDto`, `praticlesConfig*`, `MainLayOut`).
-- Delete dead code once you confirm it isn't coming back: `FireParticles`, `ParticlesBackground`, `useOptimizedNodes`, `useInitialNodes`, the `StartupConfig` comment block.
+- Delete dead code once you confirm it isn't coming back: `FireParticles`, `ParticlesBackground`, `useOptimizedNodes`, `useInitialNodes`. (`StartupConfig` was removed with the Flyway change.)
 - Replace Lottie with lighter animations (removes `eval`, so a strict CSP becomes possible).
 
 ## 7. What changed in this pass
@@ -185,3 +185,30 @@ Built from the feature suggestions in section 5.
 - Course names, user content and faculty-email data aren't translated. Flowbite's hidden "Open main menu" label on the mobile menu button stays English (it isn't configurable).
 
 **Decided not to build now:** password reset by email (needs an email service; skipped for now).
+
+## 9. Flyway migrations (2026-11-04)
+
+Hibernate no longer changes the database. Flyway owns the schema and Hibernate runs with `ddl-auto=validate`, so the app refuses to start if an entity and the database disagree (instead of silently adding columns, or leaving them out of date).
+
+| Script | What it does |
+|---|---|
+| `V1__baseline_schema.sql` | The nine tables that existed before PR #2, with the constraint names Hibernate had generated. |
+| `V2__progress_and_community.sql` | PR #2: six tables and `comments.parent_id`. Uses `IF NOT EXISTS`, so it is a no-op where `ddl-auto` already created them. |
+| `V3__seed_roles.sql` | Adds `USER` and `ADMIN` if missing (next free id; existing rows untouched). Sign-up works on a fresh database. |
+
+Scripts live in `server/src/main/resources/db/migration`.
+
+**Existing databases (production).** There is no `flyway_schema_history` table yet, so on the first start `baseline-on-migrate` marks the database as version 1 and only V2 and V3 run. This works whether or not PR #2 was already deployed there. After that, every start applies only new scripts.
+
+**Changing the schema from now on.** Edit the entity, then add the next script (`V4__short_description.sql`). Never edit a script that has already run anywhere; Flyway checks their checksums and stops the app if one changed. Keep scripts portable (PostgreSQL and H2 in PostgreSQL mode) because the tests run them on H2.
+
+**Render.** If the service has `SPRING_JPA_HIBERNATE_DDL_AUTO` set (for example to `update`), delete it: environment variables override `application.properties`. `docker-compose.yml` no longer sets it.
+
+**Tests.** The `local` H2 profile now builds its schema with the same scripts; the demo data moved to a test-only repeatable migration (`src/test/resources/db/local/R__local_demo_data.sql`). `MigrationsTest` checks that all scripts ran and both roles exist; every `@SpringBootTest` also validates the entities against the migrated schema. Server tests: 14.
+
+**Verified on PostgreSQL 16** (local Docker):
+- Empty database: V1–V3 run; the result is identical to the schema `ddl-auto` produced (same tables, columns, constraint and index names); roles `USER` = 1, `ADMIN` = 2.
+- Database as it was before PR #2, with only a hand-inserted `USER` role (identity sequence behind): baselined at 1; V2 created the six tables and the column; V3 added `ADMIN` as id 2 without an id clash; existing users kept.
+- The existing local database (created by `ddl-auto`, PR #2 included): baselined; V2 and V3 changed nothing; sign-up and sign-in work.
+
+**Not done:** course rows are still not seeded. A new database has the roles but an empty `courses` table, so the map has no course details until they are inserted.

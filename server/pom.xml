@@ -53,6 +53,15 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.3</version>
         </dependency>
+        <!-- Flyway: versioned schema migrations in src/main/resources/db/migration -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
         <!-- spring test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
