@@ -1,5 +1,6 @@
--- Demo data for the "local" profile (see application-local.properties).
-INSERT INTO roles (id, name) VALUES (1, 'USER'), (2, 'ADMIN');
+-- Demo data for the "local" profile (see application-local.properties). Flyway runs this after
+-- the versioned migrations in src/main/resources/db/migration; it only exists on the test classpath.
+-- Roles come from the V3__seed_roles Flyway migration.
 
 -- One course row per node id used by the CPE and EE study-plan maps.
 INSERT INTO courses (id, name, label, description, credit_hours, created_at, updated_at)

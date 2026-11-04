@@ -152,10 +152,11 @@ The application follows a modern full-stack architecture pattern:
    # Create PostgreSQL database
    createdb engineeringmap
    
-   # Run Spring Boot application (will auto-create tables with JPA)
+   # Run Spring Boot application: Flyway creates the tables and the USER/ADMIN roles
+   # (scripts in server/src/main/resources/db/migration)
    mvn spring-boot:run
    
-   # Or seed initial data using data.sql (if provided)
+   # Course rows are not seeded; insert them before using the map
    ```
 
 5. **Start the Development Server**
