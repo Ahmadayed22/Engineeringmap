@@ -74,6 +74,7 @@ public class SecurityConfig {
             "/api/courses/{id:[0-9]+}/ratings",
             "/api/share/*",
             "/api/maps/*",
+            "/api/plans",
     };
 
     @Bean

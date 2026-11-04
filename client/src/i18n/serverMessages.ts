@@ -32,6 +32,8 @@ const ar: Record<string, string> = {
   'The map was changed by someone else. Reload it and try again.':
     'عدّل شخص آخر الخريطة. أعد تحميلها وحاول مرة أخرى.',
   'Study map not found': 'الخريطة غير موجودة',
+  'Study plan not found': 'الخطة الدراسية غير موجودة',
+  "Roadmap name can't be empty": 'اسم الخريطة لا يمكن أن يكون فارغاً',
   'Course not found': 'المادة غير موجودة',
   'Mark not found': 'العلامة غير موجودة',
   'The map needs exactly one title banner':

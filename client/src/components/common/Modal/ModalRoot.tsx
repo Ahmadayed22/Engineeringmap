@@ -6,7 +6,8 @@ import ModalcpeFooterContent from './ModalcpeFooterContent';
 type ModalRootProps = {
   isOpen: boolean;
   onClose: () => void;
-  flowType: 'cpe' | 'ee';
+  /** Roadmap id; CPE and EE have their own notes below the general ones. */
+  flowType: string;
 };
 function ModalRoot({ isOpen, onClose, flowType }: ModalRootProps) {
   return (
@@ -67,11 +68,8 @@ function ModalRoot({ isOpen, onClose, flowType }: ModalRootProps) {
           </div>
         </ModalBody>
 
-        {flowType === 'cpe' ? (
-          <ModalcpeFooterContent />
-        ) : (
-          <ModaleeFooterContent />
-        )}
+        {flowType === 'cpe' && <ModalcpeFooterContent />}
+        {flowType === 'ee' && <ModaleeFooterContent />}
       </Modal>
     </>
   );

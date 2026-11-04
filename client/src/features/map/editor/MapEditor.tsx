@@ -30,7 +30,7 @@ import EditorNode from './EditorNode';
 import EditorPanel from './EditorPanel';
 import { AddCourseDialog, HistoryDialog } from './EditorDialogs';
 import {
-  PALETTES,
+  paletteFor,
   clearDraft,
   connectProblem,
   edgeColor,
@@ -63,9 +63,9 @@ const toEditor = (doc: StudyMapDoc) => {
   };
 };
 
-type Props = { plan: PlanInfo; onExit: () => void };
+type Props = { plan: PlanInfo; name: string; onExit: () => void };
 
-const Editor = ({ plan, onExit }: Props) => {
+const Editor = ({ plan, name, onExit }: Props) => {
   const { t } = useI18n();
   const queryClient = useQueryClient();
   const { screenToFlowPosition } = useReactFlow();
@@ -251,7 +251,7 @@ const Editor = ({ plan, onExit }: Props) => {
       });
       const color = selectedNode && !isRootNode(selectedNode)
         ? nodeColor(selectedNode)
-        : PALETTES[key][0].node;
+        : paletteFor(key)[0].node;
       setNodes((ns) => {
         const id = uniqueNodeId(ns, courseId);
         return [
@@ -325,7 +325,7 @@ const Editor = ({ plan, onExit }: Props) => {
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-white/10 bg-neutral-900/90 px-4 py-2 text-white">
         <div className="me-auto">
           <h1 className="text-base font-semibold">
-            {t('mapEditor.title', { plan: t(`plan.${key}`) })}
+            {t('mapEditor.title', { plan: name })}
           </h1>
           <p className="text-xs text-white/60">
             {t('mapEditor.version', { n: plan.version })} ·{' '}

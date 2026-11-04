@@ -1,20 +1,23 @@
 import { useMemo } from 'react';
+import { isAxiosError } from 'axios';
+import { useQueries } from '@tanstack/react-query';
 import type { Edge, Node } from '@xyflow/react';
 import { toFlow, type StudyMapDoc } from '@features/map/mapFormat';
 import {
+  fetchStudyMap,
+  readCachedMap,
+  studyMapKey,
   useStudyMap,
   type PlanKey,
-  PLAN_KEYS,
 } from '@features/map/useStudyMap';
+import { roadmapPath } from '@features/map/useRoadmaps';
 import { buildRequirementGraph, type RequirementGraph } from './prerequisites';
 
 export type { PlanKey };
-export { PLAN_KEYS };
 
 export type PlanInfo = {
   key: PlanKey;
-  title: string;
-  titleAr: string;
+  /** Where its map is shown, e.g. /computerEngineer or /plan/mechatronics. */
   path: string;
   /** Published map version (0 = not loaded). */
   version: number;
@@ -22,22 +25,6 @@ export type PlanInfo = {
   nodes: Node[];
   edges: Edge[];
   graph: RequirementGraph;
-};
-
-export const PLAN_META: Record<
-  PlanKey,
-  { title: string; titleAr: string; path: string }
-> = {
-  cpe: {
-    title: 'Computer Engineering',
-    titleAr: 'هندسة الحاسوب',
-    path: '/computerEngineer',
-  },
-  ee: {
-    title: 'Electrical Engineering',
-    titleAr: 'الهندسة الكهربائية',
-    path: '/electricalEngineer',
-  },
 };
 
 /** Plan info (React Flow nodes/edges and requirement graph) from a stored map. */
@@ -49,7 +36,7 @@ export function buildPlan(
   const { nodes, edges } = toFlow(doc);
   return {
     key,
-    ...PLAN_META[key],
+    path: roadmapPath(key),
     version,
     doc,
     nodes,
@@ -63,7 +50,7 @@ const EMPTY: StudyMapDoc = { nodes: [], edges: [] };
 /** Stand-in while a map loads, so pages can keep calling their hooks unconditionally. */
 export const emptyPlan = (key: PlanKey) => buildPlan(key, EMPTY);
 
-/** The published map of one plan. `plan` is undefined until it has loaded. */
+/** The published map of one roadmap. `plan` is undefined until it has loaded. */
 export function usePlan(key: PlanKey) {
   const query = useStudyMap(key);
   const { data } = query;
@@ -75,36 +62,53 @@ export function usePlan(key: PlanKey) {
     plan,
     isLoading: !plan && query.isFetching,
     isError: !plan && query.isError,
+    /** The roadmap doesn't exist, or is hidden and the user isn't an admin. */
+    notFound:
+      !plan &&
+      isAxiosError(query.error) &&
+      query.error.response?.status === 404,
     refetch: query.refetch,
   };
 }
 
-/** Both plans; `plans` is undefined until both have loaded. */
-export function usePlans() {
-  const cpe = usePlan('cpe');
-  const ee = usePlan('ee');
-  const plans = useMemo(
-    () => (cpe.plan && ee.plan ? { cpe: cpe.plan, ee: ee.plan } : undefined),
-    [cpe.plan, ee.plan]
-  );
+/** The maps of several roadmaps; `plans` is undefined until all of them have loaded. */
+export function usePlanMaps(keys: PlanKey[]) {
+  const results = useQueries({
+    queries: keys.map((key) => ({
+      queryKey: studyMapKey(key),
+      queryFn: () => fetchStudyMap(key),
+      initialData: () => readCachedMap(key),
+      initialDataUpdatedAt: 0,
+      staleTime: 5 * 60_000,
+    })),
+  });
+  const versions = results.map((r) => r.data?.version ?? -1).join(',');
+  const plans = useMemo(() => {
+    if (results.some((r) => !r.data)) return undefined;
+    const out: Record<PlanKey, PlanInfo> = {};
+    results.forEach((r, i) => {
+      out[keys[i]] = buildPlan(keys[i], r.data!.content, r.data!.version);
+    });
+    return out;
+    // Rebuilt only when a map version changes, not on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keys.join(','), versions]);
   return {
     plans,
-    isLoading: cpe.isLoading || ee.isLoading,
-    isError: cpe.isError || ee.isError,
-    refetch: () => {
-      void cpe.refetch();
-      void ee.refetch();
-    },
+    isLoading: !plans && results.some((r) => r.isFetching),
+    isError: !plans && results.some((r) => r.isError && !r.data),
   };
 }
 
 const LAST_PLAN_KEY = 'engmap.lastPlan';
 
-export const readLastPlan = (): PlanKey => {
+/** The roadmap last opened in the planner, if it's still one of `available`. */
+export const readLastPlan = (available: PlanKey[]): PlanKey | undefined => {
   try {
-    return localStorage.getItem(LAST_PLAN_KEY) === 'ee' ? 'ee' : 'cpe';
+    const last = localStorage.getItem(LAST_PLAN_KEY);
+    return last && available.includes(last) ? last : undefined;
   } catch {
-    return 'cpe';
+    return undefined;
   }
 };
 

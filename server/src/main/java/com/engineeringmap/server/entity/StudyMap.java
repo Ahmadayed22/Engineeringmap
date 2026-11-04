@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * One published version of a study-plan map ("cpe" or "ee"). Every publish adds a row; the
+ * One published version of a roadmap's map (plan = StudyPlan slug, e.g. "cpe"). Every publish adds a row; the
  * map students see is the highest version. The nodes and edges are stored as one JSON
  * document (see StudyMapDto.MapContent), validated by StudyMapService before saving.
  */
@@ -26,7 +26,7 @@ public class StudyMap {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 40)
     private String plan;
 
     @Column(nullable = false)

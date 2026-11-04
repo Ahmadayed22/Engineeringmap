@@ -157,7 +157,9 @@ class CommunityFlowTest {
         mvc.perform(auth(put("/api/planner?plan=cpe"), omar)
                 .content("{\"items\":[{\"courseId\":3,\"semester\":1},{\"courseId\":3,\"semester\":2}]}"))
                 .andExpect(status().isBadRequest());
-        mvc.perform(auth(get("/api/planner?plan=hack"), omar)).andExpect(status().isBadRequest());
+        // Unknown roadmap: 404; not even a valid roadmap id: 400.
+        mvc.perform(auth(get("/api/planner?plan=hack"), omar)).andExpect(status().isNotFound());
+        mvc.perform(auth(get("/api/planner?plan=Not_A_Plan"), omar)).andExpect(status().isBadRequest());
 
         body(auth(post("/api/courses/3/complete"), omar).content("{\"completed\":true}"));
         String token = body(auth(post("/api/users/me/share"), omar)).get("token").asText();

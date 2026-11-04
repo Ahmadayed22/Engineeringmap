@@ -14,6 +14,7 @@ const DrEmail = lazy(() => import('@pages/DrEmail/DrEmail'));
 const About = lazy(() => import('@pages/about/About'));
 const CpeFlow = lazy(() => import('@pages/computerEngineering/CpeFlow'));
 const EeFlow = lazy(() => import('@pages/electricalEngineering/EeFlow'));
+const PlanFlow = lazy(() => import('@pages/Plan/PlanFlow'));
 const CourseRedirect = lazy(() => import('@features/community/CourseRedirect'));
 const Planner = lazy(() => import('@pages/Planner/Planner'));
 const ShareProgress = lazy(() => import('@pages/Share/ShareProgress'));
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: 'electricalEngineer',
         element: <EeFlow />,
+      },
+      {
+        path: 'plan/:slug',
+        element: <PlanFlow />,
       },
       {
         path: 'gpa',

@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { Edge, Node } from '@xyflow/react';
 import { fromFlow, toFlow, type StudyMapDoc } from './mapFormat';
+import { roadmapPath, roadmapName } from './useRoadmaps';
+import { readLastPlan, saveLastPlan } from '../progress/plans';
 import {
+  edgeColorFor,
+  paletteFor,
   connectProblem,
   edgeColor,
   isCoreq,
@@ -96,5 +100,38 @@ describe('map error messages', () => {
     expect(translateServerMessage('Prerequisites go in a circle: A')).toBe(
       'Prerequisites go in a circle: A'
     );
+  });
+});
+
+describe('roadmaps', () => {
+  it('keeps the original addresses for CPE and EE', () => {
+    expect(roadmapPath('cpe')).toBe('/computerEngineer');
+    expect(roadmapPath('ee')).toBe('/electricalEngineer');
+    expect(roadmapPath('mechatronics-engineering')).toBe('/plan/mechatronics-engineering');
+  });
+
+  it('names a roadmap in the interface language', () => {
+    const r = { nameAr: 'الميكاترونكس', nameEn: 'Mechatronics' };
+    expect(roadmapName(r, 'ar')).toBe('الميكاترونكس');
+    expect(roadmapName(r, 'en')).toBe('Mechatronics');
+  });
+
+  it('gives new roadmaps every colour preset of both original maps', () => {
+    const colours = paletteFor('mechatronics').map((s) => s.node);
+    expect(colours).toEqual(expect.arrayContaining(['#87032f', '#0f3460', '#029640', '#960202']));
+    expect(edgeColorFor('mechatronics', '#0F3460')).toBe('#079cba');
+    expect(paletteFor('ee').map((s) => s.node)).toEqual(['#960202', '#029640', '#161717']);
+  });
+
+  it('reopens the last roadmap in the planner only if it still exists', () => {
+    const store = new Map<string, string>();
+    vi.stubGlobal('localStorage', {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => void store.set(k, v),
+    });
+    saveLastPlan('mechatronics');
+    expect(readLastPlan(['cpe', 'ee', 'mechatronics'])).toBe('mechatronics');
+    expect(readLastPlan(['cpe', 'ee'])).toBeUndefined();
+    vi.unstubAllGlobals();
   });
 });

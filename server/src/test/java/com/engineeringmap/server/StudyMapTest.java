@@ -102,7 +102,8 @@ class StudyMapTest {
         assertThat(cpe.get("content").get("nodes").size()).isGreaterThan(50);
         assertThat(cpe.get("content").get("nodes").get(0).get("root").asBoolean()).isTrue();
         assertThat(currentMap("ee").get("content").get("edges").size()).isGreaterThan(50);
-        read(get("/api/maps/other"), status().isBadRequest());
+        read(get("/api/maps/other"), status().isNotFound());
+        read(get("/api/maps/Not_A_Plan"), status().isBadRequest());
 
         String body = publishBody(cpe.get("version").asInt(), cpe.get("content"));
         mvc.perform(put("/api/admin/maps/cpe").contentType(MediaType.APPLICATION_JSON).content(body))

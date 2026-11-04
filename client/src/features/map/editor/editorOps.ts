@@ -8,7 +8,7 @@ import type { PlanKey } from '../useStudyMap';
  */
 export type Swatch = { nameKey: string; node: string; edge: string };
 
-export const PALETTES: Record<PlanKey, Swatch[]> = {
+export const PALETTES: Record<string, Swatch[]> = {
   cpe: [
     { nameKey: 'mapEditor.cat.computer', node: '#87032f', edge: '#87032f' },
     { nameKey: 'mapEditor.cat.sciences', node: '#0f3460', edge: '#079cba' },
@@ -23,6 +23,17 @@ export const PALETTES: Record<PlanKey, Swatch[]> = {
   ],
 };
 
+/** New roadmaps get every preset from both original maps. */
+const DEFAULT_PALETTE: Swatch[] = [
+  ...PALETTES.cpe,
+  { nameKey: 'mapEditor.cat.itSciences', node: '#960202', edge: '#960202' },
+  { nameKey: 'mapEditor.cat.electrical', node: '#029640', edge: '#029640' },
+  { nameKey: 'mapEditor.cat.computer', node: '#161717', edge: '#161717' },
+];
+
+export const paletteFor = (plan: PlanKey): Swatch[] =>
+  PALETTES[plan] ?? DEFAULT_PALETTE;
+
 /** Co-requisite arrows on the CPE map are white. */
 export const COREQ_COLOR = '#ffffff';
 
@@ -34,7 +45,7 @@ const colorOf = (n: Node | undefined) =>
 
 /** Arrow colour that goes with a box colour (falls back to the box colour itself). */
 export const edgeColorFor = (plan: PlanKey, nodeColor: string) =>
-  PALETTES[plan].find((s) => s.node === nodeColor.toLowerCase())?.edge ??
+  paletteFor(plan).find((s) => s.node === nodeColor.toLowerCase())?.edge ??
   nodeColor.toLowerCase();
 
 export const nodeColor = colorOf;

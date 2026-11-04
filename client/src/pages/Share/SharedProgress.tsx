@@ -3,11 +3,11 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
-  PLAN_KEYS,
   emptyPlan,
-  usePlans,
+  usePlanMaps,
   type PlanKey,
 } from '@features/progress/plans';
+import { roadmapName, useRoadmaps } from '@features/map/useRoadmaps';
 import ReadOnlyPlanMap from '@features/progress/ReadOnlyPlanMap';
 import { LottieHandler, PageLoader } from '@components/feedbaks';
 import { useI18n } from '@i18n/context';
@@ -17,7 +17,7 @@ type Shared = { username: string; completedCourseIds: number[] };
 /** Public, read-only view of a student's completed courses (/progress/:token). */
 const SharedProgress = () => {
   const { token = '' } = useParams();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['shared', token],
     queryFn: async () =>
@@ -29,14 +29,22 @@ const SharedProgress = () => {
     () => new Set(data?.completedCourseIds ?? []),
     [data]
   );
-  const { plans, isLoading: mapsLoading, isError: mapsError } = usePlans();
-  // Open the plan where they've completed the most courses.
+  // Public page: only roadmaps everyone can see, even when an admin opens it.
+  const { roadmaps: all } = useRoadmaps();
+  const roadmaps = useMemo(() => all.filter((r) => r.visible), [all]);
+  const keys = useMemo(() => roadmaps.map((r) => r.slug), [roadmaps]);
+  const {
+    plans,
+    isLoading: mapsLoading,
+    isError: mapsError,
+  } = usePlanMaps(keys);
+  // Open the roadmap where they've completed the most courses.
   const best = useMemo<PlanKey>(() => {
-    if (!plans) return 'cpe';
+    if (!plans || keys.length === 0) return keys[0] ?? 'cpe';
     const count = (k: PlanKey) =>
       [...completedAll].filter((id) => plans[k].graph.courses.has(id)).length;
-    return count('ee') > count('cpe') ? 'ee' : 'cpe';
-  }, [completedAll, plans]);
+    return keys.reduce((a, b) => (count(b) > count(a) ? b : a));
+  }, [completedAll, plans, keys]);
   const [chosen, setChosen] = useState<PlanKey | null>(null);
   const planKey = chosen ?? best;
   const plan = plans?.[planKey] ?? emptyPlan(planKey);
@@ -80,7 +88,10 @@ const SharedProgress = () => {
             {t('shared.summary', {
               done,
               total,
-              plan: t(`plan.${planKey}`),
+              plan: (() => {
+                const r = roadmaps.find((x) => x.slug === planKey);
+                return r ? roadmapName(r, lang) : planKey;
+              })(),
               p: percent,
             })}
           </p>
@@ -94,21 +105,21 @@ const SharedProgress = () => {
         <div
           role="tablist"
           aria-label={t('planner.plan')}
-          className="inline-flex rounded-lg border border-white/10 bg-neutral-950/70 p-1"
+          className="inline-flex flex-wrap rounded-lg border border-white/10 bg-neutral-950/70 p-1"
         >
-          {PLAN_KEYS.map((k) => (
+          {roadmaps.map((r) => (
             <button
-              key={k}
+              key={r.slug}
               role="tab"
-              aria-selected={k === planKey}
-              onClick={() => setChosen(k)}
+              aria-selected={r.slug === planKey}
+              onClick={() => setChosen(r.slug)}
               className={`cursor-pointer rounded-md px-3 py-1.5 text-sm ${
-                k === planKey
+                r.slug === planKey
                   ? 'bg-white/15 font-semibold text-white'
                   : 'text-white/60 hover:text-white'
               }`}
             >
-              {t(`plan.${k}`)}
+              {roadmapName(r, lang)}
             </button>
           ))}
         </div>

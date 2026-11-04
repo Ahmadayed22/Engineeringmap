@@ -55,7 +55,8 @@ public final class CommunityDto {
     public record PlanRequest(@NotNull @Size(max = 120) List<@Valid PlanItem> items) {
     }
 
-    public static final String PLAN_PATTERN = "^(cpe|ee)$";
+    /** Shape of a roadmap id; whether it exists is checked against study_plans. */
+    public static final String PLAN_PATTERN = StudyPlanDto.SLUG_PATTERN;
 
     public record PlanKey(@Pattern(regexp = PLAN_PATTERN) String plan) {
     }
